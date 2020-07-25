@@ -2,6 +2,6 @@ venv
 LICENSE
 README.md
 .vscode
-ISIC
-Training_annot/
-Training_input/
+*.jpg
+*.png
+*.log
