@@ -6,6 +6,7 @@ from PIL import Image
 
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+
 DATA_DIR = "Data/"
 
 train_img = os.path.join(DATA_DIR,"Training_input")
@@ -53,10 +54,9 @@ class Dataset(BaseDataset):
         # Path to images.    
         self.ids = os.listdir(images_dir)
         self.images_fps = [os.path.join(images_dir, image_id) for image_id in self.ids]
-        
         # Path to segmentation masks.
-        self.mask_ids = os.listdir(masks_dir)
-        self.masks_fps = [os.path.join(masks_dir, image_id) for image_id in self.mask_ids]
+        
+        self.masks_fps = [os.path.join(masks_dir, (image_id[:-4]+'_segmentation.png')) for image_id in self.ids]
         
         # convert str names to class values on masks
         self.class_values = [self.CLASSES.index(cls.lower()) for cls in classes]
@@ -73,7 +73,8 @@ class Dataset(BaseDataset):
         print('Id: ',i)
         print('Img file: ',self.images_fps[i])
         print('Img mask: ', self.masks_fps[i])
-        
+        print('Img shape: ', image.shape)
+        print('Mask Shape: ', mask)
         # extract certain classes from mask
         masks = [(mask == v) for v in self.class_values]
         mask = np.stack(masks, axis=-1).astype('float')
@@ -94,10 +95,6 @@ class Dataset(BaseDataset):
         return len(self.ids)
 
 dataset = Dataset(train_img, train_mask, classes=['melanoma'])
-image, mask = dataset[5]
+image, mask = dataset[4]
 
-print('Image shape: ',image.shape)
-print('Mask shape: ',mask.shape)
-print()
-
-visualize(image = image, mask = mask)
+visualize(image = image, mask = mask.squeeze())
