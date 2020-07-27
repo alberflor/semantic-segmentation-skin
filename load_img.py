@@ -95,6 +95,6 @@ class Dataset(BaseDataset):
         return len(self.ids)
 
 dataset = Dataset(train_img, train_mask, classes=['melanoma'])
-image, mask = dataset[4]
+image, mask = dataset[6]
 
 visualize(image = image, mask = mask.squeeze())
