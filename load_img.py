@@ -50,13 +50,17 @@ class Dataset(BaseDataset):
             augmentation=None, 
             preprocessing=None,
     ):
+        # Path to images.    
         self.ids = os.listdir(images_dir)
         self.images_fps = [os.path.join(images_dir, image_id) for image_id in self.ids]
-        self.masks_fps = [os.path.join(masks_dir, image_id) for image_id in self.ids]
+        
+        # Path to segmentation masks.
+        self.mask_ids = os.listdir(masks_dir)
+        self.masks_fps = [os.path.join(masks_dir, image_id) for image_id in self.mask_ids]
         
         # convert str names to class values on masks
         self.class_values = [self.CLASSES.index(cls.lower()) for cls in classes]
-        
+
         self.augmentation = augmentation
         self.preprocessing = preprocessing
     
@@ -66,8 +70,9 @@ class Dataset(BaseDataset):
         image = cv2.imread(self.images_fps[i])
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         mask = cv2.imread(self.masks_fps[i], 0)
-        #print('id: ',i)
-        #print(self.images_fps[i])
+        print('Id: ',i)
+        print('Img file: ',self.images_fps[i])
+        print('Img mask: ', self.masks_fps[i])
         
         # extract certain classes from mask
         masks = [(mask == v) for v in self.class_values]
@@ -89,9 +94,10 @@ class Dataset(BaseDataset):
         return len(self.ids)
 
 dataset = Dataset(train_img, train_mask, classes=['melanoma'])
-image, mask = dataset[4]
+image, mask = dataset[5]
 
-print(image.shape)
-print(mask.squeeze().shape)
+print('Image shape: ',image.shape)
+print('Mask shape: ',mask.shape)
+print()
 
-visualize(image = image,masks = mask.squeeze())
+visualize(image = image, mask = mask)
