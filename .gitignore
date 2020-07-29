@@ -6,3 +6,6 @@ README.md
 *.png
 *.log
 bash.env
+*.log
+*.aux
+*.lot
