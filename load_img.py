@@ -12,10 +12,25 @@ DATA_DIR = "Data/"
 train_img = os.path.join(DATA_DIR,"Training_input")
 train_mask = os.path.join(DATA_DIR,"Training_annot")
 
+def visualize_matrix(dataset, v):
+
+    fig = plt.figure(figsize=(12, 6))
+    for i in range(v):
+        image, mask = dataset[i]
+        img_dict = {}
+        img_dict['image'] = image
+        img_dict['mask'] = mask
+        n = len(img_dict)
+
+        for j,(name, image) in enumerate(img_dict.items()):
+          plt.subplot(v, n , i + j + 1)
+          plt.imshow(image)
+    plt.show()
+
 def visualize(**images):
-    """PLot images in one row."""
+    """Plot images in one row."""
     n = len(images)
-    plt.figure(figsize=(16, 5))
+    plt.figure(figsize=(10, ))
     for i, (name, image) in enumerate(images.items()):
         plt.subplot(1, n, i + 1)
         plt.xticks([])
@@ -23,6 +38,7 @@ def visualize(**images):
         plt.title(' '.join(name.split('_')).title())
         plt.imshow(image)
     plt.show()
+
 
 from torch.utils.data import DataLoader
 from torch.utils.data import Dataset as BaseDataset
@@ -54,8 +70,8 @@ class Dataset(BaseDataset):
         # Path to images.    
         self.ids = os.listdir(images_dir)
         self.images_fps = [os.path.join(images_dir, image_id) for image_id in self.ids]
+
         # Path to segmentation masks.
-        
         self.masks_fps = [os.path.join(masks_dir, (image_id[:-4]+'_segmentation.png')) for image_id in self.ids]
         
         # convert str names to class values on masks
@@ -74,7 +90,8 @@ class Dataset(BaseDataset):
         print('Img file: ',self.images_fps[i])
         print('Img mask: ', self.masks_fps[i])
         print('Img shape: ', image.shape)
-        print('Mask Shape: ', mask)
+        print('Mask Shape: ', mask.shape)
+
         # extract certain classes from mask
         masks = [(mask == v) for v in self.class_values]
         mask = np.stack(masks, axis=-1).astype('float')
@@ -95,6 +112,6 @@ class Dataset(BaseDataset):
         return len(self.ids)
 
 dataset = Dataset(train_img, train_mask, classes=['melanoma'])
-image, mask = dataset[6]
+image , mask = dataset[3]
 
 visualize(image = image, mask = mask.squeeze())
