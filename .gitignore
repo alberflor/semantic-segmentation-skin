@@ -1,6 +1,4 @@
 venv
-LICENSE
-README.md
 .vscode
 *.jpg
 *.png
@@ -9,3 +7,11 @@ bash.env
 *.log
 *.aux
 *.lot
+*.lof
+*.out
+*.toc
+*.sty
+*.bib
+*.bst
+*.def
+*.cls

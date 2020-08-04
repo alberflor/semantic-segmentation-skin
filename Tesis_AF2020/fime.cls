@@ -88,6 +88,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%
 \def\uanl{Universidad Autónoma de Nuevo León}
 \def\fime{Facultad de Ingeniería Mecánica y Eléctrica}
-\def\depg{Subdirección de Estudios de Posgrado}
+\def\depg{Subdirección Académica}
 \def\snnl{San Nicolás de los Garza, Nuevo León}
 
