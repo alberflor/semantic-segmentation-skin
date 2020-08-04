@@ -8,7 +8,6 @@ from PIL import Image
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 DATA_DIR = "Data/"
-
 train_img = os.path.join(DATA_DIR,"Training_input")
 train_mask = os.path.join(DATA_DIR,"Training_annot")
 
@@ -30,7 +29,7 @@ def visualize_matrix(dataset, v):
 def visualize(**images):
     """Plot images in one row."""
     n = len(images)
-    plt.figure(figsize=(10, ))
+    plt.figure(figsize=(10, 4))
     for i, (name, image) in enumerate(images.items()):
         plt.subplot(1, n, i + 1)
         plt.xticks([])
@@ -111,7 +110,7 @@ class Dataset(BaseDataset):
     def __len__(self):
         return len(self.ids)
 
-dataset = Dataset(train_img, train_mask, classes=['melanoma'])
-image , mask = dataset[3]
+#dataset = Dataset(train_img, train_mask, classes=['melanoma'])
+#image , mask = dataset[3]
 
-visualize(image = image, mask = mask.squeeze())
+#visualize(image = image, mask = mask.squeeze())
