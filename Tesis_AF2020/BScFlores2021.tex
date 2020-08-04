@@ -1,0 +1,79 @@
+%%%%%%%%%%%%%%%%%%%%%
+% Documento maestro %
+%%%%%%%%%%%%%%%%%%%%%
+\documentclass{fime}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Cargando paquetes y definiendo opciones %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Aquí puedes cargar los paquetes que vas a usar. La clase
+% fime ya incluye babel, inputenc, graphicx y los de la AMS.
+% Cargar un paquete está a tu libertad (y responsabilidad).
+\usepackage{hyperref}
+    \hypersetup{breaklinks=true,colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black}
+
+%%%%%%%%%%%%%%%%%%%%%
+% Definiendo campos %
+%%%%%%%%%%%%%%%%%%%%%
+\def\titulo{Detección de cancer de piel mediante segmentación semántica}
+\def\autor{Mario Alberto Flores Hernández}
+\def\matricula{1719126}
+\def\grado{Licenciatura en Ingeniería En Mecatrónica}
+% En caso de que el grado tenga orientación o especialidad llenar el siguiente
+% campo dejando un ESPACIO INICIAL, en caso contrario, dejar vacío
+\def\orientacion{}
+% Coloca el mes con mayúscula inicial
+\def\fecha{Febrero 2021}
+
+\def\asesor{Dra. Satu Elisa Schaeffer}
+\def\revisorA{Romeo Sánchez Nigenda}
+\def\revisorB{Sara Elena Garza Villarreal}
+% En el caso de que tu tesis sea de doctorado activa la variable cambiándola a \doctoradotrue
+% y define tus otros dos revisores
+\newif\ifdoctorado\doctoradofalse
+% El visto bueno siempre va
+\def\vobo{Dr. Fernando Banda Muñoz}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% Inicia el documento %
+%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\frontmatter
+\pagestyle{main}
+
+\include{Portadas}
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\include{Agradecimientos}
+\include{Resumen}
+
+\mainmatter
+\pagestyle{fime}
+
+%%% Haz un documento para cada capítulo
+\include{Capitulo1}
+
+\appendix
+%%% Haz un documento para cada apéndice, si es que tienes
+
+
+\backmatter
+\pagestyle{main}
+
+% Aquí va la bibliografía, puedes usar el entorno de LaTeX (thebibliography)
+% o la herramienta BibTeX. En caso de que optes por BibTeX, puedes usar
+% alguno de los archivos de estilo (mighelbib.bst o mighelnat.bst) incluidos
+% en el paquete, cuyos diseños armonizan con el diseño de tesis provisto por
+% fime.cls. Para muestra, basta un botón:
+\bibliographystyle{mighelnat}
+\bibliography{MiBiblio}
+
+\label{lastpage}
+\include{Autobiografia}
+
+\end{document}
+
