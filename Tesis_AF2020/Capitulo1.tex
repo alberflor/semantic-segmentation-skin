@@ -1,7 +1,24 @@
+
 \chapter{Introducción}
 
-En los últimos años se han logrado muchos avances en cuanto al desarrollo de softwares inteligentes, una de las tecnologías emergentes y que están tomando gran importancia son las redes neuronales\footnote {Red Neuronal: Modelo matemático que simula el funcionamiento del cerebro humano. }. Algunos de los sectores que han mostrado un incremento en el úso de ésta tecnología son: el sector automotriz (piloto automático), el sector de manufactura (optimización de procesos), el sector de entretenimiento (recomendaciones personalizadas), el sector médico (diagnóstico de imágenes). 
+En los últimos años se han logrado muchos avances en cuanto al desarrollo de software inteligentes, una de las tecnologías emergentes y que están tomando gran importancia son la \emph{\gls{rn}}. Algunos de los sectores que han mostrado un incremento en el uso de ésta tecnología son: el sector automotriz (piloto automático), el sector de manufactura (optimización de procesos), el sector de entretenimiento (recomendaciones personalizadas), el sector médico (diagnóstico de imágenes). 
 
-Este experimento tiene como objetivo la clasificación de tejidos sanos y tejidos con posible cancer de piel (basalioma, carcinoma, melanoma) en imágenes, mediante el uso de la red neuronal de segmentación semántica\footnote {Segmentación Semántica: Asociación de cada pixel dentro de una imagen a una categoría específica.} basada en el modelo FastFCN de Huikei Wu\footnote {'Fast Fully-Convolutional Network': Red neuronal convolucional desarrollada por Huikei Wu en Deepwise AI Lab (2019)}, con la finalidad de asistír al médico especializado en el diagnóstico de cancer de piel a brindar atención a los pacientes con mayor probabilidad de padecer la enfermedad.
+Este experimento tiene como objetivo la clasificación de tejidos sanos y tejidos con posible cáncer de piel (basalioma, carcinoma, melanoma) en imágenes, mediante el uso de la red neuronal de \emph{\gls{seg}} basada en el modelo propuesto en \cite{wu2019fastfcn}, con la finalidad de asistir al médico especializado en el diagnóstico de cáncer de piel a brindar atención a los pacientes con mayor probabilidad de padecer la enfermedad.
 
+\newpage
+
+\section{Hipótesis}
+Es posible clasificar los píxeles en distintas categorías dentro de una imagen gracias a las tecnologías actuales de inteligencia artificial y las técnicas de segmentación. Mediante la técnica de \emph{\gls{seg}} es posible crear un reconocedor visual que no solo detecte la presencia y ubicación del elemento a reconocer, sino que, también obtenga otros datos descriptivos del elemento como el tamaño, forma y región que abarca dentro de la imagen. 
+
+\section{Objetivos}
+\subsection{Objetivo General}
+El \emph{objetivo general} es implementar una herramienta de asistencia  para la detección de cáncer en la piel,  anualmente se registran aproximadamente 1000 casos de cáncer de piel solo en México, la detección temprana de esta enfermedad es crucial para mantener el riesgo de mortalidad al mínimo. Por lo tanto sería muy conveniente tener una aplicación que de forma automatizada pueda analizar una gran cantidad de imágenes y localizar dentro de estas la presencia del cáncer, y así optimizar el proceso de atención a los pacientes.
+\subsection{Objetivo Específico}
+Desarrollar el código requerido para extraer los datos de las imágenes sobre cáncer de piel, desarrollar y entrenar con dicha base de datos el modelo de la red neuronal y comparar los resultados de distintos modelos existentes de segmentación semántica.
+
+\chapter{Antecedentes}
+\chapter{Estado del Arte}
+\chapter{Base de datos}
+\chapter{Implementación de la solución}
+\chapter{Resultados}
 
