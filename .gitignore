@@ -15,4 +15,13 @@ bash.env
 *.bst
 *.def
 *.cls
+*.acn
+*.bbl
+*.blg
+*.glo
+*.glsdefs
+*.ist
+*.xdy
+
+
 __pycache__
