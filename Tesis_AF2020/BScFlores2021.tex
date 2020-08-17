@@ -32,8 +32,8 @@
 \def\fecha{Febrero 2021}
 
 \def\asesor{Dra. Satu Elisa Schaeffer}
-\def\revisorA{Romeo Sánchez Nigenda}
-\def\revisorB{Sara Elena Garza Villarreal}
+\def\revisorA{Dr. Romeo Sánchez Nigenda}
+\def\revisorB{Dra. Sara Elena Garza Villarreal}
 % En el caso de que tu tesis sea de doctorado activa la variable cambiándola a \doctoradotrue
 % y define tus otros dos revisores
 \newif\ifdoctorado\doctoradofalse
@@ -57,12 +57,12 @@
 
 
 \listoffigures
-\addcontentsline{toc}{chapter}{Lista de figuras}
+\addcontentsline{toc}{chapter}{Indice de figuras}
 
 \listoftables
-\addcontentsline{toc}{chapter}{Lista de tablas}
+\addcontentsline{toc}{chapter}{Indice de tablas}
 
-\printnoidxglossary[sort=word]
+
 
 \include{Agradecimientos}
 \include{Resumen}
@@ -88,14 +88,14 @@
 % en el paquete, cuyos diseños armonizan con el diseño de tesis provisto por
 % fime.cls. Para muestra, basta un botón:
 
+
+\printnoidxglossary[sort=word]
 \bibliographystyle{mighelnat}
 \bibliography{MiBiblio}
 \addcontentsline{toc}{chapter}{Bibliografía}
 
 \label{lastpage}
 \include{Autobiografia}
-
-
 
 \end{document}
 
