@@ -22,6 +22,8 @@ bash.env
 *.glsdefs
 *.ist
 *.xdy
-
+*.gz
+*.fls
+*.fdb_latexmk
 
 __pycache__
