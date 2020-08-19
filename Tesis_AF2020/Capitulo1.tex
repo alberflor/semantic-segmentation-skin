@@ -17,14 +17,17 @@ Dependiendo de cual de estos tipos de cáncer se padezca la tasa de mortalidad p
 
 En los últimos años se han logrado muchos avances en cuanto al desarrollo de <<software inteligente>> que han permitido un mayor acceso a diferentes servicios, una de estas tecnologías sería la <<\emph{\gls{rn}}>>, se trata de una tecnología que tiene la capacidad de aprender de los datos históricos mediante el úso de datos históricos y funciones de optimización para crear un modelo matemático capaz de predecir, clasificar o recrear datos futuros o desconocidos. Algunos de los sectores que han mostrado un incremento en el uso de ésta tecnología son: el sector automotriz (piloto automático), el sector de manufactura (optimización de procesos), el sector de entretenimiento (recomendaciones personalizadas), el sector médico (diagnóstico de imágenes). 
 
+
 \section{Hipótesis}
 Es posible clasificar los píxeles en distintas categorías dentro de una imagen gracias a las avances actuales de inteligencia artificial y la técnica de segmentación. Mediante la técnica de \emph{\gls{seg}} es posible crear un reconocedor visual que no solo detecte la presencia y ubicación del elemento a reconocer, sino que, también obtenga otros datos descriptivos del elemento como el tamaño, forma y región que abarca dentro de la imagen. De esta forma se podría obtener un diagnóstico mucho más profundo que permita una detección más acertada.
+
 
 \section{Objetivos}
 Primero en \emph{Objetivo General} se hablará de manera conceptual la problemática a resolver tales como cuales son las situaciones en las que podemos optimizar la resolución de un problema mediante el uso de la red neuronal, posteriormente en los \emph{Objetivos Específicos} se describirá de forma puntual lo que se realizará en el experimento para llegar al resultado deseado.
 
 \subsection{Objetivo General}
 El \emph{objetivo general} de este experimento es la localización de anomalías en la superficie piel que correspondan a alguno de los tipos de cáncer de esta región (basalioma, carcinoma, melanoma) mediante imágenes, con el uso de la red neuronal de \emph{\gls{seg}} basada en el modelo propuesto por \citet{wu2019fastfcn}, con la finalidad de desarrollar un modelo de red neuronal profunda capaz de segmentar de forma semántica las imágenes y sus correspondientes categorías de forma accesible y éficaz. De esta se pretende asistír a los especialistas médicos en su labor de detección y prevención del cáncer de piel.
+
 
 \subsection{Objetivo Específico}
 El \emph{objetivo específico} del experimento es el implementar una red neuronal que primero decodifique una imagen de entrada y extraiga el mapa de características de dicha, y posteriormente reconstruya la imagen remarcando la región donde se encuentra el objeto a localizar. Para esto será necesario dar un recorrido por el proceso de transformación de las dimensiones de la imagen y la arquitectura de la red neuronal requerida para obtener dicho resultado.
@@ -37,9 +40,9 @@ El \emph{objetivo específico} del experimento es el implementar una red neurona
 
 \section{Estructura de la tesis}
 
-A continuación se dará una breve explicación sobre los capítulos que se verán en este documento junto con una breve explicación de su contenido.
+A continuación se dará una breve descripción sobre los capítulos que se verán a continuación en este documento.
 
-En el capítulo 2 se verán los antecedentes relacionados al experimento propuesto en este documento, desde otros experimentos relacionados con las redes neuronales como otras técnicas que involucran visión computacional y los resultados obtenidos en dichos experimentos.
+En el capítulo 2 se detallarán los conceptos relacionados al experimento, primero se hablará de los conceptos generales que se usarán a lo largo de este capítulo y posteriormente se hablará sobre los componentes de la red neuronal, los tipos de redes mas comúnes. 
 
 En el capítulo 3 se hablará sobre el estado del arte en cuanto a las redes neuronales, cuales son los avances en los últimos años y que ventajas tenemos ahora comparado al avance que se tenía cuando experimentos fueron realizados.
 
@@ -47,9 +50,32 @@ En el capitulo 4 se describirá de forma estadística los datos que serán utili
 
 En el capítulo 5 se detallará el proceso de implementación, primero se describirán las características del hardware, se describirá la arquitectura del modelo y las transformaciones por las que pasará la imagen y luego se hará una comparativa con distintos modelos de redes neuronales para comparar tiempo de entrenamiento, precisión y resultado.
 
-Finalmente, en el capítulo 6 se expondrán los resultados obtenidos de la implementación del producto científico propuesto.
+Finalmente, en el capítulo 6 se expondrán los resultados obtenidos de la implementación del producto científico en el capítulo anterior, así como un análisis y conclusión final sobre los valores obtenidos en precision y tiempo de entrenamiento. 
+
+\coltext{
+    Remover página vacía.
+}
 
 \chapter{Antecedentes}
+En este capítulo vamos a introducir de forma teórica los temas relacionados a las redes neuronales para el adecuado entendimiento del experimento, primero se definirán algunos conceptos básicos que se usarán a lo largo del documento, posteriormente se abordarán temas como las funciones de costo y el gradiente descendiente, que se trata de dos funciones básicas para la creación de nuestro modelo, las redes neuronales y las arquitecturas mas comunes éstas y finalmente las funciones de <<Encoding>> y <<Decoding>> las cuales son dos funciones imprescindibles para obtener el resultado esperado.
+
+\section{Conceptos}
+
+\section{Función de Costo}
+
+\section{Gradiente Descendiente}
+
+\section{Red Neuronal}
+
+\subsection{RNN}
+
+\subsection{CNN}
+
+\subsection{FCN}
+
+\section{Encoder}
+
+\section{Decoder}
 
 \chapter{Estado del Arte}
 
@@ -58,4 +84,3 @@ Finalmente, en el capítulo 6 se expondrán los resultados obtenidos de la imple
 \chapter{Implementación de la Solución}
 
 \chapter{Resultados}
-
