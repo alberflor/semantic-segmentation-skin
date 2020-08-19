@@ -1,9 +1,8 @@
 import torch
 import numpy as np
-import segmentation_models_pytorch as smp
-
+from torch.utils.data import DataLoader
 #Creation of resnet model.
-
+pip
 ENCODER = 'se_resnext50_32x4d'
 ENCODER_WEIGHTS = 'imagenet'
 CLASSES = ['melanoma']
@@ -35,4 +34,3 @@ valid_dataset = Dataset(
 
 train_loader = DataLoader(train_dataset, batch_size=8, shuffle=True, num_workers=12)
 valid_loader = DataLoader(valid_dataset, batch_size=1, shuffle=False, num_workers=4)
-
