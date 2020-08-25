@@ -1,19 +1,26 @@
 
 \chapter{Introducción}
 
-La piel es considerada el órgano mas grande del cuerpo humano y está compuesta por tres capas: \emph{\gls{epidermis}}, \emph{\gls{dermis}} e \emph{\gls{hipodermis}} \cite{skin_1}. Las principales funciones de la piel son proteger al cuerpo de las hostilidades del medio ambiente tales como la radiación solar,  regular la temperatura, aislarnos de las bacterias en el medio ambiente entre otras.
+La piel es considerada el órgano mas grande del cuerpo humano,  y está compuesta por tres capas: \emph{\gls{epidermis}}, \emph{\gls{dermis}} e \emph{\gls{hipodermis}} (Véase Fig \ref{fig:skin1_jpg}). La principal función de la piel es proteger al cuerpo de las hostilidades del medio ambiente como la radiación solar y los factores externos como las bacterias, sin embargo también cumple otras funciones importantes aparte de proteger los órganos y los tejidos internos, tales otras funciones son regular nuestra temperatura corporal, registrar sensaciones de presión, frío, calor y es una interfaz para poder sentir e interactuar con lo que tenemos a nuestro alrededor.
+
+
+\begin{figure}[h!]
+    \includegraphics[width=80mm, scale = 0.5]{Figuras/skin_structure1.jpg}
+    \centering
+    \caption{Ilustración de las capas de la piel y sus apéndices \citep{skin_1}.}
+    \label{fig:skin1_jpg}
+\end{figure}
 
 Sin embargo, debido a la exposición continua a las radiaciones de la luz, es común desarrollar enfermedades en la piel que afectan la forma en que las células de ésta se reproducen, causando graves daños a nuestra salud que en muchas ocasiones puede llegar a ser letal. Estas anomalías en la piel se denominan como \emph{cáncer de piel}, principalmente en las siguientes 3 categorías: cáncer de células basales, cáncer de células escamosas y melanomas \citep{cancer_org}.
-
-Dependiendo de cual de estos tipos de cáncer se padezca la tasa de mortalidad puede variar enormemente siendo el << \emph{carcinoma}>> el más agresivo de todos, por lo que su detección temprana es imprescindible para reducir las probabilidades de fallecimiento. Por lo tanto es necesario seguir desarrollando tecnologías que faciliten la detección de este tipo de padecimientos de forma rápida y sencilla que vaya enfocada en aumentar la accesibilidad a dichos diagnósticos y de esta forma reducir la tasa de mortalidad por este padecimiento.
-
 
 \begin{figure}[h!]
     \includegraphics[width=80mm, scale = 0.8]{Figuras/skin_cancer_bbc.jpg}
     \centering
-    \caption{Ejemplo de melanoma \Citep{cancer_img_1}}
+    \caption{Ejemplo de melanoma \citep{cancer_img_1}}
     \label{fig:can_jpg}
 \end{figure}
+
+Dependiendo de cual de estos tipos de cáncer se padezca la tasa de mortalidad puede variar enormemente siendo el << \emph{carcinoma}>> el más agresivo de todos, por lo que su detección temprana es imprescindible para reducir las probabilidades de fallecimiento. Por lo tanto es necesario seguir desarrollando tecnologías que faciliten la detección de este tipo de padecimientos de forma rápida y sencilla que vaya enfocada en aumentar la accesibilidad a dichos diagnósticos y de esta forma reducir la tasa de mortalidad por este padecimiento.
 
 En los últimos años se han logrado muchos avances en cuanto al desarrollo de <<software inteligente>> que han permitido un mayor acceso a diferentes servicios, una de estas tecnologías sería la <<\emph{\gls{rn}}>>, se trata de una tecnología que tiene la capacidad de aprender de los datos históricos mediante el úso de datos históricos y funciones de optimización para crear un modelo matemático capaz de predecir, clasificar o recrear datos futuros o desconocidos. Algunos de los sectores que han mostrado un incremento en el uso de ésta tecnología son: el sector automotriz (piloto automático), el sector de manufactura (optimización de procesos), el sector de entretenimiento (recomendaciones personalizadas), el sector médico (diagnóstico de imágenes). 
 
@@ -21,21 +28,20 @@ En los últimos años se han logrado muchos avances en cuanto al desarrollo de <
 \section{Hipótesis}
 Es posible clasificar los píxeles en distintas categorías dentro de una imagen gracias a las avances actuales de inteligencia artificial y la técnica de segmentación. Mediante la técnica de \emph{\gls{seg}} es posible crear un reconocedor visual que no solo detecte la presencia y ubicación del elemento a reconocer, sino que, también obtenga otros datos descriptivos del elemento como el tamaño, forma y región que abarca dentro de la imagen. De esta forma se puede obtener un diagnóstico automatizado mucho más profundo que permita una detección más acertada.
 
-
 \section{Objetivos}
 Primero en \emph{Objetivo General} se habla de manera conceptual la problemática a resolver tales como cuales son las situaciones en las que podemos optimizar la resolución de un problema mediante el uso de la red neuronal, posteriormente en los \emph{Objetivos Específicos} se describe de forma puntual los pasos a realizar en el experimento para llegar al resultado deseado.
 
 \subsection{Objetivo General}
 El \emph{objetivo general} de este experimento es la localización de anomalías en la superficie piel que correspondan a alguno de los tipos de cáncer de esta región (basalioma, carcinoma, melanoma) mediante imágenes, con el uso de la red neuronal de \emph{\gls{seg}} basada en el modelo propuesto por \citet{wu2019fastfcn}, con la finalidad de desarrollar un modelo de red neuronal profunda capaz de segmentar de forma semántica las imágenes y sus correspondientes categorías de forma eficiente, optimizando el aprovechamiento del \emph{Hardware}. De esta se pretende asistír a los especialistas médicos en su labor de detección y prevención del cáncer de piel.
 
-
 \subsection{Objetivo Específico}
-El \emph{objetivo específico} del experimento es el implementar una red neuronal que primero decodifique una imagen de entrada y extraiga el mapa de características de dicha, y posteriormente reconstruya la imagen remarcando la región donde se encuentra el objeto a localizar. Para esto será necesario dar un recorrido por el proceso de transformación de las dimensiones de la imagen y la arquitectura de la red neuronal requerida para obtener dicho resultado.
+El \emph{objetivo específico} del experimento es el implementar una red neuronal cuya función sea la de recibir una imagen de entrada, extraer el mapa de características de dicha, y posteriormente reconstruya la imagen remarcando la región donde se encuentra el objeto a localizar. Para esto será necesario desarrollar un modelo y determinar las transformaciones necesarias por las que tendrán que pasar todas las imágenes con el fin de obtener el resultado deseado y también la mejor precisión posible.
 
-\begin{figure}
+\begin{figure}[h!]
     \includegraphics[width=150mm]{Figuras/plot_masks.png}
     \centering
     \caption{Ejemplo de la imagen de entrada (izquierda) y resultado esperado (derecha).}
+    \label{fig:desired}
 \end{figure}
 
 \section{Estructura de la Tesis}
@@ -52,38 +58,40 @@ En el capítulo 5 se detalla el proceso de implementación, primero se describir
 
 Finalmente, en el capítulo 6 se exponen los resultados obtenidos de la implementación del producto científico en el capítulo anterior, así como un análisis y conclusión final sobre los valores obtenidos en precision y tiempo de entrenamiento. 
 
-\coltext{
-    Remover página vacía.
-}
-
 \chapter{Antecedentes}
-En este capítulo se introduce de forma teórica los temas relacionados a las redes neuronales para el adecuado entendimiento del experimento, primero se definirán algunos conceptos básicos que se usarán a lo largo del documento, posteriormente se abordarán temas como las funciones de costo y el gradiente descendiente, que se trata de dos funciones básicas para la creación de nuestro modelo, las redes neuronales y las arquitecturas mas comunes éstas y finalmente las funciones de codificación (Encoding) y decodificación (Decoding) las cuales son dos funciones imprescindibles para obtener el resultado esperado.
+En este capítulo se introduce de forma teórica los conceptos relacionados a los tipos de cáncer y las redes neuronales, primero se definen algunos conceptos básicos que se usarán a lo largo del documento, posteriormente se hablan de temas como las funciones de costo y el gradiente descendiente y finalmente las funciones de codificación (Encoding) y decodificación (Decoding) las cuales serán la clave para obtener el resultado deseado.
 
+\section{Cáncer de Piel}
 
-\section{Cáncer de Piel} 
+Las causas de este padecimiento pueden ser muy variadas, desde la exposición a los rayos ultravioletas (UV), el consumo de sustancias como el tabaco o el envejecimiento de la piel pueden ser desencadenantes de la mutación, dichas causas se pueden dividir en dos tipos: \emph{Intrínsecos} y \emph{Extrínsecos}, como se menciona en \citeauthor{skin_1} (\citeyear{skin_1}).
 
-\section{Conceptos}
+\subsection{Factores Intrínsecos}
+Dentro de esta categoría se encuentran factores como el envejecimiento cronológico, el cual es la degradación del colágeno, la elastina y el adelgazamiento de la epidermis debido al paso de los años y de el efecto de algunas hormonas sexuales.
 
-\subsection{Función de Costo}
+\subsection{Factores Extrínsecos}
+ Después tenemos el foto-envejecimiento el cual sucede cuando nos encontramos expuestos a los rayos ultravioletas (UV) \citep{skin_aging}. Este factor de envejecimiento genera lesiones en las cadenas de ácido desoxirribonucleico (ADN) debido a la oxidación y afectando directamente al sistema inmune y a la forma en la que se regula la pigmentación.
 
-\subsection{Gradiente Descendiente}
+ \begin{figure}[h!]
+    \includegraphics[scale=1]{Figuras/intrinsec_extrinsec.jpg}
+    \centering
+    \caption{Factores Intrínsecos vs. Factores Extrínsecos \citep{skin_1}}
+    \label{fig:in_ex}
+\end{figure}
+
+\subsection{Tipos de Cáncer de Piel}
 
 \section{Redes Neuronales}
-
-\subsection{Red Neuronal Recurrente}
-
-\subsection{Red Neuronal Convolucional}
-
-\subsection{Redes Bidimensionales}
-
-\subsection{Codificación}
-
-\subsection{Decodificación}
+\subsection{Modelos Unidimensionales}
+\subsection{Modelos Bidimensionales}
 
 \chapter{Estado del Arte}
+\section{Trabajos Similares}
+\section{Área de Oportunidad}
 
 \chapter{Descripción de los Datos}
+\section{Conjunto de Datos de ISIC}
 
 \chapter{Implementación de la Solución}
 
 \chapter{Resultados}
+
