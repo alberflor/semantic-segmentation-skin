@@ -11,7 +11,7 @@ La piel es considerada el órgano mas grande del cuerpo humano,  y está compues
     \label{fig:skin1_jpg}
 \end{figure}
 
-Sin embargo, debido a la exposición continua a las radiaciones de la luz, es común desarrollar enfermedades en la piel que afectan la forma en que las células de ésta se reproducen, causando graves daños a nuestra salud que en muchas ocasiones puede llegar a ser letal. Estas anomalías en la piel se denominan como \emph{cáncer de piel}, principalmente en las siguientes 3 categorías: cáncer de células basales, cáncer de células escamosas y melanomas \citep{cancer_org}.
+Sin embargo, debido a la exposición continua a las radiaciones de la luz, es común desarrollar enfermedades en la piel que afectan la forma en que las células de ésta se reproducen, causando graves daños a nuestra salud que en muchas ocasiones puede llegar a ser letal. Estas anomalías en la piel se denominan como \emph{cáncer de piel}, principalmente en las siguientes tres categorías: cáncer de células basales, cáncer de células escamosas y melanomas \citep{cancer_org}.
 
 \begin{figure}[h!]
     \includegraphics[width=80mm, scale = 0.8]{Figuras/skin_cancer_bbc.jpg}
@@ -22,18 +22,15 @@ Sin embargo, debido a la exposición continua a las radiaciones de la luz, es co
 
 Dependiendo de cual de estos tipos de cáncer se padezca la tasa de mortalidad puede variar enormemente siendo el << \emph{carcinoma}>> el más agresivo de todos, por lo que su detección temprana es imprescindible para reducir las probabilidades de fallecimiento. Por lo tanto es necesario seguir desarrollando tecnologías que faciliten la detección de este tipo de padecimientos de forma rápida y sencilla que vaya enfocada en aumentar la accesibilidad a dichos diagnósticos y de esta forma reducir la tasa de mortalidad por este padecimiento.
 
-En los últimos años se han logrado muchos avances en cuanto al desarrollo de <<software inteligente>> que han permitido un mayor acceso a diferentes servicios, una de estas tecnologías sería la <<\emph{\gls{rn}}>>, se trata de una tecnología que tiene la capacidad de aprender de los datos históricos mediante el úso de datos históricos y funciones de optimización para crear un modelo matemático capaz de predecir, clasificar o recrear datos futuros o desconocidos. Algunos de los sectores que han mostrado un incremento en el uso de ésta tecnología son: el sector automotriz (piloto automático), el sector de manufactura (optimización de procesos), el sector de entretenimiento (recomendaciones personalizadas), el sector médico (diagnóstico de imágenes). 
+En los últimos años se han logrado muchos avances en cuanto al desarrollo de software inteligente que han permitido un mayor acceso a diferentes servicios, una de estas tecnologías sería la \emph{\gls{rn}}, se trata de una tecnología que tiene la capacidad de aprender mediante el úso de datos históricos y funciones de optimización para crear un modelo matemático capaz de predecir, clasificar o recrear datos futuros o desconocidos. Algunos de los sectores que han comenzado a adoptar esta tecnología son: el sector automotriz (piloto automático), el sector de manufactura (optimización de procesos), el sector de entretenimiento (recomendaciones personalizadas), el sector médico (diagnóstico de imágenes). 
 
 
 \section{Hipótesis}
-Es posible clasificar los píxeles en distintas categorías dentro de una imagen gracias a las avances actuales de inteligencia artificial y la técnica de segmentación. Mediante la técnica de \emph{\gls{seg}} es posible crear un reconocedor visual que no solo detecte la presencia y ubicación del elemento a reconocer, sino que, también obtenga otros datos descriptivos del elemento como el tamaño, forma y región que abarca dentro de la imagen. De esta forma se puede obtener un diagnóstico automatizado mucho más profundo que permita una detección más acertada.
-
+Es posible clasificar los píxeles en distintas categorías dentro de una imagen gracias a las avances actuales de inteligencia artificial y la técnica de segmentación. Mediante la técnica de \emph{\gls{seg}} es posible crear un reconocedor visual que no solo detecte la presencia y ubicación del elemento a reconocer, sino que, también obtenga otros datos descriptivos del elemento como el tamaño, forma y región que abarca dentro de la imagen. De esta forma se puede obtener un diagnóstico automatizado certero.
 \section{Objetivos}
-Primero en \emph{Objetivo General} se habla de manera conceptual la problemática a resolver tales como cuales son las situaciones en las que podemos optimizar la resolución de un problema mediante el uso de la red neuronal, posteriormente en los \emph{Objetivos Específicos} se describe de forma puntual los pasos a realizar en el experimento para llegar al resultado deseado.
-
+Primero en \emph{Objetivo General} se habla de manera conceptual la problemática a resolver tales como cuales son las situaciones en las que podemos optimizar la resolución de un problema mediante el uso de la red neuronal, posteriormente en los \emph{Objetivos Específicos} se describe de forma puntual los pasos a realizar en el presente trabajo de tésis para llegar al resultado deseado.
 \subsection{Objetivo General}
-El \emph{objetivo general} de este experimento es la localización de anomalías en la superficie piel que correspondan a alguno de los tipos de cáncer de esta región (basalioma, carcinoma, melanoma) mediante imágenes, con el uso de la red neuronal de \emph{\gls{seg}} basada en el modelo propuesto por \citet{wu2019fastfcn}, con la finalidad de desarrollar un modelo de red neuronal profunda capaz de segmentar de forma semántica las imágenes y sus correspondientes categorías de forma eficiente, optimizando el aprovechamiento del \emph{Hardware}. De esta se pretende asistír a los especialistas médicos en su labor de detección y prevención del cáncer de piel.
-
+El \emph{objetivo general} de este trabajo de tésis es la localización de anomalías en la superficie piel que correspondan a alguno de los tipos de cáncer de esta región (basalioma, carcinoma, melanoma) mediante imágenes, con el uso de la red neuronal de \emph{\gls{seg}} basada en el modelo propuesto por \citet{wu2019fastfcn}, con la finalidad de desarrollar un modelo de red neuronal profunda capaz de segmentar de forma semántica las imágenes y sus correspondientes categorías.
 \subsection{Objetivo Específico}
 El \emph{objetivo específico} del experimento es el implementar una red neuronal cuya función sea la de recibir una imagen de entrada, extraer el mapa de características de dicha, y posteriormente reconstruya la imagen remarcando la región donde se encuentra el objeto a localizar. Para esto será necesario desarrollar un modelo y determinar las transformaciones necesarias por las que tendrán que pasar todas las imágenes con el fin de obtener el resultado deseado y también la mejor precisión posible.
 
@@ -46,7 +43,7 @@ El \emph{objetivo específico} del experimento es el implementar una red neurona
 
 \section{Estructura de la Tesis}
 
-A continuación se dará una breve descripción sobre los capítulos que se verán a continuación en este documento.
+A continuación se dá una breve descripción sobre los capítulos que se verán a continuación en este documento.
 
 En el capítulo 2 se habla sobre los conceptos relacionados al experimento, primero se hablará de los conceptos generales que se usarán a lo largo de este capítulo y posteriormente se hablará sobre los componentes de la red neuronal, los tipos de redes mas comúnes. 
 
@@ -63,20 +60,13 @@ En este capítulo se introduce de forma teórica los conceptos relacionados a lo
 
 \section{Cáncer de Piel}
 
-Las causas de este padecimiento pueden ser muy variadas, desde la exposición a los rayos ultravioletas (UV), el consumo de sustancias como el tabaco o el envejecimiento de la piel pueden ser desencadenantes de la mutación, dichas causas se pueden dividir en dos tipos: \emph{Intrínsecos} y \emph{Extrínsecos}, como se menciona en \citeauthor{skin_1} (\citeyear{skin_1}).
+Este padecimiento se puede originar de distintas formas, desde la exposición a los rayos ultravioletas (UV), el consumo de sustancias como el tabaco o el envejecimiento de la piel pueden ser desencadenantes de la mutación, dichas causas se pueden dividir en dos tipos: \emph{Intrínsecos} y \emph{Extrínsecos}, como se menciona en \citeauthor{skin_1} (\citeyear{skin_1}).
 
 \subsection{Factores Intrínsecos}
-Dentro de esta categoría se encuentran factores como el envejecimiento cronológico, el cual es la degradación del colágeno, la elastina y el adelgazamiento de la epidermis debido al paso de los años y de el efecto de algunas hormonas sexuales.
+Los \emph{factores intrínsecos} son aquellos que suceden de forma interna, como es el caso del envejecimiento cronológico, el cual es la degradación del colágeno, la elastina y el adelgazamiento de la epidermis debido al paso de los años y de el efecto de algunas hormonas sexuales.
 
 \subsection{Factores Extrínsecos}
- Después tenemos el foto-envejecimiento el cual sucede cuando nos encontramos expuestos a los rayos ultravioletas (UV) \citep{skin_aging}. Este factor de envejecimiento genera lesiones en las cadenas de ácido desoxirribonucleico (ADN) debido a la oxidación y afectando directamente al sistema inmune y a la forma en la que se regula la pigmentación.
-
- \begin{figure}[h!]
-    \includegraphics[scale=1]{Figuras/intrinsec_extrinsec.jpg}
-    \centering
-    \caption{Factores Intrínsecos vs. Factores Extrínsecos \citep{skin_1}}
-    \label{fig:in_ex}
-\end{figure}
+Los \emph{factores extrínsecos} son aquellos que suceden de forma externa, como en el caso del foto-envejecimiento el cual sucede cuando nos encontramos expuestos a los rayos ultravioletas (UV) \citep{skin_aging}. Este factor de envejecimiento genera lesiones en las cadenas de ácido desoxirribonucleico (ADN) debido a la oxidación y afectando directamente al sistema inmune y a la forma en la que se regula la pigmentación.
 
 \subsection{Tipos de Cáncer de Piel}
 
@@ -89,7 +79,7 @@ Dentro de esta categoría se encuentran factores como el envejecimiento cronoló
 \section{Área de Oportunidad}
 
 \chapter{Descripción de los Datos}
-\section{Conjunto de Datos de ISIC}
+
 
 \chapter{Implementación de la Solución}
 
