@@ -11,21 +11,6 @@ DATA_DIR = "Data/"
 train_img = os.path.join(DATA_DIR,"Training_input")
 train_mask = os.path.join(DATA_DIR,"Training_annot")
 
-def visualize_matrix(dataset, v):
-
-    fig = plt.figure(figsize=(12, 6))
-    for i in range(v):
-        image, mask = dataset[i]
-        img_dict = {}
-        img_dict['image'] = image
-        img_dict['mask'] = mask
-        n = len(img_dict)
-
-        for j,(name, image) in enumerate(img_dict.items()):
-          plt.subplot(v, n , i + j + 1)
-          plt.imshow(image)
-    plt.show()
-
 def visualize(**images):
     """Plot images in one row."""
     n = len(images)
