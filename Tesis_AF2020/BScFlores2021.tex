@@ -15,7 +15,7 @@
 	\makenoidxglossaries	
 	\loadglsentries{Glosario}
 	\setglossarystyle{altlist}
-\usepackage[numbers]{natbib}
+\usepackage[numbers, sort&compress]{natbib}
 
 %%%%%%%%%%%%%%%%%%%%%
 % Definiendo campos %
@@ -39,7 +39,7 @@
 % El visto bueno siempre va
 \def\vobo{Dr. Fernando Banda Muñoz}
 
-
+\addto\captionsspanish{\renewcommand{\listtablename}{Índice de Cuadros}}
 
 %%%%%%%%%%%%%%%%%%%%%%%
 % Inicia el documento %
@@ -60,9 +60,9 @@
 \listoftables
 \addcontentsline{toc}{chapter}{Indice de Cuadros}
 
+\include{Notaciones}
 \include{Agradecimientos}
 \include{Resumen}
-
 
 \mainmatter
 \pagestyle{fime}
