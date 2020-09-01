@@ -23,7 +23,4 @@ preprocessing_fn = smp.encoders.get_preprocessing_fn('se_resnet50_32x4d', 'image
 
 #Training
 training_dataset = load_dataset.Dataset(train_img, train_mask, classes=CLASSES)
-validation_dataset = load_dataset.Dataset(train_img, train_mask, classes=CLASSES)
-
-#validation_dataset = Dataset()
-
+#validation_dataset = load_dataset.Dataset(train_img, train_mask, classes=CLASSES)
