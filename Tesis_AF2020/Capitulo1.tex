@@ -55,35 +55,66 @@ En el capítulo 5 se detalla el proceso de implementación, primero se describir
 Finalmente, en el capítulo 6 se exponen los resultados obtenidos de la implementación del producto científico en el capítulo anterior, así como un análisis y conclusión final sobre los valores obtenidos en precision y tiempo de entrenamiento. 
 
 \chapter{Antecedentes}
-En este capítulo se introduce de forma teórica los conceptos relacionados a los tipos de cáncer y las redes neuronales, primero se definen algunos conceptos básicos que se usarán a lo largo del documento, posteriormente se hablan de temas como las funciones de costo y el gradiente descendiente y finalmente las funciones de codificación (Encoding) y decodificación (Decoding) las cuales serán la clave para obtener el resultado deseado.
+En este capítulo se introducen de forma teórica los conceptos relacionados a los tipos de cáncer y las redes neuronales, primero se define que es el \emph{cáncer de piel}, cuales son los factores que influyen en el desarollo de este padecimiento, los tipos de cáncer y las diferencias entre estos. Después algunos conceptos relacionados con las redes neuronales necesarios para un entendimiento sólido del \emph{aprendizaje profundo}, tales como los elementos clave que conforman a la red neuronal, la manera en la que esta evalúa su precisión, y el algoritmo de optimización.
 
 \section{Cáncer de Piel}
+El \emph{cáncer de piel} es una enfermedad que suele relacionarse con la aparación de lunares o manchas que no se encontraban previamente, se pueden manifestar como manchas oscuras o rojizas, bultos y/o escamas en la superficie de la piel. Esta enfermedad se desarrolla principalmente en partes de la piel expuestas al sol, sin embargo también se puede desarrollar en partes que no suelen exponerse. Algunos factores como la exposición a los rayos ultravioletas (UV), el uso de sustancias como el tabaco o el envejecimiento de la piel pueden ser factores correlacionados con el \emph{c{ancer de piel}}, dichos factores se dividen en dos grupos: 
 
-Este padecimiento se puede originar de distintas formas, desde la exposición a los rayos ultravioletas (UV), el consumo de sustancias como el tabaco o el envejecimiento de la piel pueden ser desencadenantes de la mutación, dichas causas se pueden dividir en dos tipos: \emph{Intrínsecos} y \emph{Extrínsecos}, como se menciona en \citeauthor{skin_1} (\citeyear{skin_1}).
+\begin{itemize}
+    \item Factores intrínsecos
+    \item Factores extrínsecos
+\end{itemize}
 
-\subsection{Factores Intrínsecos}
-Los \emph{factores intrínsecos} son aquellos que suceden de forma interna, como es el caso del envejecimiento cronológico, el cual es la degradación del colágeno, la elastina y el adelgazamiento de la epidermis debido al paso de los años y de el efecto de algunas hormonas sexuales.
+Los factores \emph{intrínsecos} son aquellos que suceden de forma interna en la piel, un ejemplo de esto es el envejecimiento cronológico, el cual es un proceso natural que consiste en degradación del colágeno, la elastina y el adelgazamiento de la epidermis debido al envejecimiento celular al paso de los años y de el efecto de algunas hormonas.
 
-\subsection{Factores Extrínsecos}
-Los \emph{factores extrínsecos} son aquellos que suceden de forma externa, como el caso del foto-envejecimiento el cual sucede cuando nos encontramos expuestos a los rayos ultravioletas (UV). Este factor de envejecimiento genera lesiones en las cadenas de ácido desoxirribonucleico (ADN) debido a la oxidación y afectando directamente al sistema inmune y a la forma en la que se regula la pigmentación \citep{skin_aging}.
+Los factores \emph{extrínsecos} son aquellos que suceden de forma agena al organismo, como es el caso del \emph{foto-envejecimiento} el cual sucede cuando nos encontramos expuestos a los rayos ultravioletas (UV). Este factor de envejecimiento genera lesiones en las cadenas de ácido desoxirribonucleico (ADN) debido a la oxidación y afecta la regeneración de celulas, al sistema inmune y a la forma en la que se regula la pigmentación \citep{skin_aging}.
 
 \subsection{Tipos de Cáncer de Piel}
-\coltext{Agregar}
+Existe una gran variedad de tipos de \emph{cáncer de piel}. Son cuatro tipos los que destacan por su incidencia.
+
+\begin{itemize}
+    \item melanoma
+    \item cáncer de piel no melanoma
+    \item carcinóma de celulas basales
+    \item carcinóma epidermoide de piel
+\end{itemize}
 
 \section{Redes Neuronales}
 
-\subsection{Componentes Clave}
+Hasta hace algunos años el desarollo de aplicaciones de software solían desarrollarse mediante un proceso específico, generalmente se suele reunir a un grupo de desarrolladores para estudiar un problema y determinar una solución mediante el úso de las distintas plataformas de código disponibles y así ofrecer una solución a dicho problema, sin embargo con los avances actuales en el área de inteligencia artificial es posible resolver los mismos problemas de una forma distinta mediante el uso de datos históricos. 
+
 \subsection{Datos de Imágenes}
+Las \emph{imágenes} se pueden definir como una matriz de $\mathbf{m}$ x $\mathbf{n}$ pixeles (en el caso de las imagenes en blanco y negro).
+
 \subsection{Modelos}
+Un \emph{modelo} se puede definir como el bloque intermedio entre nuestros datos de entrada (input) y los datos de salida (output), en el modelo podemos encontrarnos con los siguientes elementos:
+
+\begin{itemize}
+    \item Nodos de entrada (Input nodes)
+    \item Nodos intermedios (Hidden nodes)
+    \item Nodos de salida (Output nodes)
+    \item Capas (Layers)
+    \item Pesos (Weights)
+    \item Funciones de activación (Activation)
+    \item Bías (Bias)
+\end{itemize}
+
+Los cuales se explican a continuación:
+
 \subsection{Evaluación}
+Para poder realizar el proceso de \emph{aprendizaje} de nuestro modelo, este debe tener la capacidad de evaluar la precisión actual. Para esto existen distintas funciones que nos permiten evaluar la precisión dependiendo del valor actual y el valor al cuál nos queremos acercar.
+
 \subsection{Optimización}
+Ya que tenemos calculada la diferencia entre el valor que estabamos prediciendo y el valor real (ground truth), es necesario hacer ajustes al modelo para poder acercarnos al valor real. 
 
 \chapter{Estado del Arte}
+A continuación se hará un estudio de los trabajos relacionados con el problema señalado en este trabajo de tesis y también con el método propuesto para solucionarlo.
+
 \section{Trabajos Similares}
+
 \section{Área de Oportunidad}
 
 \chapter{Descripción de los Datos}
-
 
 \chapter{Implementación de la Solución}
 
