@@ -1,8 +1,7 @@
 
 \chapter{Introducción}
 
-La piel es considerada el órgano mas grande del cuerpo humano,  y está compuesta por tres capas: \emph{\gls{epidermis}}, \emph{\gls{dermis}} e \emph{\gls{hipodermis}} (Véase Fig \ref{fig:skin1_jpg}). La principal función de la piel es proteger al cuerpo de las hostilidades del medio ambiente como la radiación solar y los factores externos como las bacterias, sin embargo también cumple otras funciones importantes aparte de proteger los órganos y los tejidos internos, tales otras funciones son regular nuestra temperatura corporal, registrar sensaciones de presión, frío, calor y es una interfaz para poder sentir e interactuar con lo que tenemos a nuestro alrededor.
-
+La piel es considerada el órgano mas grande del cuerpo humano,  y está compuesta por tres capas: \emph{\gls{epidermis}}, \emph{\gls{dermis}} e \emph{\gls{hipodermis}} (figura \ref{fig:skin1_jpg}). La principal función de la piel es proteger al cuerpo de las hostilidades del medio ambiente como la radiación solar y los factores externos como las bacterias, sin embargo también cumple otras funciones importantes aparte de proteger los órganos y los tejidos internos, tales otras funciones son regular nuestra temperatura corporal, registrar sensaciones de presión, frío, calor y es una interfaz para poder sentir e interactuar con lo que tenemos a nuestro alrededor.
 
 \begin{figure}[h!]
     \includegraphics[width=80mm, scale = 0.5]{Figuras/skin_structure1.jpg}
@@ -21,22 +20,33 @@ Sin embargo, debido a la exposición continua a las radiaciones de la luz, es co
 \end{figure}
  Su detección temprana es imprescindible para reducir las probabilidades de fallecimiento. Por lo tanto es necesario seguir desarrollando tecnologías que faciliten la detección de este tipo de padecimientos de forma rápida y sencilla que vaya enfocada en aumentar la accesibilidad a dichos diagnósticos y de esta forma reducir la tasa de mortalidad por este padecimiento.
 
-En los últimos años se han logrado muchos avances en cuanto al desarrollo de software inteligente que han permitido un mayor acceso a diferentes servicios, una de estas tecnologías sería la \emph{\gls{rn}}, se trata de una tecnología que tiene la capacidad de aprender mediante el úso de datos históricos y funciones de optimización para crear un modelo matemático capaz de predecir, clasificar o recrear datos futuros o desconocidos. Algunos de los sectores que han comenzado a adoptar esta tecnología son: el sector automotriz (piloto automático), el sector de manufactura (optimización de procesos), el sector de entretenimiento (recomendaciones personalizadas), el sector médico (diagnóstico de imágenes). 
+En los últimos años se han logrado muchos avances en cuanto al desarrollo de software inteligente que han permitido un mayor acceso a diferentes servicios, una de estas tecnologías sería la \emph{\gls{rn}}, se trata de una tecnología que tiene la capacidad de \emph{aprender} mediante el úso de datos históricos y funciones de optimización para crear un modelo matemático capaz de predecir, clasificar o recrear datos futuros o desconocidos. Algunos de los sectores que han comenzado a adoptar esta tecnología son: el sector automotriz (piloto automático), el sector de manufactura (optimización de procesos), el sector de entretenimiento (recomendaciones personalizadas), el sector médico (diagnóstico de imágenes). 
 
 
 \section{Hipótesis}
-Es posible clasificar los píxeles en distintas categorías dentro de una imagen gracias a las avances actuales de inteligencia artificial y la técnica de segmentación. Mediante la técnica de \emph{\gls{seg}} es posible crear un reconocedor visual que no solo detecte la presencia y ubicación del elemento a reconocer, sino que, también obtenga otros datos descriptivos del elemento como el tamaño, forma y región que abarca dentro de la imagen. De esta forma se puede obtener un diagnóstico automatizado certero.
+Es posible clasificar los píxeles en distintas categorías dentro de una imagen gracias a las avances actuales de inteligencia artificial y la técnica de segmentación. Mediante la técnica de \emph{\gls{seg}} es posible crear un reconocedor visual que no solo detecte la presencia y ubicación del elemento a reconocer, sino que, también obtenga otros datos descriptivos del elemento como el tamaño, forma y región que abarca dentro de la imagen.
+
 \section{Objetivos}
-Primero en \emph{Objetivo General} se habla de manera conceptual la problemática a resolver tales como cuales son las situaciones en las que podemos optimizar la resolución de un problema mediante el uso de la red neuronal, posteriormente en los \emph{Objetivos Específicos} se describe de forma puntual los pasos a realizar en el presente trabajo de tésis para llegar al resultado deseado.
-\subsection{Objetivo General}
-El \emph{objetivo general} de este trabajo de tésis es la localización de anomalías en la superficie piel que correspondan a alguno de los tipos de cáncer de esta región (basalioma, carcinoma, melanoma) mediante imágenes, con el uso de la red neuronal de \emph{\gls{seg}} basada en el modelo propuesto por \citet{wu2019fastfcn}, con la finalidad de desarrollar un modelo de red neuronal profunda capaz de segmentar de forma semántica las imágenes y sus correspondientes categorías.
-\subsection{Objetivo Específico}
-El \emph{objetivo específico} del experimento es el implementar una red neuronal cuya función sea la de recibir una imagen de entrada, extraer el mapa de características de dicha, y posteriormente reconstruya la imagen remarcando la región donde se encuentra el objeto a localizar. Para esto será necesario desarrollar un modelo y determinar las transformaciones necesarias por las que tendrán que pasar todas las imágenes con el fin de obtener el resultado deseado y también la mejor precisión posible.
+Primero en \emph{objetivo General} se habla de manera conceptual la problemática a resolver tales como cuales son las situaciones en las que podemos optimizar la resolución de un problema mediante el uso de la red neuronal, posteriormente en los \emph{objetivos Específicos} se describe de forma puntual los pasos a realizar en el presente trabajo de tésis para llegar al resultado deseado.
+
+El \emph{objetivo general} de este trabajo de tésis es la creación de una aplicación capaz de detectar anomalías en la superficie piel que correspondan a alguno de los tipos de \emph{cáncer de piel} mediante imágenes (basalioma, carcinoma, melanoma), con el uso de la red neuronal de \emph{\gls{seg}} usando como base la librería mencionada en \citet{wu2019fastfcn}. 
+
+
+El \emph{objetivo específico}, es el implementar un modelo de red neuronal cuya entrada sean imágenes que pueden o no contener la presencia de alguno de los tipos de cáncer de piel comunes, y como salida del modelo se obtenga un mapa de características donde de haber presencia de el cáncer este se distinga mediante una región colorada en el espacio que abarca. El modelo debe cumplir con las siguientes características:
+
+\begin{itemize}
+    \item El modelo debe ser capaz de trabajar con imágenes a color o en blanco y negro.
+    \item El modelo debe contar con una función capaz de evaluar la precisión.
+    \item El modelo debe contar con un algoritmo capaz de optimizar la precisión.
+    \item El modelo debe ser capaz de segmentar correctamente imágenes no usadas en los datos de entrenamiento.
+\end{itemize}
+
+La gráfica a continuación representa el dato de entrada (izquierda) y el resultado esperado en la salida del modelo (derecha):
 
 \begin{figure}[h!]
     \includegraphics[width=150mm]{Figuras/plot_masks.png}
     \centering
-    \caption{Ejemplo de la imagen de entrada (izquierda) y resultado esperado (derecha).}
+    \caption{}
     \label{fig:desired}
 \end{figure}
 
@@ -44,7 +54,7 @@ El \emph{objetivo específico} del experimento es el implementar una red neurona
 
 A continuación se dá una breve descripción sobre los capítulos que se verán a continuación en este documento.
 
-En el capítulo 2 se habla sobre los conceptos relacionados al experimento, primero se hablará de los conceptos generales que se usarán a lo largo de este capítulo y posteriormente se hablará sobre los componentes de la red neuronal, los tipos de redes mas comúnes. 
+En el capítulo 2 se habla sobre los antecedentes relacionados al presente trabajo de tesis, primero se empieza definiendo la naturaleza del problema con el que se pretende tratar, después algúnos conceptos clave que serán necesarios para la comprensión de la implementación propuesta. 
 
 En el capítulo 3 se habla sobre el estado del arte en cuanto a las redes neuronales, cuales son los avances en los últimos años y que ventajas tenemos ahora comparado al avance que se tenía cuando experimentos fueron realizados.
 
@@ -58,11 +68,11 @@ Finalmente, en el capítulo 6 se exponen los resultados obtenidos de la implemen
 En este capítulo se introducen de forma teórica los conceptos relacionados a los tipos de cáncer y las redes neuronales, primero se define que es el \emph{cáncer de piel}, cuales son los factores que influyen en el desarollo de este padecimiento, los tipos de cáncer y las diferencias entre estos. Después algunos conceptos relacionados con las redes neuronales necesarios para un entendimiento sólido del \emph{aprendizaje profundo}, tales como los elementos clave que conforman a la red neuronal, la manera en la que esta evalúa su precisión, y el algoritmo de optimización.
 
 \section{Cáncer de Piel}
-El \emph{cáncer de piel} es una enfermedad que suele relacionarse con la aparación de lunares o manchas que no se encontraban previamente, se pueden manifestar como manchas oscuras o rojizas, bultos y/o escamas en la superficie de la piel. Esta enfermedad se desarrolla principalmente en partes de la piel expuestas al sol, sin embargo también se puede desarrollar en partes que no suelen exponerse. Algunos factores como la exposición a los rayos ultravioletas (UV), el uso de sustancias como el tabaco o el envejecimiento de la piel pueden ser factores correlacionados con el \emph{c{ancer de piel}}, dichos factores se dividen en dos grupos: 
+El \emph{cáncer de piel} es una enfermedad que suele relacionarse con la aparición de lunares o manchas que no se encontraban previamente, se pueden manifestar como manchas oscuras o rojizas, bultos y/o escamas en la superficie de la piel y afecta a todos los tonos de la piel por igual. Esta enfermedad se desarrolla principalmente en partes del cuerpo expuestas al sol, sin embargo también se puede desarrollar en partes que no suelen exponerse. Algunos factores como la exposición a los rayos ultravioletas (UV), el uso de sustancias como el tabaco o el envejecimiento son factores correlacionados con la aparición del \emph{cáncer de piel}, existen dos factores de envejecimiento y se dividen en dos grupos: 
 
 \begin{itemize}
-    \item Factores intrínsecos
-    \item Factores extrínsecos
+    \item Factores intrínsecos 
+    \item Factores extrínsecos 
 \end{itemize}
 
 Los factores \emph{intrínsecos} son aquellos que suceden de forma interna en la piel, un ejemplo de esto es el envejecimiento cronológico, el cual es un proceso natural que consiste en degradación del colágeno, la elastina y el adelgazamiento de la epidermis debido al envejecimiento celular al paso de los años y de el efecto de algunas hormonas.
@@ -70,7 +80,7 @@ Los factores \emph{intrínsecos} son aquellos que suceden de forma interna en la
 Los factores \emph{extrínsecos} son aquellos que suceden de forma agena al organismo, como es el caso del \emph{foto-envejecimiento} el cual sucede cuando nos encontramos expuestos a los rayos ultravioletas (UV). Este factor de envejecimiento genera lesiones en las cadenas de ácido desoxirribonucleico (ADN) debido a la oxidación y afecta la regeneración de celulas, al sistema inmune y a la forma en la que se regula la pigmentación \citep{skin_aging}.
 
 \subsection{Tipos de Cáncer de Piel}
-Existe una gran variedad de tipos de \emph{cáncer de piel}. Son cuatro tipos los que destacan por su incidencia.
+Existe una gran variedad de tipos de \emph{cáncer de piel}, sin embargo son cuatro tipos los que destacan por tener una mayor incidencia:
 
 \begin{itemize}
     \item melanoma
@@ -79,33 +89,61 @@ Existe una gran variedad de tipos de \emph{cáncer de piel}. Son cuatro tipos lo
     \item carcinóma epidermoide de piel
 \end{itemize}
 
+\coltext{Necesito mas referencias sobre esta información}
+
 \section{Redes Neuronales}
 
-Hasta hace algunos años el desarollo de aplicaciones de software solían desarrollarse mediante un proceso específico, generalmente se suele reunir a un grupo de desarrolladores para estudiar un problema y determinar una solución mediante el úso de las distintas plataformas de código disponibles y así ofrecer una solución a dicho problema, sin embargo con los avances actuales en el área de inteligencia artificial es posible resolver los mismos problemas de una forma distinta mediante el uso de datos históricos. 
-
-\subsection{Datos de Imágenes}
-Las \emph{imágenes} se pueden definir como una matriz de $\mathbf{m}$ x $\mathbf{n}$ pixeles (en el caso de las imagenes en blanco y negro).
-
-\subsection{Modelos}
-Un \emph{modelo} se puede definir como el bloque intermedio entre nuestros datos de entrada (input) y los datos de salida (output), en el modelo podemos encontrarnos con los siguientes elementos:
+Hasta hace algunos años el desarollo de aplicaciones de software solía realizarse de una forma robústa, por ejemplo, si desearamos desarrollar una aplicación de reconocimiento de imagenes de la forma tradicional ,sin embargo es posible resolver los mismos problemas de una forma distinta mediante el uso de los datos históricos. Algunos de los puntos clave que conforman una red neuronal son los siguientes:
 
 \begin{itemize}
-    \item Nodos de entrada (Input nodes)
-    \item Nodos intermedios (Hidden nodes)
-    \item Nodos de salida (Output nodes)
-    \item Capas (Layers)
-    \item Pesos (Weights)
-    \item Funciones de activación (Activation)
-    \item Bías (Bias)
+    \item Datos: Se debe determinar la naturaleza y la dimensión de los datos que entrarán al modelo.
+    \item Modelo: Se debe crear un sistema que transforme los datos de entrada, en la salida deseada.
+    \item Evaluación: El modelo debe tener la capacidad de evaluar su precisión.
+    \item Optimización: El modelo debe contar con un algoritmo que optimice la precisión.
 \end{itemize}
 
-Los cuales se explican a continuación:
+\subsection{Imágenes como Datos}
+Las \emph{imágenes} se pueden definir como una matriz de $\mathbf{m}$ x $\mathbf{n}$ x $\mathbf{1}$ pixeles en el caso de las imágenes de un solo canal (blanco y negro) y de $\mathbf{m}$ x $\mathbf{n}$ x $\mathbf{k}$, donde $\mathbf{k}$ es igual al numero de canales que tenga la imagen, siendo tres en el caso de imágenes a color (RGB), es importante definir si las imágenes ingresarán al modelo a color o en blanco y negro debido a que esto define el numero de nodos de entrada del modelo, ya que para cada pixel debe corresponder un nodo de entrada y en el caso de imágenes a color también deberá tener un número de capas de nodos igual al número de canales que tenga la imagen. 
 
-\subsection{Evaluación}
-Para poder realizar el proceso de \emph{aprendizaje} de nuestro modelo, este debe tener la capacidad de evaluar la precisión actual. Para esto existen distintas funciones que nos permiten evaluar la precisión dependiendo del valor actual y el valor al cuál nos queremos acercar.
+\subsection{Modelo}
+Un \emph{modelo} se puede definir como el bloque intermedio entre los datos de entrada (input) y los datos de salida (output), es el sistema encargado de transformar los datos y consta de los siguientes componentes:
 
-\subsection{Optimización}
-Ya que tenemos calculada la diferencia entre el valor que estabamos prediciendo y el valor real (ground truth), es necesario hacer ajustes al modelo para poder acercarnos al valor real. 
+\begin{itemize}
+    \item Capa de nodos de entrada (Input nodes): Se trata de la primera capa del modelo, en el caso de imágenes a cada pixel le corresponde un nodo de entrada. Estos nodos deben tener las mismas dimensiones que las imagenes de entrada.
+    \item Capa de nodos ocultos (Hidden nodes): Las dimensiones de estos nodos pueden ser diferentes a los de entrada y tener varias capas ocultas, sin embargo esto puede afectar la complejidad y precisión del modelo.
+    \item Capa de nodos de salida (Output nodes): Esta es la capa de salida del modelo, las dimensiones de la capa de salida determinan las dimensiones del dato resultante.
+    \item Función de activación (Activation): Se trata de una función dentro de cada nodo que interactúa con el valor entrante y se multiplica por el peso.
+    \item Pesos (Weights): Se trata de un valor entre el nodo de la capa actual y el nodo siguiente inicializado de forma aleatoria y después ajustado por un algoritmo para aproximar la salida al valor real.
+    \item Bías (Bias): Se trata de un valor constante que se suma al resultado de la función de activación y el peso, de esta forma se puede ajustar que tan fácil o difícil es activar un nodo.
+\end{itemize}
+
+\subsection{Evaluación y Optimización}
+Para realizar el proceso de \emph{aprendizaje} del modelo, primero se debe evaluar cuál es el estado actual de las predicciones. Para esto es necesario evaluar que distancia existe entre el valor predicho y el valor real, esto se puede lograr mediante una \emph{función de pérdida} que se encargue de determinar que tanta diferencia (loss) existe en las estimaciones del modelo con los pesos actuales.
+
+Un ejemplo de la función de pérdida es el de la función logarítmica del costo (log-likelihood), como se muestra a continuación:
+
+$l(\mathbf{y}, \hat{\mathbf{y}}) = - \sum_{j=1}^q y_j \log \hat{y}_j$ 
+
+Donde: 
+\begin{itemize}
+    \item $q$: Representa el número de clases entre las debe cuales predecir.
+    \item $y_j$: Representa valor real.
+    \item $\hat{y_j}$: Representa valor estimado por el modelo.
+    \item $j$: Representa la posición en el indexado de las clases.
+\end{itemize}
+
+Ya que se tiene calculada la pérdida del modelo en su configuración actual, es necesario actualizar el valor de todos los pesos dentro del modelo para poder acercarnos al valor real. Aquí es donde se requiere un algoritmo que primero determine si el peso de cada nodo debe aumentar o disminuir, y después de determinar la dirección realizar un ajuste antes de volver a evaluar el modelo.
+
+Para esto existe el algoritmo de \emph{gradiente descendiente}, comienza en un punto inicial y repetidamente da un paso hacia la dirección opuesta del gradiente en cada punto y así minimizar el \emph{costo}. A continuación se representa la forma del algoritmo:
+
+\begin{tabbing}
+    \hspace*{1.5in} \= \hspace*{0.7in} \= \hspace*{.25in} \= \hspace*{.25in} \= \hspace*{.25in} \=\kill
+    \>{\bf Para} $k=0,1,2 \dots n$ {\bf Realiza } \\
+    \>\> $g_k \leftarrow \nabla f(x_k)$ \\
+    \>\> $x_{k+1} \leftarrow x_k - t_k g_k$ \\
+    \>{\bf Termina} \\
+\end{tabbing}
+
 
 \chapter{Estado del Arte}
 A continuación se hará un estudio de los trabajos relacionados con el problema señalado en este trabajo de tesis y también con el método propuesto para solucionarlo.
@@ -113,6 +151,7 @@ A continuación se hará un estudio de los trabajos relacionados con el problema
 \section{Trabajos Similares}
 
 \section{Área de Oportunidad}
+
 
 \chapter{Descripción de los Datos}
 
