@@ -56,7 +56,7 @@ A continuación se dá una breve descripción sobre los capítulos que se verán
 
 En el capítulo 2 se habla sobre los antecedentes relacionados al presente trabajo de tesis, primero se empieza definiendo la naturaleza del problema con el que se pretende tratar, después algúnos conceptos clave que serán necesarios para la comprensión de la implementación propuesta. 
 
-En el capítulo 3 se habla sobre el estado del arte en cuanto a las redes neuronales, cuales son los avances en los últimos años y que ventajas tenemos ahora comparado al avance que se tenía cuando experimentos fueron realizados.
+En el capítulo 3 se habla se recopilan trabajos relacionados al método o problemática en cuestión, se estudian las características de dichos trabajos y se busca un punto de convergencia entre estos y el presente trabajo de tésis con el fin de comparar las áreas de oportunidad.
 
 En el capitulo 4 se describe de forma estadística los datos que serán utilizados para realizar el experimento, tomando en cuenta la distribución de los pixeles en distintas regiones de la imagen, entre otros parámetros. 
 
@@ -85,7 +85,7 @@ Existe una gran variedad de tipos de \emph{cáncer de piel}, sin embargo son cua
 \begin{itemize}
     \item melanoma
     \item cáncer de piel no melanoma
-    \item carcinóma de celulas basales
+    \item carcinóma de células basales
     \item carcinóma epidermoide de piel
 \end{itemize}
 
@@ -141,17 +141,39 @@ Para esto existe el algoritmo de \emph{gradiente descendiente}, comienza en un p
     \>{\bf Para} $k=0,1,2 \dots n$ {\bf Realiza } \\
     \>\> $g_k \leftarrow \nabla f(x_k)$ \\
     \>\> $x_{k+1} \leftarrow x_k - t_k g_k$ \\
-    \>{\bf Termina} \\
+    \>{\bf Fin} \\
 \end{tabbing}
 
+\coltext{Ajustar este espacio vacío}
 
 \chapter{Estado del Arte}
-A continuación se hará un estudio de los trabajos relacionados con el problema señalado en este trabajo de tesis y también con el método propuesto para solucionarlo.
+En este capítulo se estudian las literaturas relacionadas con el presente trabajo de tesis con el objetivo de hacer una comparativa entre distintos métodos para resolver el mismo problema, o implementaciones similares para resolver problemas distintos.
+
+En la primera sección \emph{trabajos similares} se recopilan trabajos con características relacionadas al presente trabajo de tesis, ya sea relacionados con el método o con el problema que se pretende resolver, se describirá el tema que abarcan y los puntos que lo relacionan con el trabajo aquí presente. 
+
+En la segunda sección \emph{área de oportunidad} se discutirán mas a detalle las características con las que se compara el método aquí propuesto con los otros métodos mencionados y determinar las áreas de oportunidad en las que podemos orientar el trabajo.
 
 \section{Trabajos Similares}
 
-\section{Área de Oportunidad}
+A continuación se listan algunos trabajos relacionados ya sea en el método o en el problema a resolver, primero se cita al autor y después se describe las características de su trabajo.
 
+\citet{DBLP:journals/corr/abs-1902-03368}, análisis de lesiones en la piel para detección de melanoma.
+
+\citet{DBLP:journals/corr/RonnebergerFB15}, red neuronal para segmentación de imágenes biomédicas (U-NET) 
+
+\citet{DBLP:journals/corr/BadrinarayananK15}, red neuronal convolucional tipo (SegNet)
+
+\citet{DBLP:journals/corr/ChenPK0Y16}, segmentación semántica de imágenes con convolución profunda (Deep Lab)
+
+\citet{DBLP:journals/corr/ShelhamerLD16}, segmentación semántica con red neuronal completamente convolucional (FCN).
+
+\citet{DBLP:journals/corr/TeichmannWZCU16}, razonamiento semántico en tiempo real para conducción autónoma (MultiNet).
+
+\citet{KRONER2020261}, codificador-decodificador contextual para predicción de salientes visuales.
+
+
+\section{Área de Oportunidad}
+En esta sección se señalan las características de los trabajos mencionados en la sección anterior y se compara con las características del método propuesto en este trabajo de tesis para obtener una comparativa sobre las áreas de oportunidad.
 
 \chapter{Descripción de los Datos}
 
