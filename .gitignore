@@ -27,5 +27,7 @@ bash.env
 *.fdb_latexmk
 *.bcf
 *.run.xml
+*.csv
+*.synctex.gz
 
 __pycache__
