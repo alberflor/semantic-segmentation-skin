@@ -19,7 +19,6 @@ def visualize(**images):
         plt.subplot(1, n, i + 1)
         plt.xticks([])
         plt.yticks([])
-        plt.title(' '.join(name.split('_')).title())
         plt.imshow(image)
     plt.show()
 
@@ -95,7 +94,7 @@ class Dataset(BaseDataset):
     def __len__(self):
         return len(self.ids)
 
-#dataset = Dataset(train_img, train_mask, classes=['melanoma'])
-#image , mask = dataset[3]
+dataset = Dataset(train_img, train_mask, classes=['melanoma'])
+image , mask = dataset[4]
 
-#visualize(image = image, mask = mask.squeeze())
+visualize(image = image, mask = mask.squeeze())

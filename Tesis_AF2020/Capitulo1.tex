@@ -13,14 +13,15 @@ La piel es considerada el órgano mas grande del cuerpo humano,  y está compues
 Sin embargo, debido a la exposición continua a las radiaciones de la luz, es común desarrollar enfermedades en la piel que afectan la forma en que las células de ésta se reproducen, causando graves daños a nuestra salud que en muchas ocasiones puede llegar a ser letal. Estas anomalías en la piel se denominan como \emph{cáncer de piel}, principalmente en las siguientes tres categorías: cáncer de células basales, cáncer de células escamosas y melanomas \citep{cancer_org}.
 
 \begin{figure}[h!]
-    \includegraphics[width=80mm, scale = 0.8]{Figuras/skin_cancer_bbc.jpg}
+    \includegraphics[width=80mm]{Figuras/skin_cancer_bbc.jpg}
     \centering
-    \caption{Ejemplo de melanoma \citep{cancer_img_1}}
+    \caption{Ejemplo de melanoma \citep{cancer_img_1}.}
     \label{fig:can_jpg}
 \end{figure}
+
  Su detección temprana es imprescindible para reducir las probabilidades de fallecimiento. Por lo tanto es necesario seguir desarrollando tecnologías que faciliten la detección de este tipo de padecimientos de forma rápida y sencilla que vaya enfocada en aumentar la accesibilidad a dichos diagnósticos y de esta forma reducir la tasa de mortalidad por este padecimiento.
 
-En los últimos años se han logrado muchos avances en cuanto al desarrollo de software inteligente que han permitido un mayor acceso a diferentes servicios, una de estas tecnologías sería la \emph{\gls{rn}}, se trata de una tecnología que tiene la capacidad de \emph{aprender} mediante el úso de datos históricos y funciones de optimización para crear un modelo matemático capaz de predecir, clasificar o recrear datos futuros o desconocidos. Algunos de los sectores que han comenzado a adoptar esta tecnología son: el sector automotriz (piloto automático), el sector de manufactura (optimización de procesos), el sector de entretenimiento (recomendaciones personalizadas), el sector médico (diagnóstico de imágenes). 
+En los últimos años se han logrado muchos avances en cuanto al desarrollo de software inteligente lo cuál ha permitido un mayor acceso a diferentes servicios, una de las tecnologías que han adquirido mayor importancia es la \emph{\gls{rn}}, se trata de una tecnología que tiene la capacidad de \emph{aprender} mediante el úso de datos históricos y funciones de optimización para crear un modelo matemático capaz de predecir, clasificar o recrear datos futuros o desconocidos. Algunos de los sectores que han comenzado a adoptar esta tecnología son: el sector automotriz (piloto automático), el sector de manufactura (optimización de procesos), el sector de entretenimiento (recomendaciones personalizadas), el sector médico (diagnóstico de imágenes). 
 
 
 \section{Hipótesis}
@@ -41,20 +42,20 @@ El \emph{objetivo específico}, es el implementar un modelo de red neuronal cuya
     \item El modelo debe ser capaz de segmentar correctamente imágenes no usadas en los datos de entrenamiento.
 \end{itemize}
 
-La gráfica a continuación representa el dato de entrada (izquierda) y el resultado esperado en la salida del modelo (derecha):
-
-\begin{figure}[h!]
-    \includegraphics[width=150mm]{Figuras/plot_masks.png}
+\begin{figure}[!htp]
     \centering
-    \caption{}
-    \label{fig:desired}
+    \subfloat[]{\label{a}\includegraphics[width=50mm]{Figuras/input_1.png}}
+    \qquad
+    \subfloat[]{\label{b}\includegraphics[width=50mm]{Figuras/mask_1.png}}
+    \caption{Comparación de dato de entrada (a) y la salida deseada (b).}
+    \label{data_1}
 \end{figure}
 
+En la figura \ref{data_1} (a) se observa como la imagen entrante presenta un caso de melanoma y posteriormente, en la figura \ref{data_1}(b) se puede observar la misma imagen segmentada en donde la región que corresponde al melanoma se 
 \section{Estructura de la Tesis}
+En esta sección se dará una breve descripción sobre el orden en el que se desarrollan los temas y el contenido de estos.
 
-A continuación se dá una breve descripción sobre los capítulos que se verán a continuación en este documento.
-
-En el capítulo 2 se habla sobre los antecedentes relacionados al presente trabajo de tesis, primero se empieza definiendo la naturaleza del problema con el que se pretende tratar, después algúnos conceptos clave que serán necesarios para la comprensión de la implementación propuesta. 
+En el capítulo 2 se habla sobre los antecedentes relacionados al presente trabajo de tesis, primero se empieza definiendo la naturaleza del problema con el que se pretende tratar, después algúnos conceptos clave que serán necesarios para la comprensión de la implementación propuesta tales como las dimensiones de los datos y los algoritmos de evaluación y optimización. 
 
 En el capítulo 3 se habla se recopilan trabajos relacionados al método o problemática en cuestión, se estudian las características de dichos trabajos y se busca un punto de convergencia entre estos y el presente trabajo de tésis con el fin de comparar las áreas de oportunidad.
 
@@ -93,7 +94,7 @@ Existe una gran variedad de tipos de \emph{cáncer de piel}, sin embargo son cua
 
 \section{Redes Neuronales}
 
-Hasta hace algunos años el desarollo de aplicaciones de software solía realizarse de una forma robústa, por ejemplo, si desearamos desarrollar una aplicación de reconocimiento de imagenes de la forma tradicional ,sin embargo es posible resolver los mismos problemas de una forma distinta mediante el uso de los datos históricos. Algunos de los puntos clave que conforman una red neuronal son los siguientes:
+Hasta hace algunos años, el desarollo de aplicaciones de software solía realizarse de una forma robústa, por ejemplo, si deseáramos desarrollar una aplicación de reconocimiento de imágenes de la forma tradicional sería necesario un grupo de expertos en dicho rubro, sin embargo mediante las redes neuronales es posible resolver los mismos problemas de una forma distinta mediante el uso de bases de datos. Algunos de los puntos clave que conforman una red neuronal son los siguientes:
 
 \begin{itemize}
     \item Datos: Se debe determinar la naturaleza y la dimensión de los datos que entrarán al modelo.
@@ -103,33 +104,48 @@ Hasta hace algunos años el desarollo de aplicaciones de software solía realiza
 \end{itemize}
 
 \subsection{Imágenes como Datos}
-Las \emph{imágenes} se pueden definir como una matriz de $\mathbf{m}$ x $\mathbf{n}$ x $\mathbf{1}$ pixeles en el caso de las imágenes de un solo canal (blanco y negro) y de $\mathbf{m}$ x $\mathbf{n}$ x $\mathbf{k}$, donde $\mathbf{k}$ es igual al numero de canales que tenga la imagen, siendo tres en el caso de imágenes a color (RGB), es importante definir si las imágenes ingresarán al modelo a color o en blanco y negro debido a que esto define el numero de nodos de entrada del modelo, ya que para cada pixel debe corresponder un nodo de entrada y en el caso de imágenes a color también deberá tener un número de capas de nodos igual al número de canales que tenga la imagen. 
+Las imágenes se pueden definir como una matriz de $m \times n \times 1$ pixeles en el caso de las imágenes de un solo canal (blanco y negro) y en el caso de imágenes a color es de $m \times n \times k$, donde $k$ es igual al numero de canales de color que tenga la imagen, siendo tres en el caso de imágenes \emph{rgb}, es importante definir si las imágenes ingresarán al modelo a color o en blanco y negro debido a que esto define el numero de nodos de entrada de este, ya que para cada pixel debe corresponder un nodo de entrada y en el caso de imágenes a color también deberá tener un número de capas de nodos de entrada igual al número de canales que tenga la imagen.
+
+\begin{figure}[h!]
+    \includegraphics[width=50mm]{Figuras/rgb_matrix_2.eps}
+    \centering
+    \caption{Representación de las dimensiones en una imagen con tres canales de color.}
+    \label{fig:rgb_mat}
+\end{figure}
+
+\coltext{Agregar representación de imagen de un canal en un subplot.}
 
 \subsection{Modelo}
-Un \emph{modelo} se puede definir como el bloque intermedio entre los datos de entrada (input) y los datos de salida (output), es el sistema encargado de transformar los datos y consta de los siguientes componentes:
+Un \emph{modelo} se puede definir como el bloque intermedio entre los datos de entrada (\emph{input}) y los datos de salida (\emph{output}), es el sistema encargado de transformar los datos de entrada en la salida deseada y consta de los siguientes componentes:
 
 \begin{itemize}
-    \item Capa de nodos de entrada (Input nodes): Se trata de la primera capa del modelo, en el caso de imágenes a cada pixel le corresponde un nodo de entrada. Estos nodos deben tener las mismas dimensiones que las imagenes de entrada.
-    \item Capa de nodos ocultos (Hidden nodes): Las dimensiones de estos nodos pueden ser diferentes a los de entrada y tener varias capas ocultas, sin embargo esto puede afectar la complejidad y precisión del modelo.
-    \item Capa de nodos de salida (Output nodes): Esta es la capa de salida del modelo, las dimensiones de la capa de salida determinan las dimensiones del dato resultante.
-    \item Función de activación (Activation): Se trata de una función dentro de cada nodo que interactúa con el valor entrante y se multiplica por el peso.
-    \item Pesos (Weights): Se trata de un valor entre el nodo de la capa actual y el nodo siguiente inicializado de forma aleatoria y después ajustado por un algoritmo para aproximar la salida al valor real.
-    \item Bías (Bias): Se trata de un valor constante que se suma al resultado de la función de activación y el peso, de esta forma se puede ajustar que tan fácil o difícil es activar un nodo.
+    \item Capa de nodos de entrada (\emph{input nodes}): Se trata de la primera capa del modelo, en el caso de imágenes a cada pixel le corresponde un nodo de entrada. Estos nodos deben tener las mismas dimensiones que las imágenes de entrada.
+    \item Capa de nodos ocultos (\emph{hidden nodes}): Las dimensiones de estos nodos pueden ser diferentes a los de entrada y tener varias capas ocultas, sin embargo esto puede afectar la complejidad y precisión del modelo.
+    \item Capa de nodos de salida (\emph{output nodes}): Esta es la capa de salida del modelo, las dimensiones de la capa de salida determinan las dimensiones del dato resultante.
+    \item Función de activación (\emph{activation}): Se trata de una función dentro de cada nodo que interactúa con el valor entrante y se multiplica por el peso.
+    \item Pesos (\emph{weights}): Se trata de un valor entre el nodo de la capa actual y el nodo siguiente inicializado de forma aleatoria y después ajustado por un algoritmo para aproximar la salida al valor real.
+    \item Bías (\emph{bias}): Se trata de un valor constante que se suma al resultado de la función de activación y el peso, de esta forma se puede ajustar que tan fácil o difícil es activar un nodo.
 \end{itemize}
 
-\subsection{Evaluación y Optimización}
-Para realizar el proceso de \emph{aprendizaje} del modelo, primero se debe evaluar cuál es el estado actual de las predicciones. Para esto es necesario evaluar que distancia existe entre el valor predicho y el valor real, esto se puede lograr mediante una \emph{función de pérdida} que se encargue de determinar que tanta diferencia (loss) existe en las estimaciones del modelo con los pesos actuales.
+\begin{figure}[h!]
+    \includegraphics[width=120mm]{Figuras/neural_network.eps}
+    \centering
+    \caption{Ejemplo de un perceptrón.}
+    \label{fig:percep}
+\end{figure}
 
-Un ejemplo de la función de pérdida es el de la función logarítmica del costo (log-likelihood), como se muestra a continuación:
+\subsection{Evaluación y Optimización}
+Para realizar el proceso de \emph{aprendizaje} del modelo, primero se debe evaluar cuál es el estado actual de las predicciones. Para esto es necesario evaluar que distancia existe entre el valor predicho y el valor real, esto se puede lograr mediante una \emph{función de pérdida} que se encargue de determinar que tanta diferencia(\emph{loss}) existe en las estimaciones del modelo con los pesos actuales.
+
+Un ejemplo de la función de pérdida es el de la función logarítmica del costo (\emph{log-likelihood}), como se muestra a continuación en donde:
 
 $l(\mathbf{y}, \hat{\mathbf{y}}) = - \sum_{j=1}^q y_j \log \hat{y}_j$ 
 
-Donde: 
 \begin{itemize}
-    \item $q$: Representa el número de clases entre las debe cuales predecir.
-    \item $y_j$: Representa valor real.
-    \item $\hat{y_j}$: Representa valor estimado por el modelo.
-    \item $j$: Representa la posición en el indexado de las clases.
+    \item $q$, representa el número de clases entre las debe cuales predecir.
+    \item $y_j$, representa valor real.
+    \item $\hat{y_j}$, representa valor estimado por el modelo.
+    \item $j$, representa la posición en el indizado de las clases.
 \end{itemize}
 
 Ya que se tiene calculada la pérdida del modelo en su configuración actual, es necesario actualizar el valor de todos los pesos dentro del modelo para poder acercarnos al valor real. Aquí es donde se requiere un algoritmo que primero determine si el peso de cada nodo debe aumentar o disminuir, y después de determinar la dirección realizar un ajuste antes de volver a evaluar el modelo.
@@ -170,7 +186,6 @@ A continuación se listan algunos trabajos relacionados ya sea en el método o e
 \citet{DBLP:journals/corr/TeichmannWZCU16}, razonamiento semántico en tiempo real para conducción autónoma (MultiNet).
 
 \citet{KRONER2020261}, codificador-decodificador contextual para predicción de salientes visuales.
-
 
 \section{Área de Oportunidad}
 En esta sección se señalan las características de los trabajos mencionados en la sección anterior y se compara con las características del método propuesto en este trabajo de tesis para obtener una comparativa sobre las áreas de oportunidad.
