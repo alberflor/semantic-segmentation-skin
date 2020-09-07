@@ -29,5 +29,6 @@ bash.env
 *.run.xml
 *.csv
 *.synctex.gz
+*.ipynb_checkpoints
 
 __pycache__
