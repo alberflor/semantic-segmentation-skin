@@ -19,7 +19,11 @@
 	\setglossarystyle{altlist}
 \usepackage[numbers, sort&compress]{natbib}
 \usepackage{subfig}
-
+\usepackage{adjustbox}
+\usepackage{amssymb}% http://ctan.org/pkg/amssymb
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+	\newcommand{\cmark}{\ding{51}}%
+	\newcommand{\xmark}{\ding{53}}%
 
 %%%%%%%%%%%%%%%%%%%%%
 % Definiendo campos %
@@ -74,7 +78,7 @@
 
 %%% Haz un documento para cada capítulo
 
-\include{Capitulo1}
+\include{Capitulos}
 
 \appendix
 %%% Haz un documento para cada apéndice, si es que tienes
