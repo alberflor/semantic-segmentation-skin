@@ -64,15 +64,18 @@ class Dataset(BaseDataset):
     
     def __getitem__(self, i):
 
-        # read data
+        # read data and apply transformations.
         image = cv2.imread(self.images_fps[i])
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+        # read masks and print logs.
         mask = cv2.imread(self.masks_fps[i], 0)
-        print('Id: ',i)
-        print('Img file: ',self.images_fps[i])
-        print('Img mask: ', self.masks_fps[i])
-        print('Img shape: ', image.shape)
-        print('Mask Shape: ', mask.shape)
+    
+        #print('Id: ',i)
+        #print('Img file: ',self.images_fps[i])
+        #print('Img mask: ', self.masks_fps[i])
+        #print('Img shape: ', image.shape)
+        #print('Mask Shape: ', mask.shape)
 
         # extract certain classes from mask
         masks = [(mask == v) for v in self.class_values]
@@ -93,7 +96,9 @@ class Dataset(BaseDataset):
     def __len__(self):
         return len(self.ids)
 
-dataset = Dataset(train_img, train_mask, classes=['melanoma'])
-image , mask = dataset[4]
 
-visualize(image = image, mask = mask.squeeze())
+#### Test sample ####
+#dataset = Dataset(train_img, train_mask, classes=['melanoma'])
+#image , mask = dataset[4]
+
+#visualize(image = image, mask = mask.squeeze())
