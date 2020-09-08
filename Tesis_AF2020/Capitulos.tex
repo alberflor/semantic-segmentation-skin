@@ -97,7 +97,7 @@ Existe una gran variedad de tipos de \emph{cáncer de piel}, sin embargo son cua
 
 \section{Redes Neuronales}
 
-Hasta hace algunos años, el desarollo de aplicaciones de software solía realizarse de una forma robústa, por ejemplo, si deseáramos desarrollar una aplicación de reconocimiento de imágenes de la forma tradicional sería necesario un grupo de expertos en dicho rubro, sin embargo mediante las redes neuronales es posible resolver los mismos problemas de una forma distinta mediante el uso de bases de datos. Algunos de los puntos clave que conforman una red neuronal son los siguientes:
+Hasta hace algunos años, el desarollo de aplicaciones de software solía realizarse de una forma robústa, por ejemplo, si deseáramos desarrollar una aplicación de reconocimiento de imágenes faciales de la forma tradicional requeriría un grupo de expertos en dicho rubro que desarrollen una secuencia de transformaciones específicas para eso, lo cual sería funcional pero no permitiría mucha variabilidad en las imágenes, sin embargo mediante las redes neuronales es posible resolver los mismos problemas de una forma distinta mediante el uso de bases de datos, el model de una red neuronal "aprende" de los datos registrados y crea un modelo que pueda generalizar las diferencias y evaluarse a sí misma para optimizar la predicción. Algunos de los puntos clave que conforman una red neuronal son los siguientes:
 
 \begin{itemize}
     \item Datos: Se debe determinar la naturaleza y la dimensión de los datos que entrarán al modelo.
@@ -107,7 +107,7 @@ Hasta hace algunos años, el desarollo de aplicaciones de software solía realiz
 \end{itemize}
 
 \subsection{Imágenes como Datos}
-Las imágenes se pueden definir como una matriz de $m \times n \times 1$ pixeles en el caso de las imágenes de un solo canal (blanco y negro) y en el caso de imágenes a color es de $m \times n \times k$, donde $k$ es igual al numero de canales de color que tenga la imagen, siendo tres en el caso de imágenes \emph{rgb}, es importante definir si las imágenes ingresarán al modelo a color o en blanco y negro debido a que esto define el numero de nodos de entrada de este, ya que para cada pixel debe corresponder un nodo de entrada y en el caso de imágenes a color también deberá tener un número de capas de nodos de entrada igual al número de canales que tenga la imagen.
+Las imágenes se pueden definir como una matriz de $m \times n \times 1$ pixeles en el caso de las imágenes de un solo canal (blanco y negro) y en el caso de imágenes a color es de $m \times n \times k$, donde $k$ es igual al numero de canales de color que tenga la imagen, siendo tres en el caso de imágenes RGB\footnote{RGB: Se refiere a los tres canales de color rojo, verde y azul, por sus siglas en inglés (\emph{red, green, blue}).}, es importante definir si las imágenes ingresarán al modelo a color o en blanco y negro debido a que esto define el numero de nodos de entrada de este, ya que para cada pixel debe corresponder un nodo de entrada y en el caso de imágenes a color también deberá tener un número de capas de nodos de entrada igual al número de canales que tenga la imagen.
 
 \begin{figure}[h!]
     \includegraphics[width=50mm]{Figuras/rgb_matrix_2.eps}
@@ -160,14 +160,15 @@ Ya que se tiene calculada la pérdida del modelo en su configuración actual, es
 
 Para esto existe el algoritmo de \emph{gradiente descendiente}, comienza en un punto inicial y repetidamente da un paso hacia la dirección opuesta del gradiente en cada punto y así minimizar el \emph{costo}. A continuación se representa la forma del algoritmo:
 
-\coltext{Utilizar environment de pseudocódigo.}
-\begin{tabbing}
-    \hspace*{1.5in} \= \hspace*{0.7in} \= \hspace*{.25in} \= \hspace*{.25in} \= \hspace*{.25in} \=\kill
-    \>{\bf Para} $k=0,1,2 \dots n$ {\bf Realiza } \\
-    \>\> $g_k \leftarrow \nabla f(x_k)$ \\
-    \>\> $x_{k+1} \leftarrow x_k - t_k g_k$ \\
-    \>{\bf Fin} \\
-\end{tabbing}
+\begin{algorithm}[H]    
+     Inicio\;
+     \For{$k = 0, 1, 2 \dots n$}{
+
+        $g_k \leftarrow \nabla f(x_k)$ 
+        
+        $x_{k+1} \leftarrow x_k - t_k g_k$
+     }
+\end{algorithm}
 
 \chapter{Estado del Arte}
 En este capítulo se estudian las literaturas relacionadas con el presente trabajo de tesis con el objetivo de hacer una comparativa entre distintos métodos para resolver el mismo problema, o implementaciones similares para resolver problemas distintos.
@@ -188,68 +189,95 @@ A continuación se mencionan los trabajos revisados en los que se puede obtener 
 
 \citet{DBLP:journals/corr/ChenPK0Y16}, en este trabajo se habla de la arquitectura denominada \emph{Deep Lab}, la cual propone un acercamiento distinto a la parte de la reconstrucción en las capas finales del modelo. Al igual que otras arquitecturas cuenta con capas de convolución. agrupación de máximos y activación de rectificación linear unitaria, sin embargo, el componente clave aquí es la denominada convolución de hoyos (\emph{atrous convolution}), la cual es una modificación al filtro de convolución basado en la transformada de wavelet para el escalado del mapa de características (\emph{upsampling}). De esta forma se obtiene una alternativa al uso de capas de deconvolución y así se aumenta la resolución del mapa de características a la salida del modelo sin aumentar el tiempo de computación o la cantidad de parametros.
 
-\citet{DBLP:journals/corr/TeichmannWZCU16}, nos habla sobre la reducción de computaciones en en los modelos de redes neuronales convolucionales mediante la unificación de las tres tareas principales de estas: clasificación, detección y segmentación. Denominada como multi-red neuronal (\emph{multinet}) se trata de una arquitectura tipo codificador-decodificador en donde el decodificador esta compuesto de tres ramas las cuales corresponden a las tareas de clasificación, detección y segmentación por lo que se realizan las tres tareas de forma simultanea partiendo de la misma entrada (\emph{multi-tasking}) y usando la salida de cada una de las ramas para el ajuste fino de los parametros del modelo (\emph{fine-tuning}).  
+\citet{DBLP:journals/corr/TeichmannWZCU16}, nos habla sobre la reducción de computaciones en en los modelos de redes neuronales convolucionales mediante la unificación de las tres tareas principales de estas: clasificación, detección y segmentación. Denominada como multi-red neuronal (\emph{multinet}) se trata de una arquitectura tipo codificador-decodificador en donde el decodificador esta compuesto de tres ramas las cuales corresponden a las tareas de clasificación, detección y segmentación por lo que se realizan las tres tareas de forma simultanea partiendo de la misma entrada (\emph{multi-tasking}) y usando la salida de cada una de las ramas para el ajuste fino de los parámetros del modelo (\emph{fine-tuning}).  
 
 \citet{KRONER2020261}, habla sobre un módelo de codificación-decodificación contextual basado en el proceso en el que los humanos obtenemos la información espacial de los escenarios visuales complejos, mediante un mapa topográfico de las salientes. Se basa en más en el proceso biológico con el que se obtiene la información espacial que en los métodos matemáticos para calcularla, dicho lo anterior, los principales componentes para determinar una saliente son color, la intensidad y la orientación.  
 
 \citet{KADAMPUR2020100282}, proponen el úso de los servicios de nube en conjunto con las redes neuronales profundas y el diseño de modelos utilizando modelos pre-entrenados. Para esto utilizan la herramienta de \emph{deep learning studio (DLS)}, la cual es un software que permite el uso de tarjetas gráficas (\emph{GPU}) localizadas en la nube o localmente, y también permite el uso de múltiples tarjetas de forma simultanea (\emph{multi-GPU}), la arquitectura usada para la detección de cáncer de piel en este trabajo es de una red neuronal profunda de clasificación, por lo que el modelo se codifica mediante convoluciones y se decodifica mediante capas de aplanamiento (\emph{flatten layer}) para posteriormente entrar a una capa de nodos completamente conectada (\emph{fully-connected-layer}) y obtener dos posibles resultados: es cáncer o no es cáncer.
 
-\citet{zhou2019emerging} 
+\citet{zhou2019emerging}, habla sobre el úso del aprendizaje de máquina (\emph{machine learning}) y las redes neuronales para la predicción teórica de nanomateriales. Para conseguir esto, es necesario determinar el número de capas y la heterogeneidad del material para posteriormente entender fenómenos visuales como el parpadeo y la emisión cuántica, concluyendo que las intensidades RGB están correlacionadas al número de capas en el material del grafeno. 
 
-\citet{DBLP:journals/corr/LucCCV16}
 
-\citet{JAIN2015735}
+\citet{DBLP:journals/corr/LucCCV16}, propone una alternativa al proceso de decodificación. Normalmente en las tareas de segmentación es necesaria la parte de codificación para realizar las predicciones a grado pixel y la decodificación para reconstruir la imágen con las categorías segmentadas. Este trabajo propone el uso de una red generativa adversaria (\emph{GAN}), para utilizarse como decodificador, de esta manera se obtiene un mapa de etiquetas (\emph{map layer}) con una mayor resolución.
 
-\section{Analisis Comparativo}
+\citet{JAIN2015735}, este trabajo habla sobre una herramienta de procesamiento de imágenes médicas relacionadas al melanoma basándose en sus características físicas como: asimetría, color, bordes y diámetro. Se basa en la técnica de segmentación de imágenes mediante el uso de filtros de contraste, detección de ejes, etc. No utiliza redes neuronales sin embargo 
+
+
+\section{Análisis Comparativo}
 A continuación se evalúan las características que poseen los distintos trabajos mencionados en la sección anterior, para esto se deberá definir una serie de características a evaluar que sirvan como punto de referencia entre estos trabajos, dichas características son las siguientes:
 
 \begin{itemize}
     \item Modelo. Tipo de arquitectura del modelo.
-    \item Clasificación. El sistema puede clasisificar entre distintas categorías.
-    \item Segmentación. El sistema puede segmentar las imagenes.
-    \item Supervisado. El sistema requiere de datos de entrenamiento.
-    \item Pre-entrenamiento. El sistema requiere de pesos pre-entrenados.
-    \item Evaluación. Método que el sistema utiliza para determinar su presición.
-    \item Optimización. Algoritmo que el sistema utiliza para mejorar su precisión.
+    \item Clasificación. El sistema puede clasificar entre distintas categorías.
+    \item Segmentación. El sistema puede segmentar las imágenes.
+    \item Supervisado. El sistema requiere de datos de datos de entrenamiento 
+    \item Pre-entrenamiento. El sistema puede utilizar pesos pre-entrenados en lugar de pesos aleatorios.
+    \item Evaluación. El sistema cuenta con una función de evaluación y un algoritmo de optimización.
+    \item Salida. Características de los datos obtenidos en la salida del modelo.
 \end{itemize}
 
+
+\begin{landscape}
 \begin{table}[hbt!]
     \caption{Similitudes y diferencias entre los trabajos revisados.}
     \begin{adjustbox}{width=\textwidth}
         \begin{tabular}{|c|c|c|c|c|c|c|c|}
             \hline
-            Trabajo & Modelo & Clasificación & Segmentación & Supervisado & Pre-entrenamiento & Evaluación & Optimización\\
+            Trabajo & Modelo & Clasificación & Segmentación & Supervisado & Pre-entrenamiento & Evaluación & Salida\\
             \hline
-            \citet{DBLP:journals/corr/BadrinarayananK15} & FCN & \cmark & \cmark & \cmark & \cmark & Log-likelihood & SGD\\
+            \citet{DBLP:journals/corr/BadrinarayananK15} & SegNet & \cmark & \cmark & \cmark & \cmark & \cmark & label map\\
+            
+            \citet{DBLP:journals/corr/RonnebergerFB15} & U-net & \cmark & \cmark & \cmark & \xmark & \cmark & label map\\
+            
+            \citet{DBLP:journals/corr/ChenPK0Y16} & DeepLab & \cmark & \cmark & \cmark & \xmark & \cmark & label map\\
+            
+            \citet{DBLP:journals/corr/TeichmannWZCU16} & MultiNet & \cmark & \cmark & \cmark & \xmark & \cmark & label map\\
+            
+            \citet{KRONER2020261} & VGG16 & \cmark & \cmark & \cmark & \cmark & \cmark & heat map\\
+            
+            \citet{KADAMPUR2020100282} & CNN & \cmark & \xmark & \cmark & \xmark & \cmark & label map\\
+            
+            \citet{zhou2019emerging} & ML / SVM & \cmark & \xmark & \cmark & \xmark & \cmark & label \\
+            
+            \citet{DBLP:journals/corr/LucCCV16} & CNN/GAN & \cmark & \cmark & \cmark & \cmark & \cmark & label map\\
+            
+            \citet{JAIN2015735} & A.B.C.D & \xmark & \cmark & \xmark & \xmark & \xmark & label\\
+
             \hline
-            \citet{DBLP:journals/corr/RonnebergerFB15} & U-net & \cmark & \cmark & \cmark & \cmark & Log-likelihood & SGD\\
+            Propuesta de tesis & FastFCN & \cmark & \cmark & \cmark & \cmark & \cmark & label map\\
+
             \hline
-            \citet{DBLP:journals/corr/ChenPK0Y16} & DeepLab & \cmark & \cmark & \cmark & \cmark & G & H\\
-            \hline
-            \citet{DBLP:journals/corr/TeichmannWZCU16} & MultiNet & \cmark & \cmark & \cmark & \cmark & G & H\\
-            \hline
-            \citet{KRONER2020261} & VGG16 & \cmark & \cmark & \cmark & \cmark & G & H\\
-            \hline
-            \citet{KADAMPUR2020100282} & CNN & \cmark & \xmark & \cmark & \xmark & G & H\\
-            \hline
-            \citet{zhou2019emerging} & NN & \cmark & \cmark & \cmark & \cmark & G & H \\
-            \hline
-            \citet{DBLP:journals/corr/LucCCV16} & ANN & \cmark & \cmark & \cmark & \cmark & G & H\\
-            \hline
-            \citet{JAIN2015735} & A.B.C.D & \cmark & \xmark & \xmark & \xmark & G & H\\
-            \hline
-            \rowcolor{Green}
-            \citet{wu2019fastfcn} & FastFCN & \cmark & \cmark & \cmark & \cmark & G & H\\
+            \multicolumn{8}{|c|}{\cmark - Implementado \xmark - No Implementado}  \\
             \hline
         \end{tabular}
     \end{adjustbox}
     \end{table}
+\coltext{visualizar de forma horizontal.}
+\end{landscape}
 
 \section{Áreas de Oportunidad}
 En esta sección se señalan las características de los trabajos mencionados en la sección anterior y se compara con las características del método propuesto en este trabajo de tesis para obtener una comparativa sobre las áreas de oportunidad.
 
+Para las tareas de segmentación es fundamental contar con un codificador y un decodificador eficientes, sin embargo aún mas importante es tener la capacidad de evaluarse así mismo y optimizarse, a diferencia de algunas técnicas mas robustas de diseño, las redes neuronales convolucionales permiten esas funcionalidades.
+
+Otro aspecto importante a considerar es la capacidad del úso de pesos pre-entrenados a la hora de entrenar utilizando nuestros datos, ya que incluso cuando los pesos pre-entrenados fueron obtenidos mediante bases de datos no necesariamente relacionadas con el o los objetos que nosotros queremos detectar, pero con similitudes físicas, en teoría ofrece un mejor desempeño y reduce el tiempo de entrenamiento ya que de lo contrario, se tendría que inicializar el modelo con pesos distribuidos de forma aleatoria, por lo que la precisión inicial del modelo sería cercana al cero por ciento. En este trabajo de tesis, el modelo propuesto cuenta con la capacidad de utilizar pesos pre-entrenados, el reto está en seleccionar un conjunto de pesos que mejoren la precisión en el caso de imágenes médicas, ya que si los pesos utilizados fueron obtenidos con imágenes que difieren mucho de las imágenes que se utilizarán aquí, podría verse comprometida la precisión o el tiempo de entrenamiento.
+
 \chapter{Implementación de la Solución}
+
+\section{Metodología}
+
+\section{Datos}
+
+\section{Implementación}
 
 \chapter{Resultados}
 
+\section{Diseño Experimental}
+
+\section{Resultados}
+
 \chapter{Conclusiones}
+
+\section{Discución}
+
+\section{Trabajo a Futuro}
