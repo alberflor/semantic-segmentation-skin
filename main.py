@@ -28,7 +28,7 @@ loss = smp.utils.losses.DiceLoss()
 metrics = [smp.utils.metrics.IoU(threshold=0.5),]
 optimizer = torch.optim.Adam([dict(params=model.parameters(), lr= 0.0001),])
 
-# Dataset loading
+# Dataset loading and transformations (.resize + .to_tensor)
 
 dataset = load_dataset.Dataset(train_img, train_mask, 
     augmentation=transformation.get_training_augmentation(),
@@ -39,7 +39,7 @@ dataset = load_dataset.Dataset(train_img, train_mask,
 
 # Split into training and validation subsets.
 batch_size = 2
-validation_size = 0.2
+validation_size = 0.3
 shuffle_data = True
 random_seed = 42
 
@@ -58,7 +58,6 @@ valid_sampler = SubsetRandomSampler(val_indices)
 
 train_loader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, sampler=train_sampler)
 valid_loader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, sampler=valid_sampler)
-
 
 
 #Model training 
@@ -93,4 +92,3 @@ for i in range(0,40):
     if i == 25:
         optimizer.param_groups[0]['lr'] = 1e-5
         print('decreased decoder learning rate to 1e-5') 
-

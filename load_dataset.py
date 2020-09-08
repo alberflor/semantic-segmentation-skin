@@ -4,9 +4,6 @@ import cv2
 import matplotlib.pyplot as plt
 from PIL import Image
 
-
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
-
 DATA_DIR = "Data/"
 train_img = os.path.join(DATA_DIR,"Training_input")
 train_mask = os.path.join(DATA_DIR,"Training_annot")
