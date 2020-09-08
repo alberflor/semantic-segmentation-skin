@@ -10,7 +10,9 @@ La piel es considerada el órgano mas grande del cuerpo humano,  y está compues
     \label{fig:skin1_jpg}
 \end{figure}
 
-Sin embargo, debido a la exposición continua a las radiaciones de la luz, es común desarrollar enfermedades en la piel que afectan la forma en que las células de ésta se reproducen, causando graves daños a nuestra salud que en muchas ocasiones puede llegar a ser letal. Estas anomalías en la piel se denominan como \emph{cáncer de piel}, principalmente en las siguientes tres categorías: cáncer de células basales, cáncer de células escamosas y melanomas \citep{cancer_org}.
+\coltext{Traducir a español y remover etiquetas no relevantes.}
+
+Sin embargo, debido a la exposición continua a las radiaciones de la luz es común desarrollar enfermedades en la piel que afectan la forma en que las células de la piel se reproducen, causando graves daños en el tejido celular y en algunos casos resultando letal. Estas anomalías en la piel se denominan como \emph{cáncer de piel}, y se clasifican de la siguiente forma: cáncer de células basales, cáncer de células escamosas y melanomas \citep{cancer_org}.
 
 \begin{figure}[h!]
     \includegraphics[width=80mm]{Figuras/skin_cancer_bbc.jpg}
@@ -21,16 +23,16 @@ Sin embargo, debido a la exposición continua a las radiaciones de la luz, es co
 
  Su detección temprana es imprescindible para reducir las probabilidades de fallecimiento. Por lo tanto es necesario seguir desarrollando tecnologías que faciliten la detección de este tipo de padecimientos de forma rápida y sencilla que vaya enfocada en aumentar la accesibilidad a dichos diagnósticos y de esta forma reducir la tasa de mortalidad por este padecimiento.
 
-En los últimos años se han logrado muchos avances en cuanto al desarrollo de software inteligente lo cuál ha permitido un mayor acceso a diferentes servicios, una de las tecnologías que han adquirido mayor importancia es la \emph{\gls{rn}}, se trata de una tecnología que tiene la capacidad de \emph{aprender} mediante el úso de datos históricos y funciones de optimización para crear un modelo matemático capaz de predecir, clasificar o recrear datos futuros o desconocidos. Algunos de los sectores que han comenzado a adoptar esta tecnología son: el sector automotriz (piloto automático), el sector de manufactura (optimización de procesos), el sector de entretenimiento (recomendaciones personalizadas), el sector médico (diagnóstico de imágenes). 
+En los últimos años se han logrado muchos avances en cuanto al desarrollo de software inteligente lo cuál ha permitido un mayor acceso a diferentes servicios, una de las tecnologías que han adquirido mayor importancia es la \emph{\gls{rn}}, se trata de una tecnología que tiene la capacidad de \emph{aprender} mediante el úso de datos históricos y mediante funciones de optimización crear un modelo matemático capaz de predecir, clasificar o recrear datos futuros o desconocidos. Algunos de los sectores que han comenzado a adoptar esta tecnología son: el sector automotriz (piloto automático), el sector de manufactura (optimización de procesos), el sector de entretenimiento (recomendaciones personalizadas), el sector médico (diagnóstico de imágenes). 
 
 
 \section{Hipótesis}
 Es posible clasificar los píxeles en distintas categorías dentro de una imagen gracias a las avances actuales de inteligencia artificial y la técnica de segmentación. Mediante la técnica de \emph{\gls{seg}} es posible crear un reconocedor visual que no solo detecte la presencia y ubicación del elemento a reconocer, sino que, también obtenga otros datos descriptivos del elemento como el tamaño, forma y región que abarca dentro de la imagen.
 
 \section{Objetivos}
-Primero en \emph{objetivo General} se habla de manera conceptual la problemática a resolver tales como cuales son las situaciones en las que podemos optimizar la resolución de un problema mediante el uso de la red neuronal, posteriormente en los \emph{objetivos Específicos} se describe de forma puntual los pasos a realizar en el presente trabajo de tésis para llegar al resultado deseado.
+Primero en \emph{objetivo general} se habla de manera conceptual la problemática a resolver tales como cuales son las situaciones en las que podemos optimizar la resolución de un problema mediante el uso de la red neuronal, posteriormente en los \emph{objetivos específicos} se describe de forma puntual los pasos a realizar en el presente trabajo de tésis para llegar al resultado deseado.
 
-El \emph{objetivo general} de este trabajo de tésis es la creación de una aplicación capaz de detectar anomalías en la superficie piel que correspondan a alguno de los tipos de \emph{cáncer de piel} mediante imágenes (basalioma, carcinoma, melanoma), con el uso de la red neuronal de \emph{\gls{seg}} usando como base la librería mencionada en \citet{wu2019fastfcn}. 
+El \emph{objetivo general} de este trabajo de tésis es la creación de una aplicación capaz de detectar anomalías en la superficie piel que correspondan a alguno de los tipos de \emph{cáncer de piel} mediante imágenes (basalioma, carcinoma, melanoma), con el uso de la red neuronal de \emph{\gls{seg}} usando como base la arquitectura de red neuronal mencionada en \citet{wu2019fastfcn}. 
 
 
 El \emph{objetivo específico}, es el implementar un modelo de red neuronal cuya entrada sean imágenes que pueden o no contener la presencia de alguno de los tipos de cáncer de piel comunes, y como salida del modelo se obtenga un mapa de características donde de haber presencia de el cáncer este se distinga mediante una región colorada en el espacio que abarca. El modelo debe cumplir con las siguientes características:
@@ -51,8 +53,7 @@ El \emph{objetivo específico}, es el implementar un modelo de red neuronal cuya
     \label{data_1}
 \end{figure}
 
-En la figura \ref{data_1} (a) se observa como la imagen entrante presenta un caso de melanoma y posteriormente, en la figura \ref{data_1}(b) se puede observar la misma pero con la región del melanoma resaltada, esto se denomina \emph{segmentación semántica} y se refiere a la acción de separar y clasificar en una o mas categorías los objetos detectables en una imágen.
-
+En la figura \ref{data_1} (a) se observa como la imagen entrante presenta un caso de melanoma y posteriormente, en la figura \ref{data_1}(b) se puede observar la misma imagen después de pasar por una secuencia de transformaciones, esto se denomina \emph{segmentación semántica} y se refiere a la acción de separar y clasificar en una o mas categorías los objetos detectables en una imágen.
 
 \section{Estructura de la Tesis}
 En esta sección se dará una breve descripción sobre el orden en el que se desarrollan los temas y el contenido de estos.
@@ -120,6 +121,17 @@ Las imágenes se pueden definir como una matriz de $m \times n \times 1$ pixeles
 \subsection{Modelo}
 Un \emph{modelo} se puede definir como el bloque intermedio entre los datos de entrada (\emph{input}) y los datos de salida (\emph{output}), es el sistema encargado de transformar los datos de entrada en la salida deseada y consta de los siguientes componentes:
 
+La unidad principal que compone el modelo de la red neuronal es el perceptrón, denominado \emph{nodo} en esta literatura. Se trata de una analogía matemática basada en el comportamiento de la neurona biológica, el nodo recibe $n$ entradas, las cuales son multiplicadas por el peso $p$, se suma el producto de las entradas por sus pesos $ e \times p$ y finalmente se multiplica por la funcion de activación $\phi$. 
+
+\begin{figure}[h!]
+    \includegraphics[width=100mm]{Figuras/neural_network.eps}
+    \centering
+    \caption{Ejemplo de un perceptrón.}
+    \label{fig:percep}
+\end{figure}
+
+Partiendo de lo anterior, creando arreglos con estos nodos podemos formar estructuras denominadas \emph{redes neuronales}, las cuales cuentan con las siguientes características para cumplir las funciones básicas de clasificación:
+
 \begin{itemize}
     \item Capa de nodos de entrada (\emph{input nodes}): Se trata de la primera capa del modelo, en el caso de imágenes a cada pixel le corresponde un nodo de entrada. Estos nodos deben tener las mismas dimensiones que las imágenes de entrada.
     \item Capa de nodos ocultos (\emph{hidden nodes}): Las dimensiones de estos nodos pueden ser diferentes a los de entrada y tener varias capas ocultas, sin embargo esto puede afectar la complejidad y precisión del modelo.
@@ -129,12 +141,6 @@ Un \emph{modelo} se puede definir como el bloque intermedio entre los datos de e
     \item Bías (\emph{bias}): Se trata de un valor constante que se suma al resultado de la función de activación y el peso, de esta forma se puede ajustar que tan fácil o difícil es activar un nodo.
 \end{itemize}
 
-\begin{figure}[h!]
-    \includegraphics[width=120mm]{Figuras/neural_network.eps}
-    \centering
-    \caption{Ejemplo de un perceptrón.}
-    \label{fig:percep}
-\end{figure}
 
 \subsection{Evaluación y Optimización}
 Para realizar el proceso de \emph{aprendizaje} del modelo, primero se debe evaluar cuál es el estado actual de las predicciones. Para esto es necesario evaluar que distancia existe entre el valor predicho y el valor real, esto se puede lograr mediante una \emph{función de pérdida} que se encargue de determinar que tanta diferencia(\emph{loss}) existe en las estimaciones del modelo con los pesos actuales.
@@ -170,13 +176,13 @@ En la primera sección \emph{trabajos similares} se recopilan trabajos con carac
 
 En la segunda sección \emph{análisis comparativo} se comparan las distintas características de los trabajos revisados, de esta forma podemos determinar las principales diferencias así como las ventajas y desventajas de cada trabajo. Así mismo se recopilaran todas estas diferencias en una tabla para visualizar mejor estas características.
 
-Finalmente en las \emph{áreas de oportunidad} se hace enfasis en las características que sería deseable agregar a este trabajo de tesis
+Finalmente en las \emph{áreas de oportunidad} se realiza una conclusión acerca de los resultados en la tabla comparativa.
 
 \section{Trabajos Similares}
 
 A continuación se mencionan los trabajos revisados en los que se puede obtener un punto de convergencia ya sea en los métodos similares utilizados para resolver problemas diferentes o en su defecto métodos distintos para resolver problemas similares.
 
-\citet{DBLP:journals/corr/BadrinarayananK15}, en este trabajo se habla sobre la arquitectura denominada \emph{SegNet} utilizada principalmente para la conducción autónoma y la detección de peatones, se describe como una arquitectura convolucional, con la característica de que es una jerarquía de codificador-decodificador donde a cada codificación (\emph{encoding}) corresponde una capa de agrupación de máximos (\emph{max pooling}) y un decodificador. Inspirado principalmente en la arquitectura \emph{VGG16}, con la diferencia de que el componente clave en esta arquitectura es el uso de convoluciones en lugar de la capa completamente conectada de nodos (\emph{fully connected layer}) a la salida.
+\citet{DBLP:journals/corr/BadrinarayananK15}, en este trabajo se habla sobre la arquitectura denominada \emph{SegNet} utilizada principalmente para la conducción autónoma y la detección de peatones, se describe como una arquitectura convolucional, con la característica de que es una jerarquía de codificador-decodificador donde a cada codificación (\emph{encoding}) corresponde una capa de agrupación de máximos (\emph{max pooling}) y un decodificador. Inspirado principalmente en la arquitectura \emph{VGG16}, con la diferencia de que el componente clave en esta arquitectura es el uso de convoluciones en lugar de la capa completamente conectada de nodos (\emph{fully-connected-layer}) a la salida.
 
 \citet{DBLP:journals/corr/RonnebergerFB15}, propone uno de los primeros modelos de la redes neuronales convolucionales denominada \emph{U-net} dirigida al análisis de imágenes del area médica. Este trabajo consiste en una arquitectura con dos trayectorias: la trayectoria de contracción de la imagén y la trayectoria de expansión. En la trayectoria de contracción de la imagen se aplica una secuencia de convoluciones de dimension $3 \times 3$ con solapado, seguido de una función de activación de rectificación linear unitaria (\emph{ReLu}) y posteriormente una operación de agrupación de máximos (\emph{max pooling}) para la compresión de la imagen (\emph{downsampling}). Por otro lado, la trayectoria de expansión consiste de el escalado de la imagen (\emph{upsampling}), en cada paso se aplica una capa de convolución de $2 \times 2$ a la cuál se concatena una imagen recortada del mapa de características de la trayectoria de contracción y dos convoluciones de $3 \times 3$ seguidos de una activación ReLu cada una. En total la arquitectura tiene 23 convoluciones (U-net) .
 
@@ -186,13 +192,16 @@ A continuación se mencionan los trabajos revisados en los que se puede obtener 
 
 \citet{KRONER2020261}, habla sobre un módelo de codificación-decodificación contextual basado en el proceso en el que los humanos obtenemos la información espacial de los escenarios visuales complejos, mediante un mapa topográfico de las salientes. Se basa en más en el proceso biológico con el que se obtiene la información espacial que en los métodos matemáticos para calcularla, dicho lo anterior, los principales componentes para determinar una saliente son color, la intensidad y la orientación.  
 
-\citet{KADAMPUR2020100282}, proponen el úso de los servicios de nube en conjunto con las redes neuronales profundas y el diseño de modelos utilizando modelos pre-entrenados. Para esto utilizan la herramienta de \emph{deep learning studio}, la cual es un software que permite el uso de tarjetas gráficas (\emph{GPU}) localizadas en la nube o localmente, y también permite el uso de múltiples tarjetas de forma simultanea (\emph{multi-GPU}), la arquitectura usada para la detección de cáncer de piel en este trabajo es de una red neuronal profunda de clasificación, por lo que el modelo se codifica mediante convoluciones y se decodifica mediante capas de aplanamiento (\emph{flatten layer}) para posteriormente entrar a una capa de nodos completamente conectados (\emph{fully connected layer}) y obtener dos posibles resultados: es cáncer o no es cáncer.
+\citet{KADAMPUR2020100282}, proponen el úso de los servicios de nube en conjunto con las redes neuronales profundas y el diseño de modelos utilizando modelos pre-entrenados. Para esto utilizan la herramienta de \emph{deep learning studio (DLS)}, la cual es un software que permite el uso de tarjetas gráficas (\emph{GPU}) localizadas en la nube o localmente, y también permite el uso de múltiples tarjetas de forma simultanea (\emph{multi-GPU}), la arquitectura usada para la detección de cáncer de piel en este trabajo es de una red neuronal profunda de clasificación, por lo que el modelo se codifica mediante convoluciones y se decodifica mediante capas de aplanamiento (\emph{flatten layer}) para posteriormente entrar a una capa de nodos completamente conectada (\emph{fully-connected-layer}) y obtener dos posibles resultados: es cáncer o no es cáncer.
 
-\coltext{Agregar 5 más.}
+\citet{zhou2019emerging} 
 
+\citet{DBLP:journals/corr/LucCCV16}
+
+\citet{JAIN2015735}
 
 \section{Analisis Comparativo}
-A continuación se evalúan las características que comparten o en su defecto difieren los distintos trabajos mencionados en la sección anterior, para esto se deberá definir una serie de características que sirvan como referencia para destacar las diferencias entre estos trabajos. Dichas características son:
+A continuación se evalúan las características que poseen los distintos trabajos mencionados en la sección anterior, para esto se deberá definir una serie de características a evaluar que sirvan como punto de referencia entre estos trabajos, dichas características son las siguientes:
 
 \begin{itemize}
     \item Modelo. Tipo de arquitectura del modelo.
@@ -205,29 +214,42 @@ A continuación se evalúan las características que comparten o en su defecto d
 \end{itemize}
 
 \begin{table}[hbt!]
-    
     \caption{Similitudes y diferencias entre los trabajos revisados.}
     \begin{adjustbox}{width=\textwidth}
         \begin{tabular}{|c|c|c|c|c|c|c|c|}
             \hline
             Trabajo & Modelo & Clasificación & Segmentación & Supervisado & Pre-entrenamiento & Evaluación & Optimización\\
             \hline
-            A & \cmark & C & D & E & F & G & H\\
+            \citet{DBLP:journals/corr/BadrinarayananK15} & FCN & \cmark & \cmark & \cmark & \cmark & Log-likelihood & SGD\\
             \hline
-            B & \xmark & C & D & E & F & G & H\\
+            \citet{DBLP:journals/corr/RonnebergerFB15} & U-net & \cmark & \cmark & \cmark & \cmark & Log-likelihood & SGD\\
             \hline
-            A & B & C & D & E & F & G & H\\
+            \citet{DBLP:journals/corr/ChenPK0Y16} & DeepLab & \cmark & \cmark & \cmark & \cmark & G & H\\
+            \hline
+            \citet{DBLP:journals/corr/TeichmannWZCU16} & MultiNet & \cmark & \cmark & \cmark & \cmark & G & H\\
+            \hline
+            \citet{KRONER2020261} & VGG16 & \cmark & \cmark & \cmark & \cmark & G & H\\
+            \hline
+            \citet{KADAMPUR2020100282} & CNN & \cmark & \xmark & \cmark & \xmark & G & H\\
+            \hline
+            \citet{zhou2019emerging} & NN & \cmark & \cmark & \cmark & \cmark & G & H \\
+            \hline
+            \citet{DBLP:journals/corr/LucCCV16} & ANN & \cmark & \cmark & \cmark & \cmark & G & H\\
+            \hline
+            \citet{JAIN2015735} & A.B.C.D & \cmark & \xmark & \xmark & \xmark & G & H\\
+            \hline
+            \rowcolor{Green}
+            \citet{wu2019fastfcn} & FastFCN & \cmark & \cmark & \cmark & \cmark & G & H\\
             \hline
         \end{tabular}
     \end{adjustbox}
-    \end{table}    
+    \end{table}
 
 \section{Áreas de Oportunidad}
 En esta sección se señalan las características de los trabajos mencionados en la sección anterior y se compara con las características del método propuesto en este trabajo de tesis para obtener una comparativa sobre las áreas de oportunidad.
-
-\chapter{Descripción de los Datos}
 
 \chapter{Implementación de la Solución}
 
 \chapter{Resultados}
 
+\chapter{Conclusiones}
