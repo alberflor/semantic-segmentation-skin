@@ -6,13 +6,15 @@ import transformation
 import segmentation_models_pytorch as smp
 from torch.utils.data.sampler import SubsetRandomSampler
 
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+
 # Based on https://github.com/qubvel/segmentation_models.pytorch/blob/master/examples/cars%20segmentation%20(camvid).ipynb tutorial
 
 ENCODER = 'se_resnext50_32x4d'
 ENCODER_WEIGHTS = 'imagenet'
 DATA_DIR = "Data/"
 CLASSES = ['melanoma']
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+DEVICE = 'cuda'
 ACTIVATION = 'sigmoid'
 
 train_img = os.path.join(DATA_DIR,"Training_input")
@@ -38,7 +40,7 @@ dataset = load_dataset.Dataset(train_img, train_mask,
 
 
 # Split into training and validation subsets.
-batch_size = 2
+batch_size = 14
 validation_size = 0.3
 shuffle_data = True
 random_seed = 42

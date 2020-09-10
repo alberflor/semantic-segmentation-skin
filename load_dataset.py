@@ -62,9 +62,12 @@ class Dataset(BaseDataset):
     def __getitem__(self, i):
 
         # read data and apply transformations.
-        image = cv2.imread(self.images_fps[i])
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
+        try:
+            image = cv2.imread(self.images_fps[i])
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)    
+        except AssertionError:
+            print('Assertion error')
+            
         # read masks and print logs.
         mask = cv2.imread(self.masks_fps[i], 0)
     
