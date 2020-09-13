@@ -38,9 +38,8 @@ dataset = load_dataset.Dataset(train_img, train_mask,
     classes=['melanoma'],
     )
 
-
 # Split into training and validation subsets.
-batch_size = 14
+batch_size = 12
 validation_size = 0.3
 shuffle_data = True
 random_seed = 42
@@ -93,4 +92,4 @@ for i in range(0,40):
         print('Best Model Saved')
     if i == 25:
         optimizer.param_groups[0]['lr'] = 1e-5
-        print('decreased decoder learning rate to 1e-5') 
+        print('decreased decoder learning rate to 1e-5')

@@ -158,7 +158,9 @@ $l(\mathbf{y}, \hat{\mathbf{y}}) = - \sum_{j=1}^q y_j \log \hat{y}_j$
 
 Ya que se tiene calculada la pérdida del modelo en su configuración actual, es necesario actualizar el valor de todos los pesos dentro del modelo para poder acercarnos al valor real. Aquí es donde se requiere un algoritmo que primero determine si el peso de cada nodo debe aumentar o disminuir, y después de determinar la dirección realizar un ajuste antes de volver a evaluar el modelo.
 
-Para esto existe el algoritmo de \emph{gradiente descendiente}, comienza en un punto inicial y repetidamente da un paso hacia la dirección opuesta del gradiente en cada punto y así minimizar el \emph{costo}. A continuación se representa la forma del algoritmo:
+\newpage
+
+Para esto existe el algoritmo de \emph{gradiente descendiente}, se trata de un método que comienza en un punto inicial y repetidamente da un paso hacia la dirección opuesta del gradiente en cada punto y así minimizar el \emph{costo}. A continuación se representa la forma del algoritmo:
 
 \begin{algorithm}[H]    
      Inicio\;
