@@ -1,7 +1,10 @@
 venv
 .vscode
-*.jpg
-*.png
+Data/Csv/*
+Data/Test_images/*
+Data/Training_annot/*
+Data/Training_input/*
+Model/*
 *.log
 bash.env
 *.log
@@ -11,10 +14,8 @@ bash.env
 *.out
 *.toc
 *.sty
-*.bib
 *.bst
 *.def
-*.cls
 *.acn
 *.bbl
 *.blg
