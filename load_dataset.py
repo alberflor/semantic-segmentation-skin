@@ -46,8 +46,14 @@ class Dataset(BaseDataset):
             augmentation=None, 
             preprocessing=None,
     ):
-        # Path to images.    
+        # Path to images and filter placeholder.    
         self.ids = os.listdir(images_dir)
+        self.filtered = [file for file in self.ids if file.endswith(".placeholder")]
+
+        # Remove filtered
+        for file in self.filtered:
+            self.ids.remove(file)
+
         self.images_fps = [os.path.join(images_dir, image_id) for image_id in self.ids]
 
         # Path to segmentation masks.
