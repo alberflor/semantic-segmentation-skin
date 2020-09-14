@@ -242,6 +242,7 @@ A continuación se evalúan las características que poseen los distintos trabaj
     \end{adjustbox}
 \end{table}
 
+\coltext{Arreglar posición de la tabla.}
 
 \section{Áreas de Oportunidad}
 En esta sección se señalan las características de los trabajos mencionados en la sección anterior y se compara con las características del método propuesto en este trabajo de tesis para obtener una comparativa sobre las áreas de oportunidad.
@@ -250,20 +251,29 @@ Para las tareas de segmentación es fundamental contar con un codificador y un d
 
 Otro aspecto importante a considerar es la capacidad del úso de pesos pre-entrenados a la hora de entrenar utilizando nuestros datos, ya que incluso cuando los pesos pre-entrenados fueron obtenidos mediante bases de datos no necesariamente relacionadas con el o los objetos que nosotros queremos detectar, pero con similitudes físicas, en teoría ofrece un mejor desempeño y reduce el tiempo de entrenamiento ya que de lo contrario, se tendría que inicializar el modelo con pesos distribuidos de forma aleatoria, por lo que la precisión inicial del modelo sería cercana al cero por ciento. En este trabajo de tesis, el modelo propuesto cuenta con la capacidad de utilizar pesos pre-entrenados, el reto está en seleccionar un conjunto de pesos que mejoren la precisión en el caso de imágenes médicas, ya que si los pesos utilizados fueron obtenidos con imágenes que difieren mucho de las imágenes que se utilizarán aquí, podría verse comprometida la precisión o el tiempo de entrenamiento.
 
-\chapter{Implementación de la Solución}
+\chapter{Solución Propuesta}
+En este trabajo de tesis se pretende desarrollar una herramienta para la detección del cáncer en la piel del tipo melanoma aprovechando las propiedades de las redes neuronales profundas para la detección y segmentación del padecimiento. Para comprobar la hipótesis se desarrolló un software que contiene una arquitectura de tipo red neuronal profunda convolucional de segmentación semántica, la cuál es entrenada para segmentar las imágenes y clasificar el tejido sano del tejido canceroso.
+
+En la sección de \emph{metodología}, se definen los procedimientos y métodos utilizados para la obtención del resultado deseado en la solución propuesta. Así mismo se describen a detalle las fases que atraviesan los datos desde su ingreso al sistema en forma de imágenes,  hasta su salida del sistema como un mapa de característica segmentado en sus respectivas categorías.
+
+Después en \emph{descripción de los datos}, se da una breve descripción de la base de datos proporcionada por la colaboración internacional de recolección de imágenes de la piel \citep{isic_skin}, por sus siglas en inglés (\emph{ISIC}\footnote{ISIC: International Skin Imaging Collaboration.}), se describe estadísticamente la población de los datos y los meta-datos. 
+
+Finalmente en \emph{implementación de la solución}, se describen brevemente las características del hardware en el que serán realizados los entrenamientos del sistema, posterior a eso se relata a profundidad la implementación del sistema y los parámetros utilizados.
 
 \section{Metodología}
+\subsection{filtro de Convolución}
+\subsection{Comparación de Codificadores}
 
-\section{Datos}
+\section{Descripción de los Datos}
+\subsection{Estadísticas}
+\subsection{Regla del Pareto}
 
-\section{Implementación}
+\section{Implementación de la solución}
+\subsection{Arquitectura}
+\subsection{Parámetros}
 
-\chapter{Resultados}
 
-\section{Diseño Experimental}
-
-\section{Resultados}
-
+\chapter{Diseño Experimental}
 \chapter{Conclusiones}
 
 \section{Discusión}
