@@ -24,8 +24,8 @@
 	\definecolor{Green}{rgb}{0,255,0}
 \usepackage{float}
 \usepackage[vlined, spanish, onelanguage]{algorithm2e}
-\usepackage{lscape} 
-
+\usepackage{lscape}
+\usepackage{algpseudocode}
 %%%%%%%%%%%%%%%%%%%%%%%%
 %   Comandos útiles    %
 %%%%%%%%%%%%%%%%%%%%%%%%
