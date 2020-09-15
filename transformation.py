@@ -13,7 +13,7 @@ def get_validation_augmentation():
 
     test_transform= [
 
-        albu.Resize(512,512,interpolation=cv2.INTER_AREA),
+        albu.Resize(224,224,interpolation=cv2.INTER_AREA),
 
     ]
     return albu.Compose(test_transform)
