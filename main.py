@@ -20,8 +20,7 @@ ACTIVATION = 'sigmoid'
 train_img = os.path.join(DATA_DIR,"Training_input")
 train_mask = os.path.join(DATA_DIR,"Training_annot")
 
-#Model definition
-
+#Model parameters.
 preprocessing_fn = smp.encoders.get_preprocessing_fn(ENCODER, ENCODER_WEIGHTS)  
 
 model = smp.FPN(encoder_name= ENCODER, encoder_weights=ENCODER_WEIGHTS, classes= len(CLASSES), activation= ACTIVATION)
