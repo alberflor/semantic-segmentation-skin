@@ -78,16 +78,9 @@ Los factores \emph{intrínsecos} son aquellos que suceden de forma interna en la
 Los factores \emph{extrínsecos} son aquellos que suceden de forma agena al organismo, como es el caso del \emph{foto-envejecimiento} el cual sucede cuando nos encontramos expuestos a los rayos ultravioletas (UV). Este factor de envejecimiento genera lesiones en las cadenas de ácido desoxirribonucleico (ADN) debido a la oxidación y afecta la regeneración de celulas, al sistema inmune y a la forma en la que se regula la pigmentación \citep{skin_aging}.
 
 \subsection{Tipos de Cáncer de Piel}
-Existe una gran variedad de tipos de \emph{cáncer de piel}, sin embargo son cuatro tipos los que destacan por tener una mayor incidencia:
+El cáncer de piel es un padecimiento que se puede manifestar en una gran variedad de formas distintas, algúnas de estas formas pueden representar un enorme riesgo para la salud quien la padece mientras que otras pueden permanecer mucho tiempo sin afectar la calidad de vida del paciente; se clasifican principalmente en dos tipos: \emph{benigno} y \emph{maligno}.
 
-\begin{itemize}
-    \item melanoma.
-    \item cáncer de piel no melanoma.
-    \item carcinóma de células basales.
-    \item carcinóma epidermoide de piel.
-\end{itemize}
-
-\coltext{Necesito más referencias sobre esta información}
+Los tumores del tipo \emph{benignos} no suelen ser considerados cáncer como tal, ya que tienen un crecimiento lento y no suelen extenderse a otras partes del cuerpo, por otro lado los tumores \emph{malignos}, si representan un riesgo mayor ya que crecen rapidamente y suelen hacer \emph{metástasis}, osea que migran a otras partes del cuerpo. 
 
 \section{Redes Neuronales}
 
@@ -155,9 +148,6 @@ Ya que se tiene calculada la pérdida del modelo en su configuración actual, es
 Para esto existe el algoritmo de \emph{gradiente descendiente}, comienza en un punto inicial y repetidamente da un paso hacia la dirección opuesta del gradiente en cada punto y así minimizar el \emph{costo}. A continuación se representa la forma del algoritmo:
 
 \coltext{Arreglar algorithmicx}
-
-
-\coltext{Agregar fuentes}
 
 %\begin{algorithm}
 %    \begin{algorithmic}
@@ -263,17 +253,21 @@ En esta sección se explican los procesos llevados a cabo para la obtención del
 Para entrenar el modelo primero es necesario contar con una base de datos de la cuál extraer las imágenes que se utilizarán, las imágenes de entrenamiento para segmentación deben estar dividas en dos secciones: imagen real, máscara anotada. La imagen real es aquella que en el post-entrenamiento recibirá como entrada, mientras que la máscara anotada es el resultado que se espera obtener de dicha entrada. 
 
 \subsection{Pre-Procesado de los Datos}
-Las imágenes por sí mismas pueden crear un modelo segmentación eficiente, sin embargo para que puedan ingresar al modelo es necesario que tenga una forma específica. 
+Las imágenes por sí mismas pueden crear un modelo segmentación eficiente, sin embargo para que puedan ingresar al modelo es necesario que tenga una forma específica. En el caso del modelo de segmentación es necesario que la matriz de pixeles se encuentre en forma de \emph{tensor}, esto se puede hacer mediante el pre-procesado.
 
-\coltext{Aumentaciones, Randomflips, Resize, etc.}
+\coltext{Diagrama de pre-procesamiento de imagen a tensor.}
 
-Si no se cuenta con una base de datos muy grande se pueden aplicar transformaciones al set de entrenamiento que permitan una mayor variabilidad en el modelo y a la vez genera mas datos para usarse en el entrenamiento.
+Si no se cuenta con una base de datos muy grande se puede aplicar transformaciones al set de entrenamiento, lo cuál genera más datos a partir del mismo set mediante la aplicación de transformaciones tales como rotaciones, espejeado, efectos de color aleatorios, entre otros.
 
 \subsection{Entrenamiento del Modelo}
+Antes de poder realizar segmentaciones con el sistema desarrollado, es necesario entrenarlo para poder segmentar el objeto deseado, esto es denominado \emph{aprendizaje supervisado} y se refiere a que el modelo hará predicciones basandose únicamente de los datos que le fueron provistos. 
 
 \subsection{Validación}
 
+\subsection{Predicción}
+
 \section{Implementación de la Solución}
+
 
 \subsection{Descripción de los Datos}
 Las imágenes utilizadas para el entrenamiento de este modelo fueron propoircionadas por la asociación internacional de recopilación de imágenes de la piel (\emph{ISIC}\footnote{ISIC: International Skin Imaging Collaboration.}).
