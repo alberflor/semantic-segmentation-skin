@@ -22,7 +22,6 @@ def visualize(**images):
 from torch.utils.data import DataLoader
 from torch.utils.data import Dataset as BaseDataset
 
-
 class Dataset(BaseDataset):
     """
     Args:
@@ -103,8 +102,40 @@ class Dataset(BaseDataset):
         return len(self.ids)
 
 
-#### Test sample ####
-#dataset = Dataset(train_img, train_mask, classes=['melanoma'])
-#image , mask = dataset[4]
+class testing_data(Dataset):
+    def __init__(
+        self,
+        test_dir,
+        classes=None,
+        augmentation=None,
+        preprocessing=None,
+    ):
 
-#visualize(image = image, mask = mask.squeeze())
+        self.ids = os.listdir(test_dir)
+        self.filtered = [file for file in self.ids if file.endswith(".placeholder")]
+
+        # Remove filtered
+        for file in self.filtered:
+            self.ids.remove(file)
+
+        self.images_fps = [os.path.join(test_dir, image_id) for image_id in self.ids]
+        self.augmentation = augmentation
+        self.preprocessing = preprocessing
+
+    def __getitem__(self, i):
+        image = cv2.imread(self.images_fps[i])
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+        # apply augmentation
+        if self.augmentation:
+            sample = self.augmentation(image=image)
+            image = sample['image']
+        
+        # apply preprocessing
+        if self.preprocessing:
+            sample = self.preprocessing(image=image)
+            image = sample['image']
+            
+        return image
+    def __len__(self):
+        return len(self.ids)
