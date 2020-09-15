@@ -11,7 +11,8 @@
 \usepackage[spanish]{babel}
 	\deactivatetilden
 	\spanishdecimal{.}
-	\addto\captionsspanish{\def\listtablename{\'Indice de tablas}}
+	\addto\captionsspanish{\renewcommand{\listtablename}{Índice de Cuadros}}
+
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amsfonts,amssymb}
 	\allowdisplaybreaks[4]
@@ -23,9 +24,10 @@
 	\definecolor{cincinnati-red}{RGB}{190,0,0}
 	\definecolor{Green}{rgb}{0,255,0}
 \usepackage{float}
+	\restylefloat{table}
 \usepackage[vlined, spanish, onelanguage]{algorithm2e}
-\usepackage{lscape}
-\usepackage{algpseudocode}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%
 %   Comandos útiles    %
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -83,7 +85,7 @@
 % Leyendas de figuras y encabezados de tablas %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand{\fnum@figure}{\textsc{Figura~\thefigure}}
-\renewcommand{\fnum@table}{\textsc{Tabla~\thetable}\vspace{7mm}}
+\renewcommand{\fnum@table}{\textsc{Cuadro~\thetable}\vspace{7mm}}
 \setlength{\belowcaptionskip}{6pt}
 \setlength{\abovecaptionskip}{6pt}
 
