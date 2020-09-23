@@ -6,36 +6,46 @@ import numpy as np
 
 model_dir = 'Model/'
 file_name = 'se_resnext524d.pth'
+model_path = model_dir + file_name
 test_dir = 'Data/Test_images/'
-
 ENCODER = 'se_resnext50_32x4d'
 ENCODER_WEIGHTS = 'imagenet'
-
 CLASSES = ['melanoma']
 DEVICE = 'cuda'
 
-# Load model.
+def test_model(m_path, t_path, encoder, weights, classes, device):
 
-test_model = torch.load(model_dir+file_name)
+    # Load model
+    model = torch.load(m_path)
+    prep_fn = smp.encoders.get_preprocessing_fn(encoder, weights)
 
-# Load test image.
+    # Load data to test
+    vis_dataset = ds.testing_data(t_path,
+    classes,
+    augmentation=tfm.get_validation_augmentation())
 
-preprocessing_fn = smp.encoders.get_preprocessing_fn(ENCODER, ENCODER_WEIGHTS)  
+    test_dataset = ds.testing_data(t_path,
+    classes, 
+    augmentation=tfm.get_validation_augmentation(), 
+    preprocessing=tfm.get_preprocessing(prep_fn))
 
-vis_dataset = ds.testing_data(test_dir=test_dir,classes=CLASSES,)
-test_dataset = ds.testing_data(test_dir=test_dir,classes=CLASSES,augmentation=tfm.get_validation_augmentation(), preprocessing=tfm.get_preprocessing(preprocessing_fn))
+    # Select random sample
+    n = np.random.choice(len(vis_dataset))
+    vis = vis_dataset[n].astype('uint8')
+    test_image = test_dataset[n]
 
-n = np.random.choice(len(vis_dataset))
-vis = vis_dataset[n].astype('uint8')
+    # Predict using model
+    x_tensor = torch.from_numpy(test_image).to(device).unsqueeze(0)
+    pred_mask = model.predict(x_tensor)
+    pred_mask = (pred_mask.squeeze().cpu().numpy().round())
 
-test_image = test_dataset[n]
+    #Visualize prediction
+    ds.visualize(image=vis, predicted=pred_mask)
 
-#ds.visualize(image=image_test)
-
-# Test model.
-x_tensor = torch.from_numpy(test_image).to(DEVICE).unsqueeze(0)
-pr_mask = test_model.predict(x_tensor)
-pr_mask = (pr_mask.squeeze().cpu().numpy().round())
-
-# Visualize mask
-ds.visualize(image=vis, predicted=pr_mask)
+# Test module.
+test_model(m_path=model_path, 
+    t_path=test_dir, 
+    encoder=ENCODER, 
+    weights=ENCODER_WEIGHTS, 
+    classes=CLASSES, 
+    device=DEVICE)
