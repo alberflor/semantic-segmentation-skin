@@ -43,9 +43,9 @@ def test_model(m_path, t_path, encoder, weights, classes, device):
     ds.visualize(image=vis, predicted=pred_mask)
 
 # Test module.
-test_model(m_path=model_path, 
-    t_path=test_dir, 
-    encoder=ENCODER, 
-    weights=ENCODER_WEIGHTS, 
-    classes=CLASSES, 
-    device=DEVICE)
+#test_model(m_path=model_path, 
+#    t_path=test_dir, 
+#    encoder=ENCODER, 
+#    weights=ENCODER_WEIGHTS, 
+#    classes=CLASSES, 
+#    device=DEVICE)
