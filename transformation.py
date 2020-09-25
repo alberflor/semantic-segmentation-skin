@@ -3,7 +3,6 @@ import cv2
 
 def get_training_augmentation():
     train_transform = [
-
         albu.Resize(224,224,interpolation=cv2.INTER_AREA),
     ]
     return albu.Compose(train_transform)
