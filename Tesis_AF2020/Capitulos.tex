@@ -30,8 +30,7 @@ Es posible clasificar los píxeles en distintas categorías dentro de una imagen
 \section{Objetivos}
 Primero en \emph{objetivo general} se habla de manera conceptual la problemática a resolver tales como cuales son las situaciones en las que podemos optimizar la resolución de un problema mediante el uso de la red neuronal, posteriormente en los \emph{objetivos específicos} se describe de forma puntual los pasos a realizar en el presente trabajo de tésis para llegar al resultado deseado.
 
-El \emph{objetivo general} de este trabajo de tésis es la creación de una aplicación capaz de detectar anomalías en la superficie piel que correspondan a alguno de los tipos de \emph{cáncer de piel} mediante imágenes (basalioma, carcinoma, melanoma), con el uso de la red neuronal de \emph{\gls{seg}} usando como base la arquitectura de red neuronal mencionada en \citet{wu2019fastfcn}. 
-
+El \emph{objetivo general} de este trabajo de tésis es la creación de una aplicación con la capacidad de reconocer y segmentar melanoma en la piel de forma automatizada, con el motivo de asistir a los médicos dedicados a esta labor a optimizar y extender la detección temprana, consiguiendo así una reducción en su mortalidad.
 
 El \emph{objetivo específico}, es el implementar un modelo de red neuronal cuya entrada sean imágenes que pueden o no contener la presencia de alguno de los tipos de cáncer de piel comunes, y como salida del modelo se obtenga un mapa de características donde de haber presencia de el cáncer este se distinga mediante una región colorada en el espacio que abarca. El modelo debe cumplir con las siguientes características:
 
@@ -44,17 +43,17 @@ El \emph{objetivo específico}, es el implementar un modelo de red neuronal cuya
 
 \begin{figure}[!htp]
     \centering
-    \subfloat[]{\label{a_1}\includegraphics[width=50mm]{Figuras/input_1.png}}
+    \subfloat[imágen real de entrada]{\label{a_1}\includegraphics[width=50mm]{Figuras/input_1.png}}
     \qquad
-    \subfloat[]{\label{b_1}\includegraphics[width=50mm]{Figuras/mask_1.png}}
-    \caption{Comparación de dato de entrada (\ref{a_1}) y la salida deseada (\ref{b_1})}
+    \subfloat[máscara de salida]{\label{b_1}\includegraphics[width=50mm]{Figuras/mask_1.png}}
+    \caption{Ejemplo de segmentación: entrada y salida.}
     \label{data_1}
 \end{figure}
 
 En la figura \ref{a_1} se observa como la imagen entrante presenta un caso de melanoma, mientras que la figura \ref{b_1} se puede observar la misma imagen después de pasar por una secuencia de transformaciones, esto se denomina \emph{segmentación semántica} y se refiere a la acción de separar y clasificar en una o más categorías los objetos detectables en una imagen.
 
 \section{Estructura de la Tesis}
-En esta sección se dará una breve descripción sobre el orden en el que se desarrollan los temas y el contenido de estos.
+A continuación se da una breve explicación sobre el orden en el que se presentan los capítulos de este trabajo de tesis, así como una breve descripción de su contenido.
 
 En el capítulo 2 se habla sobre los antecedentes relacionados al presente trabajo de tesis, primero se empieza definiendo la naturaleza del problema con el que se pretende tratar, después algúnos conceptos clave que serán necesarios para la comprensión de la implementación propuesta tales como las dimensiones de los datos y los algoritmos de evaluación y optimización.
 
@@ -68,7 +67,7 @@ El capítulo 5 describe a profundidad la implementación de la propuesta, desde 
 Finalmente, en el capítulo 6 se exponen los resultados obtenidos de la implementación del producto científico en el capítulo anterior, así como un análisis y conclusión final sobre los valores obtenidos en precision y tiempo de entrenamiento. 
 
 \chapter{Antecedentes}
-En este capítulo se introducen de forma teórica los conceptos relacionados a los tipos de cáncer y las redes neuronales, primero se define que es el \emph{cáncer de piel}, cuales son los factores que influyen en el desarollo de este padecimiento, los tipos de cáncer y las diferencias entre estos. Después algunos conceptos relacionados con las redes neuronales necesarios para un entendimiento sólido del \emph{aprendizaje profundo}, tales como los elementos clave que conforman a la red neuronal, la manera en la que esta evalúa su precisión, y el algoritmo de optimización.
+En este capítulo se introduce de forma teórica conceptos relacionados con el trabajo propuesto, primero se define que es el \emph{cáncer de piel}, cuales son los factores que influyen en el desarollo de este padecimiento, los tipos de cáncer y las diferencias entre estos. Después algunos conceptos relacionados con las redes neuronales necesarios para un entendimiento sólido del \emph{aprendizaje profundo}, tales como los elementos clave que conforman a la red neuronal, la manera en la que esta evalúa su precisión, y el algoritmo de optimización.
 
 \section{Cáncer de Piel}
 El \emph{cáncer de piel} es una enfermedad que suele relacionarse con la aparición de lunares o manchas que no se encontraban previamente, se pueden manifestar como manchas oscuras o rojizas, bultos y/o escamas en la superficie de la piel y afecta a todos los tonos de la piel por igual. Esta enfermedad se desarrolla principalmente en partes del cuerpo expuestas al sol, sin embargo también se puede desarrollar en partes que no suelen exponerse. Algunos factores como la exposición a los rayos ultravioletas (UV), el uso de sustancias como el tabaco o el envejecimiento son factores correlacionados con la aparición del \emph{cáncer de piel}, existen dos factores de envejecimiento y se dividen en dos grupos: \emph{intrínsecos} y \emph{extrínsecos}.
@@ -78,7 +77,7 @@ Los factores \emph{intrínsecos} son aquellos que suceden de forma interna en la
 Los factores \emph{extrínsecos} son aquellos que suceden de forma agena al organismo, como es el caso del \emph{foto-envejecimiento} el cual sucede cuando nos encontramos expuestos a los rayos ultravioletas (UV). Este factor de envejecimiento genera lesiones en las cadenas de ácido desoxirribonucleico (ADN) debido a la oxidación y afecta la regeneración de celulas, al sistema inmune y a la forma en la que se regula la pigmentación \citep{skin_aging}.
 
 \subsection{Tipos de Cáncer de Piel}
-El cáncer de piel es un padecimiento que se puede manifestar en una gran variedad de formas distintas, algúnas de estas formas pueden representar un enorme riesgo para la salud quien la padece mientras que otras pueden permanecer mucho tiempo sin afectar la calidad de vida del paciente; se clasifican principalmente en dos tipos: \emph{benigno} y \emph{maligno}.
+El cáncer de piel es un padecimiento que se puede manifestar en una gran variedad de formas distintas, algúnas de estas formas pueden representar un enorme riesgo para la salud de quien la padece mientras que otras pueden permanecer mucho tiempo sin afectar la calidad de vida del paciente; se clasifican principalmente en dos tipos: \emph{benigno} y \emph{maligno}.
 
 Los tumores del tipo \emph{benignos} no suelen ser considerados cáncer como tal, ya que tienen un crecimiento lento y no suelen extenderse a otras partes del cuerpo, por otro lado los tumores \emph{malignos}, si representan un riesgo mayor ya que crecen rapidamente y suelen hacer \emph{metástasis}, osea que migran a otras partes del cuerpo. 
 
@@ -96,13 +95,13 @@ Hasta hace algunos años el desarrollo de aplicaciones de software solía realiz
 \subsection{Imágenes como Datos}
 Las imágenes se pueden definir como una matriz de $m \times n \times 1$ pixeles en el caso de las imágenes de un solo canal (blanco y negro) y en el caso de imágenes a color es de $m \times n \times k$, donde $k$ es igual al numero de canales de color que tenga la imagen, siendo tres en el caso de imágenes RGB\footnote{RGB: Se refiere a los tres canales de color rojo, verde y azul, por sus siglas en inglés (\emph{red, green, blue}).}, es importante definir si las imágenes ingresarán al modelo a color o en blanco y negro debido a que esto define el numero de nodos de entrada de este, ya que para cada pixel debe corresponder un nodo de entrada y en el caso de imágenes a color también deberá tener un número de capas de nodos de entrada igual al número de canales que tenga la imagen.
 
+
 \begin{figure}[!htp]
     \centering
-    \subfloat[]{\label{a}\includegraphics[width=50mm]{Figuras/bg_matrix.eps}}
+    \subfloat[imagen de un solo canal]{\label{a}\includegraphics[width=50mm]{Figuras/bg_matrix.eps}}
     \qquad
-    \subfloat[]{\label{b}\includegraphics[width=50mm]{Figuras/rgb_matrix.eps}}
-    \caption{Comparación de dimensiones en imagen en blanco y negro (\ref{a}) e imagen a color (\ref{b}).}
-    \label{matrix_img}
+    \subfloat[imagen de triple canal]{\label{b}\includegraphics[width=50mm]{Figuras/rgb_matrix.eps}}
+    \caption{Comparación de dimensiones en imágenes en blanco y negro e imágenes a color.}
 \end{figure}
 
 \subsection{Modelo}
@@ -176,22 +175,22 @@ A continuación se mencionan los trabajos revisados en los que se puede obtener 
 
 \citet{DBLP:journals/corr/BadrinarayananK15} en este trabajo se habla sobre la arquitectura denominada \emph{SegNet} utilizada principalmente para la conducción autónoma y la detección de peatones, se describe como una arquitectura convolucional, con la característica de que es una jerarquía de codificador-decodificador donde a cada codificación (\emph{encoding}) corresponde una capa de agrupación de máximos (\emph{max pooling}) y un decodificador. Inspirado principalmente en la arquitectura \emph{VGG16}, con la diferencia de que el componente clave en esta arquitectura es el uso de convoluciones en lugar de la capa completamente conectada de nodos (\emph{fully-connected-layer}) a la salida.
 
-\citet{DBLP:journals/corr/RonnebergerFB15} propone uno de los primeros modelos de la redes neuronales convolucionales denominada \emph{U-net} dirigida al análisis de imágenes del area médica. Este trabajo consiste en una arquitectura con dos trayectorias: la trayectoria de contracción de la imagén y la trayectoria de expansión. En la trayectoria de contracción de la imagen se aplica una secuencia de convoluciones de dimension $3 \times 3$ con solapado, seguido de una función de activación de rectificación linear unitaria (\emph{ReLu}) y posteriormente una operación de agrupación de máximos (\emph{max pooling}) para la compresión de la imagen (\emph{downsampling}). Por otro lado, la trayectoria de expansión consiste de el escalado de la imagen (\emph{upsampling}), en cada paso se aplica una capa de convolución de $2 \times 2$ a la cuál se concatena una imagen recortada del mapa de características de la trayectoria de contracción y dos convoluciones de $3 \times 3$ seguidos de una activación ReLu cada una. En total la arquitectura tiene 23 convoluciones (U-net).
+\citet{DBLP:journals/corr/RonnebergerFB15} proponen uno de los primeros modelos de la redes neuronales convolucionales denominada \emph{U-net} dirigida al análisis de imágenes del area médica. Este trabajo consiste en una arquitectura con dos trayectorias: la trayectoria de contracción de la imagén y la trayectoria de expansión. En la trayectoria de contracción de la imagen se aplica una secuencia de convoluciones de dimension $3 \times 3$ con solapado, seguido de una función de activación de rectificación linear unitaria (\emph{ReLu}) y posteriormente una operación de agrupación de máximos (\emph{max pooling}) para la compresión de la imagen (\emph{downsampling}). Por otro lado, la trayectoria de expansión consiste de el escalado de la imagen (\emph{upsampling}), en cada paso se aplica una capa de convolución de $2 \times 2$ a la cuál se concatena una imagen recortada del mapa de características de la trayectoria de contracción y dos convoluciones de $3 \times 3$ seguidos de una activación ReLu cada una. En total la arquitectura tiene 23 convoluciones (U-net).
 
-\citet{DBLP:journals/corr/ChenPK0Y16} en este trabajo se habla de la arquitectura denominada \emph{Deep Lab}, la cual propone un acercamiento distinto a la parte de la reconstrucción en las capas finales del modelo. Al igual que otras arquitecturas cuenta con capas de convolución. agrupación de máximos y activación de rectificación linear unitaria, sin embargo, el componente clave aquí es la denominada convolución de hoyos (\emph{atrous convolution}), la cual es una modificación al filtro de convolución basado en la transformada de \emph{Wavelet} para el escalado del mapa de características (\emph{upsampling}). De esta forma se obtiene una alternativa al uso de capas de deconvolución y así se aumenta la resolución del mapa de características a la salida del modelo sin aumentar el tiempo de computación o la cantidad de parámetros.
+\citet{DBLP:journals/corr/ChenPK0Y16} en este trabajo hablan de la arquitectura denominada \emph{Deep Lab}, la cual propone un acercamiento distinto a la parte de la reconstrucción en las capas finales del modelo. Al igual que otras arquitecturas cuenta con capas de convolución. agrupación de máximos y activación de rectificación linear unitaria, sin embargo, el componente clave aquí es la denominada convolución de hoyos (\emph{atrous convolution}), la cual es una modificación al filtro de convolución basado en la transformada de \emph{Wavelet} para el escalado del mapa de características (\emph{upsampling}). De esta forma se obtiene una alternativa al uso de capas de deconvolución y así se aumenta la resolución del mapa de características a la salida del modelo sin aumentar el tiempo de computación o la cantidad de parámetros.
 
-\citet{DBLP:journals/corr/TeichmannWZCU16} reduce la carga computacional en en los modelos de redes neuronales convolucionales mediante la unificación de las tres tareas principales de estas: clasificación, detección y segmentación. Denominada como multi-red neuronal (\emph{multinet}) se trata de una arquitectura tipo codificador-decodificador en donde el decodificador esta compuesto de tres ramas las cuales corresponden a las tareas de clasificación, detección y segmentación por lo que se realizan las tres tareas de forma simultanea partiendo de la misma entrada (\emph{multi-tasking}) y usando la salida de cada una de las ramas para el ajuste fino de los parámetros del modelo (\emph{fine-tuning}).  
+\citet{DBLP:journals/corr/TeichmannWZCU16} reducen la carga computacional en en los modelos de redes neuronales convolucionales mediante la unificación de las tres tareas principales de estas: clasificación, detección y segmentación. Denominada como multi-red neuronal (\emph{multinet}) se trata de una arquitectura tipo codificador-decodificador en donde el decodificador esta compuesto de tres ramas las cuales corresponden a las tareas de clasificación, detección y segmentación por lo que se realizan las tres tareas de forma simultanea partiendo de la misma entrada (\emph{multi-tasking}) y usando la salida de cada una de las ramas para el ajuste fino de los parámetros del modelo (\emph{fine-tuning}).  
 
-\citet{KRONER2020261} habla sobre un módelo de codificación-decodificación contextual basado en el proceso en el que los humanos obtenemos la información espacial de los escenarios visuales complejos, mediante un mapa topográfico de las salientes. Se basa en más en el proceso biológico con el que se obtiene la información espacial que en los métodos matemáticos para calcularla, dicho lo anterior, los principales componentes para determinar una saliente son color, la intensidad y la orientación.  
+\citet{KRONER2020261} hablan sobre un módelo de codificación-decodificación contextual basado en el proceso en el que los humanos obtenemos la información espacial de los escenarios visuales complejos, mediante un mapa topográfico de las salientes. Se basa en más en el proceso biológico con el que se obtiene la información espacial que en los métodos matemáticos para calcularla, dicho lo anterior, los principales componentes para determinar una saliente son color, la intensidad y la orientación.  
 
 \citet{KADAMPUR2020100282} proponen el úso de los servicios de nube en conjunto con las redes neuronales profundas y el diseño de modelos utilizando modelos pre-entrenados. Para esto utilizan la herramienta de \emph{deep learning studio (DLS)}, la cual es un software que permite el uso de tarjetas gráficas (\emph{GPU}) localizadas en la nube o localmente, y también permite el uso de múltiples tarjetas de forma simultanea (\emph{multi-GPU}), la arquitectura usada para la detección de cáncer de piel en este trabajo es de una red neuronal profunda de clasificación, por lo que el modelo se codifica mediante convoluciones y se decodifica mediante capas de aplanamiento (\emph{flatten layer}) para posteriormente entrar a una capa de nodos completamente conectada (\emph{fully-connected-layer}) y obtener dos posibles resultados: es cáncer o no es cáncer.
 
-\citet{zhou2019emerging} habla sobre el úso del aprendizaje de máquina (\emph{machine learning}) y las redes neuronales para la predicción teórica de nano-materiales. Para conseguir esto, es necesario determinar el número de capas y la heterogeneidad del material para posteriormente entender fenómenos visuales como el parpadeo y la emisión cuántica, concluyendo que las intensidades RGB están correlacionadas al número de capas en el material del grafeno. 
+\citet{zhou2019emerging} hablan sobre el úso del aprendizaje de máquina (\emph{machine learning}) y las redes neuronales para la predicción teórica de nano-materiales. Para conseguir esto, es necesario determinar el número de capas y la heterogeneidad del material para posteriormente entender fenómenos visuales como el parpadeo y la emisión cuántica, concluyendo que las intensidades RGB están correlacionadas al número de capas en el material del grafeno. 
 
 
-\citet{DBLP:journals/corr/LucCCV16} propone una alternativa al proceso de decodificación. Normalmente en las tareas de segmentación es necesaria la parte de codificación para realizar las predicciones a grado pixel y la decodificación para reconstruir la imagen con las categorías segmentadas. Este trabajo propone el uso de una red generativa adversaria (\emph{GAN}), para utilizarse como decodificador, de esta manera se obtiene un mapa de etiquetas (\emph{map layer}) con una mayor resolución.
+\citet{DBLP:journals/corr/LucCCV16} proponen una alternativa al proceso de decodificación. Normalmente en las tareas de segmentación es necesaria la parte de codificación para realizar las predicciones a grado pixel y la decodificación para reconstruir la imagen con las categorías segmentadas. Este trabajo propone el uso de una red generativa adversaria (\emph{GAN}), para utilizarse como decodificador, de esta manera se obtiene un mapa de etiquetas (\emph{map layer}) con una mayor resolución.
 
-\citet{JAIN2015735} en este trabajo habla sobre una herramienta de procesamiento de imágenes médicas relacionadas al melanoma, basándose en sus características físicas como: asimetría, color, bordes y diámetro. Se basa en la técnica de segmentación de imágenes mediante el uso de filtros de contraste, detección de ejes, etc. No utiliza redes neuronales.
+\citet{JAIN2015735} desarrollan una herramienta de procesamiento de imágenes médicas relacionadas al melanoma, basándose en sus características físicas como: asimetría, color, bordes y diámetro. Se basa en la técnica de segmentación de imágenes mediante el uso de filtros de contraste, detección de ejes, etc. A diferencia de los otros trabajos mencionados, este no consiste del uso de redes neuronales sino de filtrados de imágen mediante convoluciones para obtener la máscara.
 
 
 \section{Análisis Comparativo}
@@ -207,9 +206,13 @@ En esta sección se evalúan los trabajos revisados con el trabajo propuesto en 
     \item[Salida.]{Características de los datos obtenidos en la salida del modelo.}
 \end{description}
 
-\begin{table}[H]
+\newpage
+
+\begin{table}[hbt!]{
+    \centering
+    \caption{Similitudes y diferencias entre los trabajos revisados, las características implementadas se representan con (\cmark), mientras que las no implementadas con (\xmark).}
     \begin{adjustbox}{width=\textwidth}
-        \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \begin{tabular}[t]{|l|l|l|l|l|l|l|l|}
             \hline
             Trabajo & Modelo & \rotatebox{90}{Clasificación} & \rotatebox{90}{Segmentación} & \rotatebox{90}{Supervisado} & \rotatebox{90}{Pre-entrenamiento} & \rotatebox{90}{Evaluación} & Salida\\
             \hline
@@ -226,9 +229,8 @@ En esta sección se evalúan los trabajos revisados con el trabajo propuesto en 
             Propuesta de tesis & \texttt{FPN} & \cmark & \cmark & \cmark & \cmark & \cmark & label map\\
             \hline   
         \end{tabular}
-        \label{Tab:comp_1}
-        \caption{Similitudes y diferencias entre los trabajos revisados, las características implementadas se representan con (\cmark), mientras que las no implementadas con (\xmark).}
     \end{adjustbox}
+    \label{Tab:comp_1}}
 \end{table}
 
 \section{Áreas de Oportunidad}
@@ -236,13 +238,13 @@ En esta sección se señalan las características de los trabajos mencionados en
 
 Para las tareas de segmentación es fundamental contar con un codificador y un decodificador eficientes, sin embargo aún más importante es tener la capacidad de evaluarse así mismo y optimizarse, a diferencia de algunas técnicas más robustas de diseño, las redes neuronales convolucionales permiten esas funcionalidades.
 
-Otro aspecto importante a considerar es la capacidad del úso de pesos pre-entrenados a la hora de entrenar utilizando nuestros datos, ya que incluso cuando los pesos pre-entrenados fueron obtenidos mediante bases de datos no necesariamente relacionadas con el o los objetos que nosotros queremos detectar, pero con similitudes físicas, en teoría ofrece un mejor desempeño y reduce el tiempo de entrenamiento ya que de lo contrario, se tendría que inicializar el modelo con pesos distribuidos de forma aleatoria, por lo que la precisión inicial del modelo sería cercana al cero por ciento. En este trabajo de tesis, el modelo propuesto cuenta con la capacidad de utilizar pesos pre-entrenados, el reto está en seleccionar un conjunto de pesos que mejoren la precisión en el caso de imágenes médicas, ya que si los pesos utilizados fueron obtenidos con imágenes que difieren mucho de las imágenes que se utilizarán aquí, podría verse comprometida la precisión o el tiempo de entrenamiento.
+Otro aspecto importante a considerar es la capacidad del úso de pesos pre-entrenados a la hora de entrenar utilizando nuestros datos, ya que incluso cuando los pesos pre-entrenados fueron obtenidos mediante bases de datos no necesariamente relacionadas con el o los objetos que nosotros queremos detectar, pero con similitudes físicas, en teoría ofrece un mejor desempeño y reduce el tiempo de entrenamiento ya que de lo contrario, se tendría que inicializar el modelo con pesos distribuidos de forma aleatoria, por lo que la precisión inicial del modelo sería cercana al cero por ciento. En este trabajo de tesis, el modelo propuesto cuenta con la capacidad de utilizar pesos pre-entrenados, el reto está en seleccionar un conjunto de pesos que mejoren la precisión en el caso de imágenes médicas, ya que si los pesos utilizados fueron obtenidos con imágenes que difieren mucho de las imágenes que se utilizadas en el presente trabajo, podría verse comprometida la precisión o el tiempo de entrenamiento.
 
 \chapter{Solución Propuesta}
 
 El objetivo de este trabajo de tesis es realizar la segmentación semántica de los tejidos sanos y los tejidos con cáncer de piel mediante el úso de las redes neuronales profundas, para demostrar ésto fue desarrollada una aplicación de software que permite configurar distintas arquitecturas de redes neuronales y utilizar una base de datos con imágenes de casos clinicos de melanoma para el entrenamiento de ésta.
 
-En este capítulo se describe de forma estructural el software desarrollado, las entradas, salidas y las distintas fases que lo componen; así mismo se describe el proceso de la implementación tomando en cuenta el ambiente en el que fue desarrollado y las pruebas realizadas para validar su funcionamiento. El producto que se desea obtener con este sistema es el de un mapa de características, también denominado mapa segmentado, que como el nombre lo índica se trata de una reconstrucción de la imagen original a una donde se dividan las regiones que pertenecen a una categoría en particular. Para esto es necesario pasar por varias etapas: entrada, transformación, codificación, reconstrucción y salida. Dichas fases son descritas a detalle en la sección de \emph{metodología}, y posteriormente se pone a practica en la sección de \emph{implementación de la solución}.
+En este capítulo se describe de forma estructural el software desarrollado, las entradas, salidas y las distintas fases que lo componen; así mismo se describe el proceso de la implementación tomando en cuenta el ambiente en el que fue desarrollado y las pruebas realizadas para validar su funcionamiento. El producto que se desea obtener con este sistema es el de un \emph{mapa de características} también denominado \emph{mapa segmentado}, que consiste en una reconstrucción anotada de la imagen de entrada, donde se indica la categoría asignada a cada región. Para esto es necesario pasar por varias etapas: cargado de datos, secuencia de transformaciones, codificación, reconstrucción y salida.
 
 \section{Metodología}
 En esta sección se explican los procesos llevados a cabo para la obtención del mapa segmentado, a continuación se muestra un diagrama de flujo el cúal resume la secuencia de acciones a ejecutar, comenzando con la obtención de las imágenes, la extracción de las característica y la reconstrucción de la imágen.
@@ -257,14 +259,8 @@ Las imágenes por sí mismas pueden crear un modelo segmentación eficiente, sin
 
 \coltext{Diagrama de pre-procesamiento de imagen a tensor.}
 
-Si no se cuenta con una base de datos muy grande se puede aplicar transformaciones al set de entrenamiento, lo cuál genera más datos a partir del mismo set mediante la aplicación de transformaciones tales como rotaciones, espejeado, efectos de color aleatorios, entre otros.
-
 \subsection{Entrenamiento del Modelo}
 Antes de poder realizar segmentaciones con el sistema desarrollado, es necesario entrenarlo para poder segmentar el objeto deseado, esto es denominado \emph{aprendizaje supervisado} y se refiere a que el modelo hará predicciones basandose únicamente de los datos que le fueron provistos. 
-
-\subsection{Validación}
-
-\subsection{Predicción}
 
 \section{Implementación de la Solución}
 
