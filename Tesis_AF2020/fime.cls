@@ -24,9 +24,10 @@
 	\definecolor{cincinnati-red}{RGB}{190,0,0}
 	\definecolor{Green}{rgb}{0,255,0}
 \usepackage{float}
+	\floatstyle{plaintop}
 	\restylefloat{table}
 \usepackage[vlined, spanish, onelanguage]{algorithm2e}
-
+\usepackage[font=small, skip=0pt]{caption}
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 %   Comandos útiles    %
