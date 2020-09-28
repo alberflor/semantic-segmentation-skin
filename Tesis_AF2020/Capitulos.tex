@@ -135,6 +135,8 @@ Un ejemplo de la función de pérdida es el de la función logarítmica del cost
 
 $l(\mathbf{y}, \hat{\mathbf{y}}) = - \sum_{j=1}^q y_j \log \hat{y}_j$ 
 
+\coltext{Coma.}
+
 \begin{itemize}
     \item $q$ representa el número de clases entre las debe cuales predecir.
     \item $y_j$ representa valor real.
@@ -205,9 +207,7 @@ En esta sección se evalúan los trabajos revisados con el trabajo propuesto en 
     \item[Evaluación.]{El sistema cuenta con una función de evaluación y un algoritmo de optimización.}
     \item[Salida.]{Características de los datos obtenidos en la salida del modelo.}
 \end{description}
-
 \newpage
-
 \begin{table}[hbt!]{
     \centering
     \caption{Similitudes y diferencias entre los trabajos revisados, las características implementadas se representan con (\cmark), mientras que las no implementadas con (\xmark).}
@@ -233,40 +233,85 @@ En esta sección se evalúan los trabajos revisados con el trabajo propuesto en 
     \label{Tab:comp_1}}
 \end{table}
 
+\newpage
+
 \section{Áreas de Oportunidad}
 En esta sección se señalan las características de los trabajos mencionados en la sección anterior y se compara con las características del método propuesto en este trabajo de tesis para obtener una comparativa sobre las áreas de oportunidad.
 
-Para las tareas de segmentación es fundamental contar con un codificador y un decodificador eficientes, sin embargo aún más importante es tener la capacidad de evaluarse así mismo y optimizarse, a diferencia de algunas técnicas más robustas de diseño, las redes neuronales convolucionales permiten esas funcionalidades.
-
-Otro aspecto importante a considerar es la capacidad del úso de pesos pre-entrenados a la hora de entrenar utilizando nuestros datos, ya que incluso cuando los pesos pre-entrenados fueron obtenidos mediante bases de datos no necesariamente relacionadas con el o los objetos que nosotros queremos detectar, pero con similitudes físicas, en teoría ofrece un mejor desempeño y reduce el tiempo de entrenamiento ya que de lo contrario, se tendría que inicializar el modelo con pesos distribuidos de forma aleatoria, por lo que la precisión inicial del modelo sería cercana al cero por ciento. En este trabajo de tesis, el modelo propuesto cuenta con la capacidad de utilizar pesos pre-entrenados, el reto está en seleccionar un conjunto de pesos que mejoren la precisión en el caso de imágenes médicas, ya que si los pesos utilizados fueron obtenidos con imágenes que difieren mucho de las imágenes que se utilizadas en el presente trabajo, podría verse comprometida la precisión o el tiempo de entrenamiento.
+Para las tareas de segmentación es fundamental contar con un codificador y un decodificador eficientes, sin embargo aún más importante es tener la capacidad de evaluarse así mismo y optimizarse, a diferencia de algunas técnicas más robustas de diseño, las redes neuronales convolucionales permiten esas funcionalidades. Otro aspecto importante a considerar es la capacidad del úso de pesos pre-entrenados a la hora de entrenar utilizando nuestros datos, ya que incluso cuando los pesos pre-entrenados fueron obtenidos mediante bases de datos no necesariamente relacionadas con el o los objetos que nosotros queremos detectar, pero con similitudes físicas, en teoría ofrece un mejor desempeño y reduce el tiempo de entrenamiento ya que de lo contrario, se tendría que inicializar el modelo con pesos distribuidos de forma aleatoria, por lo que la precisión inicial del modelo sería cercana al cero por ciento. En este trabajo de tesis, el modelo propuesto cuenta con la capacidad de utilizar pesos pre-entrenados, el reto está en seleccionar un conjunto de pesos que mejoren la precisión en el caso de imágenes médicas, ya que si los pesos utilizados fueron obtenidos con imágenes que difieren mucho de las imágenes que se utilizadas en el presente trabajo, podría verse comprometida la precisión o el tiempo de entrenamiento.
 
 \chapter{Solución Propuesta}
+El objetivo de este trabajo de tesis es implementar una técnica para la clasificación y segmentación de regiones de tumores del tipo melanoma en imágenes dermatolólogicas mediante el úso del aprendizaje profundo (\emph{deep learning}). Para comprobar la hipótesis se desarrolló una aplicación de software cuya función es la de ser entorno de trabajo mediante el cuál se puedan procesar datos para el entrenamiento de modelos, trabajar con distintas arquitecturas de redes, así como modificar los parámetros del entrenamiento para hacer el ajuste fino del modelo.
 
-El objetivo de este trabajo de tesis es realizar la segmentación semántica de los tejidos sanos y los tejidos con cáncer de piel mediante el úso de las redes neuronales profundas, para demostrar ésto fue desarrollada una aplicación de software que permite configurar distintas arquitecturas de redes neuronales y utilizar una base de datos con imágenes de casos clinicos de melanoma para el entrenamiento de ésta.
-
-En este capítulo se describe de forma estructural el software desarrollado, las entradas, salidas y las distintas fases que lo componen; así mismo se describe el proceso de la implementación tomando en cuenta el ambiente en el que fue desarrollado y las pruebas realizadas para validar su funcionamiento. El producto que se desea obtener con este sistema es el de un \emph{mapa de características} también denominado \emph{mapa segmentado}, que consiste en una reconstrucción anotada de la imagen de entrada, donde se indica la categoría asignada a cada región. Para esto es necesario pasar por varias etapas: cargado de datos, secuencia de transformaciones, codificación, reconstrucción y salida.
+En éste capítulo se describe la estructura de la implementación propuesta, comenzando con la \emph{metodología}, en donde se describe el conjunto de procedimientos por los cuales debe atravesar los datos desde su entrada como una imágen ya sea de un canal o triple canal, hasta su salida como máscara de segmentación con sus respectivas regiones clasíficadas a su categoría correspondiente. Posteriormente en \emph{implentación de la solución} se describe el lenguaje utilizado para la implementación, las librerías utilizadas; así como el análisis llevado a cabo para determinar cuál configuración de parámetros ofrece el mejor resultado y una comparativa o \emph{benchmarking}.
 
 \section{Metodología}
-En esta sección se explican los procesos llevados a cabo para la obtención del mapa segmentado, a continuación se muestra un diagrama de flujo el cúal resume la secuencia de acciones a ejecutar, comenzando con la obtención de las imágenes, la extracción de las característica y la reconstrucción de la imágen.
+La herramienta propuesta cuenta con tres fases principales:cargado y filtrado de datos, entrenamiento y predicción, la fase de \emph{cargado de datos} consiste en adquirir y corregir las imágenes que serán usadas en las fases siguientes, el \emph{entrenamiento} trata de la obtención de un modelo a partir de dos datos: la imagen real (entrada) y la máscara conocida (salida deseada) que corresponde a la región a clasificar, el proceso de entrenamiento consta de un número determinado de ciclos también denominados épocas (\emph{epochs}) en dónde se prueban distintas configuraciones y se conserva la configuración con el mayor porcentaje de precisión. Al finalizar el entrenamiento se obtiene un modelo mediante el cuál se realiza la segunda fase, \emph{predicción}, ahora únicamente se requiere un dato de entrada el cuál es la imágen de la cual se desconoce la clasficación de sus regiones, y como resultado se obtiene una estimación de la máscara de segmentación desconocida con sus regiones correctamente clasificadas.
 
-\coltext{Crear diagrama de vectores.}
 
-\subsection{Adquisición y Filtrado de Imágenes}
-Para entrenar el modelo primero es necesario contar con una base de datos de la cuál extraer las imágenes que se utilizarán, las imágenes de entrenamiento para segmentación deben estar dividas en dos secciones: imagen real, máscara anotada. La imagen real es aquella que en el post-entrenamiento recibirá como entrada, mientras que la máscara anotada es el resultado que se espera obtener de dicha entrada. 
+\tikzstyle{decision} = [diamond, draw, fill=gray!20, 
+    text width=5.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=gray!20, 
+    text width=8em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
 
-\subsection{Pre-Procesado de los Datos}
-Las imágenes por sí mismas pueden crear un modelo segmentación eficiente, sin embargo para que puedan ingresar al modelo es necesario que tenga una forma específica. En el caso del modelo de segmentación es necesario que la matriz de pixeles se encuentre en forma de \emph{tensor}, esto se puede hacer mediante el pre-procesado.
 
-\coltext{Diagrama de pre-procesamiento de imagen a tensor.}
+\begin{figure}[H]
+\centering    
+\begin{tikzpicture}[node distance = 4.5cm, auto]
+    % Nodos.
+    \node [block] (init) {cargado y filtrado de datos};
+    \node [block, right of = init] (train) {entrenamiento del modelo};
+    \node [block, right of = train] (pred) {predicción de máscaras};
+    % Ejes.
+    \path [line] (init) -- (train); 
+    \path [line] (train) -- (pred); 
+\end{tikzpicture}
+\caption{Diagrama de flujo general de la herramienta propuesta.}
+\end{figure}
 
-\subsection{Entrenamiento del Modelo}
-Antes de poder realizar segmentaciones con el sistema desarrollado, es necesario entrenarlo para poder segmentar el objeto deseado, esto es denominado \emph{aprendizaje supervisado} y se refiere a que el modelo hará predicciones basandose únicamente de los datos que le fueron provistos. 
+
+\subsection{Características de los Datos de Entrada}
+Para poder llevar a cabo la creación del modelo primero es necesario tener un conjunto de datos (\emph{dataset}) que es el que será utilizado para el entrenamiento y la validación de la configuración de pesos sinápticos en la época presente.
+A partir de éste momento se referirá como \emph{muestra} al conjunto de datos de entrada del entrenamiento del modelo; como se mencionó al comienzo del capítulo, para llevar a cabo el entrenamiento es necesario otorgar al sistema dos entradas: la imágen real y la máscara conocida de las regiones ya clasíficadas. Por lo tanto una muestra es el equivalente a la concatenación de una imágen dermatolólogica y la máscara conocida correspondiente. Con una sola muestra se puede generar un modelo sin embargo la precisión sería muy baja, generalmente entre mayor sea la cantidad de muestras se puede obtener una mejor precisión. No obstante depende mucho de la variabilidad de las imágenes, ya que si se tratara de entrenar un modelo de muchas categorías, la variabilidad haría mas complejo el modelo y por ende requiriría de un mayor número de épocas para alcanzar una precisión viable (\emph{underfit}); así como el úso de un \emph{dataset} muy extenso de pocas categorías y con imágenes muy similares podría causar justamente lo contrario (\emph{overfit}), lo cuál no permitiría realizar predicciones correctamente en imágenes no tan parecidas a las usadas en el entrenamiento.
+
+\coltext{insertar ejemplo de dataset}
+
+\subsection{Codificación de Características}
+Para completar la fase de entrenamiento y poder continual a la fase de predicción, es necesario reducir las dimensiones de las imágenes y hacerlas pasar por algo denominado filtro de convolución.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \draw[step=1cm, black, thin](-2,-2) grid (5,5);
+        \filldraw[fill = gray!20, draw = black] (0,0) rectangle (3,3);
+        \draw[step=1cm, black, thin](0,0) grid (3,3);
+    \end{tikzpicture}
+    \caption{Matriz de pixeles de entrada.}
+\end{figure}
+
+\subsection{Modelo FPN}
+La arquitectura de red neuronal tipo red piramidal de características, por sus siglas en inglés FPN\footnote{Feature Pyramid Network}, se trata de una estructura que funciona en conjunto con el codificador \texttt{Resnet}, conforme se van aplicando los filtros de convolución del codificador. 
+
+
+
+\newpage
 
 \section{Implementación de la Solución}
+Para la implementación de la herramienta propuesta, se utilizó \emph{Python} como único lenguaje. \emph{Python} ofrece una enorme variedad de librerías las cuáles fueron utilizadas para obtener el resultado más óptimo en la implementación de la red neuronal profunda.
+(\emph{ISIC}\footnote{ISIC: International Skin Imaging Collaboration.}).
 
+\coltext{Agregar aquí descripción de las librerías utilizadas.}
 
-\subsection{Descripción de los Datos}
-Las imágenes utilizadas para el entrenamiento de este modelo fueron propoircionadas por la asociación internacional de recopilación de imágenes de la piel (\emph{ISIC}\footnote{ISIC: International Skin Imaging Collaboration.}).
+\subsection{Computación Asistída por Hardware}
+
+\subsection{Pre-procesamiento}
+
+\subsection{Codificadores}
+
+\subsection{Tensor a Máscara}
 
 \chapter{Diseño Experimental}
 
