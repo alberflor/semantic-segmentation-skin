@@ -29,7 +29,10 @@
 \usepackage[vlined, spanish, onelanguage]{algorithm2e}
 \usepackage[font=small, skip=0pt]{caption}
 \usepackage{tikz}
-	\usetikzlibrary{shapes,arrows, matrix, calc}
+	\usetikzlibrary{arrows, matrix, calc,shapes.geometric,positioning}
+\usepackage{forest}
+\usepackage{listings}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 %   Comandos útiles    %
