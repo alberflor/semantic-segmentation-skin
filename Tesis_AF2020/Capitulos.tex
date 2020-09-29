@@ -85,12 +85,12 @@ Los tumores del tipo \emph{benignos} no suelen ser considerados cáncer como tal
 
 Hasta hace algunos años el desarrollo de aplicaciones de software solía realizarse de forma robústa, por ejemplo, si deseáramos desarrollar una aplicación de reconocimiento de imágenes faciales de la forma tradicional, sería necesario un grupo de expertos en dicho rubro para que definan una secuencia de transformaciones específicas para lograr esa función, donde la variabilidad de las imágenes que dicho sistema permitiría depende específicamente de la complejidad del mismo, sin embargo mediante las redes neuronales es posible resolver el mismo problema con la ventaja de que la variabilidad de imágenes que pueden ser reconocidas por el sistema, depende de los datos utilizados para el entrenamiento, el model de una red neuronal \emph{aprende} de los datos proporcionados y crea un modelo capaz de clasificar, predecir o reconstruir datos conocidos y desconocidos. Algunos de los puntos clave que conforman un sistema basado en redes neuronales son:
 
-\begin{itemize}
-    \item Datos: Se debe determinar la naturaleza y la dimensión de los datos que entrarán al modelo.
-    \item Modelo: Se debe crear un sistema que transforme los datos de entrada, en la salida deseada.
-    \item Evaluación: El modelo debe tener la capacidad de evaluar su precisión.
-    \item Optimización: El modelo debe contar con un algoritmo que optimice la precisión.
-\end{itemize}
+\begin{description}
+    \item[Datos]{Se debe determinar la naturaleza y la dimensión de los datos que entrarán al modelo.}
+    \item[Modelo] {Se debe crear un sistema que transforme los datos de entrada, en la salida deseada.}
+    \item[Evaluación] {El modelo debe tener la capacidad de evaluar su precisión.}
+    \item[Optimización] {El modelo debe contar con un algoritmo que optimice la precisión.}
+\end{description}
 
 \subsection{Imágenes como Datos}
 Las imágenes se pueden definir como una matriz de $m \times n \times 1$ pixeles en el caso de las imágenes de un solo canal (blanco y negro) y en el caso de imágenes a color es de $m \times n \times k$, donde $k$ es igual al numero de canales de color que tenga la imagen, siendo tres en el caso de imágenes RGB\footnote{RGB: Se refiere a los tres canales de color rojo, verde y azul, por sus siglas en inglés (\emph{red, green, blue}).}, es importante definir si las imágenes ingresarán al modelo a color o en blanco y negro debido a que esto define el numero de nodos de entrada de este, ya que para cada pixel debe corresponder un nodo de entrada y en el caso de imágenes a color también deberá tener un número de capas de nodos de entrada igual al número de canales que tenga la imagen.
@@ -118,15 +118,14 @@ La unidad principal que compone el modelo de la red neuronal es el perceptrón, 
 
 Partiendo de lo anterior, creando arreglos con estos nodos podemos formar estructuras denominadas \emph{redes neuronales}, las cuales cuentan con los siguientes elementos estructurales:
 
-\begin{itemize}
-    \item Capa de nodos de entrada (\emph{input nodes}): Se trata de la primera capa del modelo, en el caso de imágenes a cada pixel le corresponde un nodo de entrada. Estos nodos deben tener las mismas dimensiones que las imágenes de entrada.
-    \item Capa de nodos ocultos (\emph{hidden nodes}): Las dimensiones de estos nodos pueden ser diferentes a los de entrada y tener varias capas ocultas, sin embargo esto puede afectar la complejidad y precisión del modelo.
-    \item Capa de nodos de salida (\emph{output nodes}): Esta es la capa de salida del modelo, las dimensiones de la capa de salida determinan las dimensiones del dato resultante.
-    \item Función de activación (\emph{activation}): Se trata de una función dentro de cada nodo que interactúa con el valor entrante y se multiplica por el peso.
-    \item Pesos (\emph{weights}): Se trata de un valor entre el nodo de la capa actual y el nodo siguiente inicializado de forma aleatoria y después ajustado por un algoritmo para aproximar la salida al valor real.
-    \item Sesgo (\emph{bias}): Se trata de un valor constante que se suma al resultado de la función de activación y el peso, de esta forma se puede ajustar que tan fácil o difícil es activar un nodo.
-\end{itemize}
-
+\begin{description}
+    \item[capa de entrada (\emph{input layers}).] { Se trata de la primera capa del modelo, en el caso de imágenes a cada pixel le corresponde un nodo de entrada. Estos nodos deben tener las mismas dimensiones que las imágenes de entrada.}
+    \item[capa oculta (\emph{hidden layer}).] {Las dimensiones de estos nodos pueden ser diferentes a los de entrada y tener varias capas ocultas, sin embargo esto puede afectar la complejidad y precisión del modelo.} 
+    \item[capa de salida (\emph{output layer}).]  {Esta es la capa de salida del modelo, las dimensiones de la capa de salida determinan las dimensiones del dato resultante.}
+    \item[función de activación (\emph{activation}).]{Se trata de una función dentro de cada nodo que interactúa con el valor entrante y se multiplica por el peso.}
+    \item[pesos (\emph{weight}).] {Se trata de un valor entre el nodo de la capa actual y el nodo siguiente inicializado de forma aleatoria y después ajustado por un algoritmo para aproximar la salida al valor real.}  
+    \item[sesgo (\emph{bias}).] {Se trata de un valor constante que se suma al resultado de la función de activación y el peso, de esta forma se puede ajustar que tan fácil o difícil es activar un nodo.} 
+\end{description}
 
 \subsection{Evaluación y Optimización}
 Para realizar el proceso de \emph{aprendizaje} del modelo, primero se debe evaluar cuál es el estado actual de las predicciones. Para esto es necesario evaluar que distancia existe entre el valor predicho y el valor real, esto se puede lograr mediante una \emph{función de pérdida} que se encargue de determinar que tanta diferencia (\emph{loss}) existe en las estimaciones del modelo con los pesos actuales.
@@ -248,7 +247,6 @@ En éste capítulo se describe la estructura de la implementación propuesta, co
 \section{Metodología}
 La herramienta propuesta cuenta con tres fases principales:cargado y filtrado de datos, entrenamiento y predicción, la fase de \emph{cargado de datos} consiste en adquirir y corregir las imágenes que serán usadas en las fases siguientes, el \emph{entrenamiento} trata de la obtención de un modelo a partir de dos datos: la imagen real (entrada) y la máscara conocida (salida deseada) que corresponde a la región a clasificar, el proceso de entrenamiento consta de un número determinado de ciclos también denominados épocas (\emph{epochs}) en dónde se prueban distintas configuraciones y se conserva la configuración con el mayor porcentaje de precisión. Al finalizar el entrenamiento se obtiene un modelo mediante el cuál se realiza la segunda fase, \emph{predicción}, ahora únicamente se requiere un dato de entrada el cuál es la imágen de la cual se desconoce la clasficación de sus regiones, y como resultado se obtiene una estimación de la máscara de segmentación desconocida con sus regiones correctamente clasificadas.
 
-
 \tikzstyle{decision} = [diamond, draw, fill=gray!20, 
     text width=5.5em, text badly centered, node distance=3cm, inner sep=0pt]
 \tikzstyle{block} = [rectangle, draw, fill=gray!20, 
@@ -257,14 +255,13 @@ La herramienta propuesta cuenta con tres fases principales:cargado y filtrado de
 \tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
     minimum height=2em]
 
-
 \begin{figure}[H]
 \centering    
 \begin{tikzpicture}[node distance = 4.5cm, auto]
     % Nodos.
-    \node [block] (init) {cargado y filtrado de datos};
-    \node [block, right of = init] (train) {entrenamiento del modelo};
-    \node [block, right of = train] (pred) {predicción de máscaras};
+    \node [block] (init) {Cargado y Filtrado de Datos};
+    \node [block, right of = init] (train) {Entrenamiento del Modelo};
+    \node [block, right of = train] (pred) {Predicción de Máscaras};
     % Ejes.
     \path [line] (init) -- (train); 
     \path [line] (train) -- (pred); 
@@ -280,22 +277,51 @@ A partir de éste momento se referirá como \emph{muestra} al conjunto de datos 
 \coltext{insertar ejemplo de dataset}
 
 \subsection{Codificación de Características}
-Para completar la fase de entrenamiento y poder continual a la fase de predicción, es necesario reducir las dimensiones de las imágenes y hacerlas pasar por algo denominado filtro de convolución.
+Para poder realizar una predicción de la máscara segmentada, primero es necesario reducir las dimensiones de las imágenes sin afectar la información que estas representan. Para conseguir esto se utiliza un filtro de \emph{convolución de matríces}. Una imágen es una función bidimensional $ z = f(x,y)$, donde $x$ y $y$ son coordenadas espaciales y $z$ es el valor de la intensidad de la imágen en el punto $(x , y)$, en el caso de las imágenes a color se tienen tres funciones donde cada una representa la intensidad del pixel del canal correspondiente (rojo, verde o azul) \citep[~p. 100]{conv_1}. La convolución de matríces se define como la obtención de una matríz $C$ a partir de dos matríces $A$ y $B$. La matríz $A_{mxn}$ sería el mapa de intensidad de pixeles de la imágen mientras que la matríz $B_{(2N+1)x(2N+1)}$ es el kernel de la convolución, mediante la ecuación \ref{eq:conv_1} se obtiene la matríz $C = A * B$
+
+\begin{equation}
+c_{ij} = \frac{1}{b} \sum_{r=1}^{2N+1}\sum_{s=1}^{2N+1}(a_i-N+r-1, i-N+r-1)
+\label{eq:conv_1}
+\end{equation}
+
+donde $b = \sum_{i,j=1}^{2N+1} b_{i,j}$, si $b=0$ se toma $b=1$.
 
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}
-        \draw[step=1cm, black, thin](-2,-2) grid (5,5);
-        \filldraw[fill = gray!20, draw = black] (0,0) rectangle (3,3);
-        \draw[step=1cm, black, thin](0,0) grid (3,3);
+        \draw[step=0.5cm, black, thin](0,0) grid (4,4);
+        \node (a_in) at (0.25, 3.75) {a};
+        \filldraw[fill = gray!30, draw = black] (5,1) rectangle (8,4);
+        \draw[step=1cm, black, thin](5,1) grid (8,4);
+        \draw[step=0.5cm, black, line width=0.40mm](0,4) rectangle (1.5, 2.5);
+        \node (ast) at (4.5, 2.5) {\huge *};
+        \node at (5.5,3.5) {0};
+        \node at (5.5,2.5) {-1};
+        \node at (5.5,1.5) {0};
+        \node at (6.5,3.5) {0};
+        \node at (6.5,2.5) {1};
+        \node at (6.5,1.5) {0};
+        \node at (7.5,3.5) {0};
+        \node at (7.5,2.5) {0};
+        \node at (7.5,1.5) {0};
+        \node (eq) at (8.5, 2.5) {\huge =};
+        \draw[step=1cm, black, thin](9,0) grid (13,4);
+        \filldraw[fill=white, draw=black, line width=0.40mm](9,4) rectangle (10,3);
+        \node (c_out) at (9.5,3.5) {c};  
     \end{tikzpicture}
-    \caption{Matriz de pixeles de entrada.}
+    \caption{Representación del proceso de obtención de la matriz convolucionada.}
 \end{figure}
 
+El filtro de convolución es la base del proceso de codificado de la imagen, la codificación se refiere a la transformación de una imagen a un vector de características de alta dimensión. 
+
 \subsection{Modelo FPN}
-La arquitectura de red neuronal tipo red piramidal de características, por sus siglas en inglés FPN\footnote{Feature Pyramid Network}, se trata de una estructura que funciona en conjunto con el codificador \texttt{Resnet}, conforme se van aplicando los filtros de convolución del codificador. 
-
-
+La arquitectura de red neuronal tipo red piramidal de características, por sus siglas en inglés FPN\footnote{FPN: Feature Pyramid Network}, se trata de una estructura que funciona en conjunto con el codificador \texttt{Resnet}, 
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.4]{Figuras/fpn_ar.png}
+    \caption{Representación de la arquitectura FPN \citep{fpn_2}.}
+    \label{fig:fpn_map}
+\end{figure}
 
 \newpage
 
@@ -311,7 +337,7 @@ Para la implementación de la herramienta propuesta, se utilizó \emph{Python} c
 
 \subsection{Codificadores}
 
-\subsection{Tensor a Máscara}
+\subsection{Tensores}
 
 \chapter{Diseño Experimental}
 
