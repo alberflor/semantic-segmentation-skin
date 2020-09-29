@@ -130,24 +130,25 @@ Partiendo de lo anterior, creando arreglos con estos nodos podemos formar estruc
 \subsection{Evaluación y Optimización}
 Para realizar el proceso de \emph{aprendizaje} del modelo, primero se debe evaluar cuál es el estado actual de las predicciones. Para esto es necesario evaluar que distancia existe entre el valor predicho y el valor real, esto se puede lograr mediante una \emph{función de pérdida} que se encargue de determinar que tanta diferencia (\emph{loss}) existe en las estimaciones del modelo con los pesos actuales.
 
-Un ejemplo de la función de pérdida es el de la función logarítmica del costo (\emph{log-likelihood}), como se muestra a continuación en donde:
+Un ejemplo de la función de pérdida es el de la función logarítmica del costo (\emph{log-likelihood}), como se muestra a continuación en donde
 
-$l(\mathbf{y}, \hat{\mathbf{y}}) = - \sum_{j=1}^q y_j \log \hat{y}_j$ 
+\begin{equation}
+    l(\mathbf{y}, \hat{\mathbf{y}}) = - \sum_{j=1}^q y_j \log \hat{y}_j     
+\end{equation}
 
-\coltext{Coma.}
+$q$ representa el número de clases entre las cuales predecir, $y_j$ representa el valor de salida real, $\hat{y_j}$ el valor estimado de salida por el modelo y $j$ la posición indizada de clase.
 
-\begin{itemize}
-    \item $q$ representa el número de clases entre las debe cuales predecir.
-    \item $y_j$ representa valor real.
-    \item $\hat{y_j}$ representa valor estimado por el modelo.
-    \item $j$ representa la posición en el indizado de las clases.
-\end{itemize}
+Ya que se tiene calculada la pérdida del modelo en su configuración de pesos actual, es necesario actualizar el valor de todos los pesos dentro del modelo para poder acercarnos al valor real. Aquí es donde participa el algoritmo de \emph{gradiente descendiente} \citep{alg:gradient}, dicho algoritmo se puede representar con la siguiente ecuación
 
-Ya que se tiene calculada la pérdida del modelo en su configuración actual, es necesario actualizar el valor de todos los pesos dentro del modelo para poder acercarnos al valor real. Aquí es donde se requiere un algoritmo que primero determine si el peso de cada nodo debe aumentar o disminuir, y después de determinar la dirección realizar un ajuste antes de volver a evaluar el modelo.
+\begin{equation}
+        Error = \frac{\partial}{\partial m} = \frac{2}{N}\sum_{i=1}^{N}-X_i(y_i-(mX_i+b))
+\end{equation}
 
-Para esto existe el algoritmo de \emph{gradiente descendiente}, comienza en un punto inicial y repetidamente da un paso hacia la dirección opuesta del gradiente en cada punto y así minimizar el \emph{costo}. A continuación se representa la forma del algoritmo:
+\begin{equation}
+        \frac{\partial}{\partial b} = \frac{2}{N}\sum_{i=1}^{N}(y_i-(mX_i+b)) 
+\end{equation}
 
-\coltext{Arreglar algorithmicx}
+donde $m$ y $b$ son valores enteros que representan el peso de dos parámetros de un modelo, los cuáles serán optimizados para acercar la salida del modelo a la salida real.
 
 %\begin{algorithm}
 %    \begin{algorithmic}
@@ -277,7 +278,7 @@ A partir de éste momento se referirá como \emph{muestra} al conjunto de datos 
 \coltext{insertar ejemplo de dataset}
 
 \subsection{Codificación de Características}
-Para poder realizar una predicción de la máscara segmentada, primero es necesario reducir las dimensiones de las imágenes sin afectar la información que estas representan. Para conseguir esto se utiliza un filtro de \emph{convolución de matríces}. Una imágen es una función bidimensional $ z = f(x,y)$, donde $x$ y $y$ son coordenadas espaciales y $z$ es el valor de la intensidad de la imágen en el punto $(x , y)$, en el caso de las imágenes a color se tienen tres funciones donde cada una representa la intensidad del pixel del canal correspondiente (rojo, verde o azul) \citep[~p. 100]{conv_1}. La convolución de matríces se define como la obtención de una matríz $C$ a partir de dos matríces $A$ y $B$. La matríz $A_{mxn}$ sería el mapa de intensidad de pixeles de la imágen mientras que la matríz $B_{(2N+1)x(2N+1)}$ es el kernel de la convolución, mediante la ecuación \ref{eq:conv_1} se obtiene la matríz $C = A * B$
+Para poder realizar una predicción de la máscara segmentada, primero es necesario reducir las dimensiones de las imágenes sin afectar la información que estas representan. Para conseguir esto se utiliza un filtro de \emph{convolución de matríces}. Una imágen es una función bidimensional $ z = f(x,y)$, donde $x$ y $y$ son coordenadas espaciales y $z$ es el valor de la intensidad de la imágen en el punto $(x , y)$, en el caso de las imágenes a color se tienen tres funciones donde cada una representa la intensidad del pixel del canal correspondiente (rojo, verde o azul) \citep[~p. 100]{conv_1}. La convolución de matríces se define como la obtención de una matríz $C$ a partir de dos matríces $A$ y $B$. La matríz $A_{m \times n}$ sería el mapa de intensidad de pixeles de la imágen mientras que la matríz $B_{(2N+1) \times (2N+1)}$ es el kernel de la convolución, mediante la ecuación \ref{eq:conv_1} se obtiene la matríz $C = A * B$
 
 \begin{equation}
 c_{ij} = \frac{1}{b} \sum_{r=1}^{2N+1}\sum_{s=1}^{2N+1}(a_i-N+r-1, i-N+r-1)
@@ -315,29 +316,255 @@ donde $b = \sum_{i,j=1}^{2N+1} b_{i,j}$, si $b=0$ se toma $b=1$.
 El filtro de convolución es la base del proceso de codificado de la imagen, la codificación se refiere a la transformación de una imagen a un vector de características de alta dimensión. 
 
 \subsection{Modelo FPN}
-La arquitectura de red neuronal tipo red piramidal de características, por sus siglas en inglés FPN\footnote{FPN: Feature Pyramid Network}, se trata de una estructura que funciona en conjunto con el codificador \texttt{Resnet}, 
-\begin{figure}
+La arquitectura de red neuronal tipo red piramidal de características, por sus siglas en inglés FPN\footnote{FPN: Feature Pyramid Network}, se trata de una estructura que funciona en conjunto con el codificador \texttt{ResNet}, mientras el codificador tiene la tarea de reducir las dimensiones espaciales de la imágen de entrada y convertirlas a un mapa de característica (\emph{down-sampling}), el decodificador hace justamente lo opuesto (\emph{up-sampling}), a partir del mapa de características producto de la codificación, realiza una secuencia de deconvoluciones que recrearán la imágen en forma de máscara.
+A continuación en la figura \ref{fig:fpn_map} se puede apreciar la arquitectura y la transformación de las dimensiones de los datos, el número a lado izquiero de las capas de convolución representa la resolución en proporción y el número de lado derecho representa el número de canales.
+
+\begin{figure}[H]
     \centering
-    \includegraphics[scale=0.4]{Figuras/fpn_ar.png}
+    \includegraphics[scale=0.30]{Figuras/fpn_ar.png}
     \caption{Representación de la arquitectura FPN \citep{fpn_2}.}
     \label{fig:fpn_map}
 \end{figure}
+\coltext{Traducir etiquetas}
 
-\newpage
+Esta arquitectura fue utilizada en la implementación de la herramienta propuesta.
 
 \section{Implementación de la Solución}
-Para la implementación de la herramienta propuesta, se utilizó \emph{Python} como único lenguaje. \emph{Python} ofrece una enorme variedad de librerías las cuáles fueron utilizadas para obtener el resultado más óptimo en la implementación de la red neuronal profunda.
-(\emph{ISIC}\footnote{ISIC: International Skin Imaging Collaboration.}).
+Para la implementación de la herramienta propuesta, se utilizó \texttt{Python} como lenguaje principal. \texttt{Python} es un lenguaje de alto nivel con un extenso repositorio de paquetes desarrollados por la comunidad, también es un lenguaje ligero ideal para el procesamiento de datos y de operaciones con datos de altas dimensiones (\emph{high-dimensional data}), debído a esto último, se consideró \texttt{Python} la mejor opción para la implementación de la red neuronal profunda.
 
-\coltext{Agregar aquí descripción de las librerías utilizadas.}
+Si bien otros lenguajes tienen una mayor velocidad en la ejecución de cálculos complejos, es la facilidad con la que se pueden desplegar implementaciones complejas en relativamente pocas líneas de código lo que llevo a la conclusión de que \texttt{Python} es la opción ideal para la implementación propuesta, como el hecho de que existen muchas documentaciones e implementaciones similares en este lenguaje.
+
+A continuación se especifican las librerías claves utilizadas para llevar a cabo la implementación, así mismo se da una breve descripción general sobre la misma y su importancia durante el desarollo de la propuesta.
+
+\begin{table}[H]
+    \centering
+    \caption{Tabla de librerías utilizadas para la implementación de la propuesta.}
+    \begin{tabular}{|p{3cm}|p{10cm}|}
+        \hline
+        Librería & Descripción \\
+        \hline
+        \texttt{Torch.vision} & Este paquete es una colección de módulos relacionados con las operaciones de tensores y la aceleración de cálculos mediante hardware. Se usa en conjunto con \texttt{NumPY} y cuenta con las arquitecturas de redes neuronales típicas, así como herramientas para el cargado de datos y la configuración de parametros de los modelos.\\
+        
+        \hline
+        \texttt{Quvel Segmentation Models} & Este paquete cuenta las arquitecturas de las redes neuronales de segmentación semántica típicas, se trata del marco de trabajo mediante el cuál podemos crear y configurar la arquitectura de la red para después realizar el entrenamiento.\\
+        
+        \hline
+        \texttt{Numpy} & Esta librería fue desarrollada para habilitar el uso de vectores y matríces de grandes dimensiones y para la computación numérica en general, ya que \texttt{Python} originalmente no cuenta con el soporte para esto.\\
+        
+        \hline
+        \texttt{OpenCV} & Es una librería dedicada al procesamiento de imágenes y a la visión computacional, cuenta con funciones que permiten cargar imágenes y obtener su matríz de pixeles así como aplicar efectos y transformaciones en estas.\\
+
+        \hline
+        \texttt{Albumentations} & Esta librería es principalmente útil para el pre-procesado de las imágenes al momento de realizar el entrenamiento, cuenta con funciones que permiten crear secuencias de transformaciones específicas para distíntos subconjuntos de datos así como la capacidad de transformar imágenes a tensores.\\
+
+        \hline
+    \end{tabular}
+    \label{tab:libs}
+\end{table}
 
 \subsection{Computación Asistída por Hardware}
+Los cálculos llevados en el proceso de entrenamiento involucra realizar operaciones con datos de altas dimensiones (\emph{high-dimentional data}) los cuales requieren una gran cantidad de recursos de procesamiento, estas operaciones al estar relacionadas con vectores y matríces pueden ser ejecutadas rapidamente por la unidad GPU\footnote{GPU: Graphics Processor Unit}, entre mayor sea la velocidad de procesamiento de la GPU más rapido es el entrenamiento de nuevos modelos y con mayor resolución.
+
+\subsection{Módulos de la Implementación}
+La herramienta desarrollada en el presente trabajo de tesis se divide en cuatro módulos funcionales y un módulo central encargado de controlar la ejecución de los mismos. En la figura \ref{fig: modules} se puede observar la estrúctura modular del software desarrollad, dentro de dichos módulos se encuentran las funciones específicas de esa categoría y en el módulo principal se encuentran los parámetros del modelo.
+
+\tikzstyle{block} = [rectangle, draw, fill=gray!20, 
+    text width=7em, text centered, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance = 1cm and 1cm]
+        \node [block] (main) {main};
+        \node [block, left= of main] (load) {load$\_$dataset};
+        \node [block, right= of main] (train) {train$\_$model};
+        \node [block, below= of main] (test) {test$\_$model};
+        % Líneas
+        \path [line] (load) -- (main);
+        \path [line] (train) -- (main);
+        \path [line] (test) -- (main);
+    \end{tikzpicture}
+    \caption{Distribución de los módulos en la herramienta desarrollada.}
+    \label{fig: modules}
+\end{figure}
+
+\subsection{Cargado de Datos}
+El proceso de cargado de datos y filtrado es un proceso muy importante para la ejecución correcta en las siguientes transformaciones, para el entrenamiento del modelo se utilizará una base de datos obtenida de la Asociación de Recolección de Imágenes dermatolólogicas, por sus siglas en inglés (\emph{ISIC}\footnote{ISIC: International Skin Imaging Collaboration.}). La base de datos de ISIC cuenta con 10mil imágenes de entrenamiento con resoluciones distintas, con diferentes tonos de iluminación y rotación, así como su máscara de segmentación conocida y 2mil imágenes para realizar pruebas, también con resoluciones no estandarizadas y sin máscara de segmentación.
+
+\definecolor{folderbg}{RGB}{124,166,198}
+\definecolor{folderborder}{RGB}{110,144,169}
+
+\def\Size{4pt}
+\tikzset{
+  folder/.pic={
+    \filldraw[draw=folderborder,top color=folderbg!50,bottom color=folderbg]
+      (-1.05*\Size,0.2\Size+5pt) rectangle ++(.75*\Size,-0.2\Size-5pt);  
+    \filldraw[draw=folderborder,top color=folderbg!50,bottom color=folderbg]
+      (-1.15*\Size,-\Size) rectangle (1.15*\Size,\Size);
+  }
+}
+\begin{figure}[H]
+    \centering
+    \begin{forest}
+        for tree={
+          font=\ttfamily,
+          grow'=0,
+          child anchor=west,
+          parent anchor=south,
+          anchor=west,
+          calign=first,
+          inner xsep=7pt,
+          edge path={
+            \noexpand\path [draw, \forestoption{edge}]
+            (!u.south west) +(7.5pt,0) |- (.child anchor) pic {folder} \forestoption{edge label};
+          },
+          before typesetting nodes={
+            if n=1
+              {insert before={[,phantom]}}
+              {}
+          },
+          fit=band,
+          before computing xy={l=15pt},
+        }  
+      [Data
+        [Train$\_$Images
+        ]
+        [Annot$\_$Images
+        ]
+        [Test$\_$Images
+        ]
+      ]
+      \end{forest}
+      \caption{Representación del árbol de directorios de imágenes.}    
+\end{figure}
+
+
+Lo primero que se desarrolló fue un asistente de cargado y filtrado de imágenes, en el código \ref{code:load} se puede apreciar el código fuente y las funciones utilizadas para tal motivo. Al ser utilizado el objeto \emph{dataset} y alimentar los argumentos con los directorios de las imágenes se obtiene como resultado un objeto de dimensión $n \times 2 \times (m \times n)$ donde $n$ es el número de muestras cargadas y el primer elemento de la fila es la matríz de la imágen real, y el segúndo la matríz de la máscara conocída.
+
+
+
+\renewcommand{\lstlistingname}{Código}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codeblue}{rgb}{0.121, 0.203, 0.858}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{pystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codeblue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=pystyle}
+
+\begin{lstlisting}[language = Python, label = {code:load} ,caption= Código fuente del asistente de cargado de imágenes.]
+    # load_dataset.py
+
+    # Creacion de la clase encargada de cargar, corregir y contener el conjunto de datos.
+
+    class dataset ():
+        def __init__(
+            self,
+            images_dir,
+            masks_dir,
+            classes=None,
+        ):
+        # Extraccion de ids de imagenes y mascaras.
+        self.ids = listdir(images_dir)
+        self.images_fps = [os.path.join(images_dir(img_id)
+                          for img_id in self.ids]
+
+        self.masks_fps = [os.path.join(mask_dir,
+                         (img_id[:-4] + '_segmentation.png'))
+                         for img_id in self.ids]
+
+    # Lectura de imagenes y correcion de canales.
+    def __getitem__(self,i):
+        image = cv2.imread(self.images_fps[i])
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+        mask = cv2.imread(self.masks_fps[i],0)
+
+        return image, mask
+\end{lstlisting}
+
+A continuación se da un breve ejemplo del uso del asistente de cargado.
+
+\begin{lstlisting}[language = Python, label = {code:load} ,caption= Uso de la clase.]
+
+    # main.py.
+    
+    import load_dataset as ld 
+
+    train_dir = 'Data/Train_Images'
+    mask_dir = 'Data/Train_Images'
+
+    set_de_datos = ld.dataset(train_dir, mask_dir)
+
+    # Al ser un vector de matrices se puede obtener una muestra del conjunto de datos mediante su posicion indizada.
+
+    imagen, mascara = set_de_datos[1]
+
+    # Dando como resultado dos matrices.
+
+\end{lstlisting}
+
 
 \subsection{Pre-procesamiento}
+El \emph{pre-procesamiento} se define como una secuencia de transformaciones que se aplican al momento previo del entrenamiento y afecta a un subconjunto específico de los datos. Para el diseño de la secuencia de transformaciones tanto para el subconjunto de entrenamiento como el subconjunto fueron consideradas las siguientes características.
 
-\subsection{Codificadores}
+\begin{description}
+    \item[resolución.]{ El codifícador admite resoluciones específicas, debído a las dimensiones admitidas para el filtrado de convolución de matríces.}
+    \item[número de muestras.]{La cantidad de datos disponibles para el entrenamiento afecta la precisión final, si el conjunto de datos es limitado se pueden realizar transformaciones de las imágenes presentes para obtener más datos de entrenamiento. Así como tener un conjunto muy extenso y con poca variabilidad afectaría también la capacidad de predecir imágenes generalizadas, se puede ajustar mediante el pre-procesamiento.}
+    \item[] 
+\end{description}
 
-\subsection{Tensores}
+\subsection{Entrenamiento y Validación}
+Para poder determinar la eficiencia durante el \emph{entrenamiento} y optimizar los pesos sinápticos es necesario hacer úso de métricas, dichas métricas se aplicarán sobre el subconjunto de validación. Los datos utilizados fueron divididos en una proporción de $70\%$ para entrenamiento y $30\%$ para la validación, el subconjunto de validación no es usado durante el entrenamiento sino qué, al terminar una época se verifíca con ese subconjunto la precisión.
+
+
+La métrica utilizada para evaluar el modelo es la del \emph{índice de Jaccard} (\emph{Intersection Over Union}) por sus siglas en inglés (IoU) \citep{fpn_1}, de la siguiente ecuación
+\begin{equation}
+    J(A,B) = \frac{|A \cap B|}{| A \cup B |} = \frac{|A \cap B|}{|A| + |B| - |A \cap B|}
+\end{equation} 
+
+donde $A$ y $B$ se pueden interpretar como la máscara real y la máscara estimada, y debido a que las imágenes consisten de pixeles, la ecuación anterior se puede representar en el caso de objetos discretos como
+
+\begin{equation}
+    J = \frac{1}{n} \sum_{c=1}^{k} W_c \sum_{i=1}^{n}\frac{y_i^c \hat y_i^c}{y_i^c + \hat y_i^c - y_i^c \hat y_i^c}
+\end{equation} 
+
+donde $y_i^c$ y $\hat y_i^c$ son valores binarios y corresponden a la probabilidad de que el pixel $i$ corresponda a la clase $c$ de un número $k$ de clases.
+
+Mediante la librería de Yakubovskiy \citep{Yakubovskiy:2019}, se pueden configurar los parámetros previamente al entrenamiento.
+
+\begin{lstlisting}[language = Python, label = {code:load} ,caption= Ejemplo de configuración de parámetros. ]
+    # main.py.
+    import segmentation_models_pytorch as smp 
+
+    metrics = [smp.utils.metrics.IoU(threshold=0.5),]
+    loss = smp.utils.losses.DiceLoss()
+    optimizer = torch.optim.Adam([dict(params=model.parameters(), lr= 0.0001),])
+\end{lstlisting}
+
+\subsection{Predicción de Máscaras} 
+Una vez obtenido un modelo con precisión buena \emph{good fit}, el objetivo es generar máscaras desconocidas a partír de las imágenes del set de pruebas. Para esto es necesario popular de nuevo un \emph{dataset} de dimensión $N \times (m \times n)$, básicamente es un vector de matríces donde $N$ es el número de imágenes para realizar la prueba, y $m \times n$ es la resolución de imágen de la cuál se desea obtener la máscara de segmentación.
 
 \chapter{Diseño Experimental}
 
