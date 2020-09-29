@@ -119,18 +119,18 @@ La unidad principal que compone el modelo de la red neuronal es el perceptrón, 
 Partiendo de lo anterior, creando arreglos con estos nodos podemos formar estructuras denominadas \emph{redes neuronales}, las cuales cuentan con los siguientes elementos estructurales:
 
 \begin{description}
-    \item[capa de entrada (\emph{input layers}).] { Se trata de la primera capa del modelo, en el caso de imágenes a cada pixel le corresponde un nodo de entrada. Estos nodos deben tener las mismas dimensiones que las imágenes de entrada.}
-    \item[capa oculta (\emph{hidden layer}).] {Las dimensiones de estos nodos pueden ser diferentes a los de entrada y tener varias capas ocultas, sin embargo esto puede afectar la complejidad y precisión del modelo.} 
-    \item[capa de salida (\emph{output layer}).]  {Esta es la capa de salida del modelo, las dimensiones de la capa de salida determinan las dimensiones del dato resultante.}
-    \item[función de activación (\emph{activation}).]{Se trata de una función dentro de cada nodo que interactúa con el valor entrante y se multiplica por el peso.}
-    \item[pesos (\emph{weight}).] {Se trata de un valor entre el nodo de la capa actual y el nodo siguiente inicializado de forma aleatoria y después ajustado por un algoritmo para aproximar la salida al valor real.}  
-    \item[sesgo (\emph{bias}).] {Se trata de un valor constante que se suma al resultado de la función de activación y el peso, de esta forma se puede ajustar que tan fácil o difícil es activar un nodo.} 
+    \item[Capa de entrada (\emph{input layers})] { Se trata de la primera capa del modelo, en el caso de imágenes a cada pixel le corresponde un nodo de entrada. Estos nodos deben tener las mismas dimensiones que las imágenes de entrada.}
+    \item[Capa oculta (\emph{hidden layer})] {Las dimensiones de estos nodos pueden ser diferentes a los de entrada y tener varias capas ocultas, sin embargo esto puede afectar la complejidad y precisión del modelo.} 
+    \item[Capa de salida (\emph{output layer})]  {Esta es la capa de salida del modelo, las dimensiones de la capa de salida determinan las dimensiones del dato resultante}
+    \item[Función de activación (\emph{activation})]{Se trata de una función dentro de cada nodo que interactúa con el valor entrante y se multiplica por el peso.}
+    \item[Pesos (\emph{weight})] {Se trata de un valor entre el nodo de la capa actual y el nodo siguiente inicializado de forma aleatoria y después ajustado por un algoritmo para aproximar la salida al valor real.}  
+    \item[Sesgo (\emph{bias})] {Se trata de un valor constante que se suma al resultado de la función de activación y el peso, de esta forma se puede ajustar que tan fácil o difícil es activar un nodo.} 
 \end{description}
 
 \subsection{Evaluación y Optimización}
 Para realizar el proceso de \emph{aprendizaje} del modelo, primero se debe evaluar cuál es el estado actual de las predicciones. Para esto es necesario evaluar que distancia existe entre el valor predicho y el valor real, esto se puede lograr mediante una \emph{función de pérdida} que se encargue de determinar que tanta diferencia (\emph{loss}) existe en las estimaciones del modelo con los pesos actuales.
 
-Un ejemplo de la función de pérdida es el de la función logarítmica del costo (\emph{log-likelihood}), como se muestra a continuación en donde
+Un ejemplo de la función de pérdida es el de la función logarítmica del costo (\emph{log-likelihood}), como se muestra a continuación
 
 \begin{equation}
     l(\mathbf{y}, \hat{\mathbf{y}}) = - \sum_{j=1}^q y_j \log \hat{y}_j     
@@ -175,42 +175,40 @@ Finalmente en las \emph{áreas de oportunidad}, se realiza una conclusión acerc
 
 A continuación se mencionan los trabajos revisados en los que se puede obtener un punto de convergencia ya sea en los métodos similares utilizados para resolver problemas diferentes o en su defecto métodos distintos para resolver problemas similares.
 
-\citet{DBLP:journals/corr/BadrinarayananK15} en este trabajo se habla sobre la arquitectura denominada \emph{SegNet} utilizada principalmente para la conducción autónoma y la detección de peatones, se describe como una arquitectura convolucional, con la característica de que es una jerarquía de codificador-decodificador donde a cada codificación (\emph{encoding}) corresponde una capa de agrupación de máximos (\emph{max pooling}) y un decodificador. Inspirado principalmente en la arquitectura \emph{VGG16}, con la diferencia de que el componente clave en esta arquitectura es el uso de convoluciones en lugar de la capa completamente conectada de nodos (\emph{fully-connected-layer}) a la salida.
+\citet{DBLP:journals/corr/BadrinarayananK15} en este trabajo se habla sobre la arquitectura denominada \texttt{SegNet} utilizada principalmente para la conducción autónoma y la detección de peatones, se describe como una arquitectura convolucional, con la característica de que es una jerarquía de codificador-decodificador donde a cada codificación (\emph{encoding}) corresponde una capa de agrupación de máximos (\emph{max pooling}) y un decodificador. Inspirado principalmente en la arquitectura \texttt{VGG16}, con la diferencia de que el componente clave en esta arquitectura es el uso de convoluciones en lugar de la capa completamente conectada de nodos (\emph{fully-connected-layer}) a la salida.
 
-\citet{DBLP:journals/corr/RonnebergerFB15} proponen uno de los primeros modelos de la redes neuronales convolucionales denominada \emph{U-net} dirigida al análisis de imágenes del area médica. Este trabajo consiste en una arquitectura con dos trayectorias: la trayectoria de contracción de la imagén y la trayectoria de expansión. En la trayectoria de contracción de la imagen se aplica una secuencia de convoluciones de dimension $3 \times 3$ con solapado, seguido de una función de activación de rectificación linear unitaria (\emph{ReLu}) y posteriormente una operación de agrupación de máximos (\emph{max pooling}) para la compresión de la imagen (\emph{downsampling}). Por otro lado, la trayectoria de expansión consiste de el escalado de la imagen (\emph{upsampling}), en cada paso se aplica una capa de convolución de $2 \times 2$ a la cuál se concatena una imagen recortada del mapa de características de la trayectoria de contracción y dos convoluciones de $3 \times 3$ seguidos de una activación ReLu cada una. En total la arquitectura tiene 23 convoluciones (U-net).
+\citet{DBLP:journals/corr/RonnebergerFB15} proponen uno de los primeros modelos de la redes neuronales convolucionales denominada \texttt{U-net} dirigida al análisis de imágenes del area médica. Este trabajo consiste en una arquitectura con dos trayectorias: la trayectoria de contracción de la imagén y la trayectoria de expansión. En la trayectoria de contracción de la imagen se aplica una secuencia de convoluciones de dimension $3 \times 3$ con solapado, seguido de una función de activación de rectificación linear unitaria (ReLu) y posteriormente una operación de agrupación de máximos (\emph{max pooling}) para la compresión de la imagen (\emph{downsampling}). Por otro lado, la trayectoria de expansión consiste de el escalado de la imagen (\emph{upsampling}), en cada paso se aplica una capa de convolución de $2 \times 2$ a la cuál se concatena una imagen recortada del mapa de características de la trayectoria de contracción y dos convoluciones de $3 \times 3$ seguidos de una activación ReLu cada una. En total la arquitectura tiene 23 convoluciones (U-net).
 
-\citet{DBLP:journals/corr/ChenPK0Y16} en este trabajo hablan de la arquitectura denominada \emph{Deep Lab}, la cual propone un acercamiento distinto a la parte de la reconstrucción en las capas finales del modelo. Al igual que otras arquitecturas cuenta con capas de convolución. agrupación de máximos y activación de rectificación linear unitaria, sin embargo, el componente clave aquí es la denominada convolución de hoyos (\emph{atrous convolution}), la cual es una modificación al filtro de convolución basado en la transformada de \emph{Wavelet} para el escalado del mapa de características (\emph{upsampling}). De esta forma se obtiene una alternativa al uso de capas de deconvolución y así se aumenta la resolución del mapa de características a la salida del modelo sin aumentar el tiempo de computación o la cantidad de parámetros.
+\citet{DBLP:journals/corr/ChenPK0Y16} en este trabajo hablan de la arquitectura denominada \texttt{Deep Lab}, la cual propone un acercamiento distinto a la parte de la reconstrucción en las capas finales del modelo. Al igual que otras arquitecturas cuenta con capas de convolución. agrupación de máximos y activación de rectificación linear unitaria, sin embargo, el componente clave aquí es la denominada convolución de hoyos (\emph{atrous convolution}), la cual es una modificación al filtro de convolución basado en la transformada de \emph{Wavelet} para el escalado del mapa de características (\emph{upsampling}). De esta forma se obtiene una alternativa al uso de capas de deconvolución y así se aumenta la resolución del mapa de características a la salida del modelo sin aumentar el tiempo de computación o la cantidad de parámetros.
 
-\citet{DBLP:journals/corr/TeichmannWZCU16} reducen la carga computacional en en los modelos de redes neuronales convolucionales mediante la unificación de las tres tareas principales de estas: clasificación, detección y segmentación. Denominada como multi-red neuronal (\emph{multinet}) se trata de una arquitectura tipo codificador-decodificador en donde el decodificador esta compuesto de tres ramas las cuales corresponden a las tareas de clasificación, detección y segmentación por lo que se realizan las tres tareas de forma simultanea partiendo de la misma entrada (\emph{multi-tasking}) y usando la salida de cada una de las ramas para el ajuste fino de los parámetros del modelo (\emph{fine-tuning}).  
+\citet{DBLP:journals/corr/TeichmannWZCU16} reducen la carga computacional en en los modelos de redes neuronales convolucionales mediante la unificación de las tres tareas principales de estas: clasificación, detección y segmentación. Denominada como multi-red neuronal \texttt{MultiNet} se trata de una arquitectura tipo codificador-decodificador en donde el decodificador esta compuesto de tres ramas las cuales corresponden a las tareas de clasificación, detección y segmentación por lo que se realizan las tres tareas de forma simultanea partiendo de la misma entrada (\emph{multi-tasking}) y usando la salida de cada una de las ramas para el ajuste fino de los parámetros del modelo (\emph{fine-tuning}).  
 
-\citet{KRONER2020261} hablan sobre un módelo de codificación-decodificación contextual basado en el proceso en el que los humanos obtenemos la información espacial de los escenarios visuales complejos, mediante un mapa topográfico de las salientes. Se basa en más en el proceso biológico con el que se obtiene la información espacial que en los métodos matemáticos para calcularla, dicho lo anterior, los principales componentes para determinar una saliente son color, la intensidad y la orientación.  
+\citet{KRONER2020261} hablan sobre un modelo de codificación-decodificación contextual basado en el proceso en el que los humanos obtenemos la información espacial de los escenarios visuales complejos, mediante un mapa topográfico de las salientes. Se basa en más en el proceso biológico con el que se obtiene la información espacial que en los métodos matemáticos para calcularla, dicho lo anterior, los principales componentes para determinar una saliente son color, la intensidad y la orientación.  
 
-\citet{KADAMPUR2020100282} proponen el úso de los servicios de nube en conjunto con las redes neuronales profundas y el diseño de modelos utilizando modelos pre-entrenados. Para esto utilizan la herramienta de \emph{deep learning studio (DLS)}, la cual es un software que permite el uso de tarjetas gráficas (\emph{GPU}) localizadas en la nube o localmente, y también permite el uso de múltiples tarjetas de forma simultanea (\emph{multi-GPU}), la arquitectura usada para la detección de cáncer de piel en este trabajo es de una red neuronal profunda de clasificación, por lo que el modelo se codifica mediante convoluciones y se decodifica mediante capas de aplanamiento (\emph{flatten layer}) para posteriormente entrar a una capa de nodos completamente conectada (\emph{fully-connected-layer}) y obtener dos posibles resultados: es cáncer o no es cáncer.
+\citet{KADAMPUR2020100282} proponen el úso de los servicios de nube en conjunto con las redes neuronales profundas y el diseño de modelos utilizando modelos pre-entrenados. Para esto utilizan la herramienta de \texttt{Deep Learning Studio}, la cual es un software que permite el uso de tarjetas gráficas (\emph{GPU}) localizadas en la nube o localmente, y también permite el uso de múltiples tarjetas de forma simultanea (\emph{multi-GPU}), la arquitectura usada para la detección de cáncer de piel en este trabajo es de una red neuronal profunda de clasificación, por lo que el modelo se codifica mediante convoluciones y se decodifica mediante capas de aplanamiento (\emph{flatten layer}) para posteriormente entrar a una capa de nodos completamente conectada (\emph{fully-connected-layer}) y obtener dos posibles resultados: es cáncer o no es cáncer.
 
-\citet{zhou2019emerging} hablan sobre el úso del aprendizaje de máquina (\emph{machine learning}) y las redes neuronales para la predicción teórica de nano-materiales. Para conseguir esto, es necesario determinar el número de capas y la heterogeneidad del material para posteriormente entender fenómenos visuales como el parpadeo y la emisión cuántica, concluyendo que las intensidades RGB están correlacionadas al número de capas en el material del grafeno. 
+\citet{zhou2019emerging} hablan sobre el aprendizaje de máquina \texttt{Machine Learning} y las redes neuronales para la predicción teórica de nano-materiales. Primero determinaron el número de capas y la heterogeneidad del material para posteriormente entender los fenómenos visuales como el parpadeo y la emisión cuántica, concluyendo que las intensidades RGB están correlacionadas al número de capas en el material del grafeno. 
 
+\citet{DBLP:journals/corr/LucCCV16} proponen una alternativa al proceso de decodificación. Normalmente en las tareas de segmentación es necesaria la parte de codificación para realizar las predicciones a grado pixel y la decodificación para reconstruir la imagen con las categorías segmentadas. Este trabajo propone el uso de una red generativa adversaria \texttt{GAN}, para utilizarse como decodificador, de esta manera se obtiene un mapa de etiquetas (\emph{map layer}) con una mayor resolución.
 
-\citet{DBLP:journals/corr/LucCCV16} proponen una alternativa al proceso de decodificación. Normalmente en las tareas de segmentación es necesaria la parte de codificación para realizar las predicciones a grado pixel y la decodificación para reconstruir la imagen con las categorías segmentadas. Este trabajo propone el uso de una red generativa adversaria (\emph{GAN}), para utilizarse como decodificador, de esta manera se obtiene un mapa de etiquetas (\emph{map layer}) con una mayor resolución.
-
-\citet{JAIN2015735} desarrollan una herramienta de procesamiento de imágenes médicas relacionadas al melanoma, basándose en sus características físicas como: asimetría, color, bordes y diámetro. Se basa en la técnica de segmentación de imágenes mediante el uso de filtros de contraste, detección de ejes, etc. A diferencia de los otros trabajos mencionados, este no consiste del uso de redes neuronales sino de filtrados de imágen mediante convoluciones para obtener la máscara.
-
+\citet{JAIN2015735} desarrollan una herramienta de procesamiento de imágenes médicas relacionadas al melanoma, basándose en sus características físicas como: asimetría, color, bordes y diámetro. Se basa en la técnica de segmentación de imágenes mediante el uso de filtros de contraste, detección de ejes, etc. A diferencia de los otros trabajos mencionados, este no consiste del uso de redes neuronales sino de filtrados de imágen mediante distintos kernels de convoluciones para obtener la máscara.
 
 \section{Análisis Comparativo}
 En esta sección se evalúan los trabajos revisados con el trabajo propuesto en este trabajo de tesis, para esto se define una serie de características que servirán como puntos de referencia entre el trabajo propuesto y los trabajos relacionados, dichas características son las siguientes:
 
 \begin{description}
-    \item[Modelo.]{Tipo de arquitectura del modelo.}
-    \item[Clasificación.]{El sistema puede clasificar entre distintas categorías.}
-    \item[Segmentación.]{El sistema puede segmentar las imágenes.}
-    \item[Supervisado.]{ El sistema requiere de datos de datos de entrenamiento.}
-    \item[Pre-entrenamiento.]{El sistema puede inicializarse con pesos pre-entrenados como alternativa a la inicialización con pesos aleatorios.}
-    \item[Evaluación.]{El sistema cuenta con una función de evaluación y un algoritmo de optimización.}
-    \item[Salida.]{Características de los datos obtenidos en la salida del modelo.}
+    \item[Modelo]{Tipo de arquitectura del modelo.}
+    \item[Clasificación]{El sistema puede clasificar entre distintas categorías.}
+    \item[Segmentación]{El sistema puede segmentar las imágenes.}
+    \item[Supervisado]{ El sistema requiere de datos de datos de entrenamiento.}
+    \item[Pre-entrenamiento]{El sistema puede inicializarse con pesos pre-entrenados como alternativa a la inicialización con pesos aleatorios.}
+    \item[Evaluación]{El sistema cuenta con una función de evaluación y un algoritmo de optimización.}
+    \item[Salida]{Características de los datos obtenidos en la salida del modelo.}
 \end{description}
 \newpage
 \begin{table}[hbt!]{
     \centering
-    \caption{Similitudes y diferencias entre los trabajos revisados, las características implementadas se representan con (\cmark), mientras que las no implementadas con (\xmark).}
+    \caption{Similitudes y diferencias entre los trabajos revisados, las características implementadas se representan con \cmark, mientras que las no implementadas con \xmark.}
     \begin{adjustbox}{width=\textwidth}
         \begin{tabular}[t]{|l|l|l|l|l|l|l|l|}
             \hline
@@ -313,11 +311,11 @@ donde $b = \sum_{i,j=1}^{2N+1} b_{i,j}$, si $b=0$ se toma $b=1$.
     \caption{Representación del proceso de obtención de la matriz convolucionada.}
 \end{figure}
 
-El filtro de convolución es la base del proceso de codificado de la imagen, la codificación se refiere a la transformación de una imagen a un vector de características de alta dimensión. 
+El filtro de convolución es la base del proceso de codificado de la imagen, la codificación se refiere a la transformación de una imagen a un vector de características de alta dimensión (\emph{downsampling}), una vez que se tiene el mapa de características sigue con el proceso de \emph{upsampling}.
 
 \subsection{Modelo FPN}
-La arquitectura de red neuronal tipo red piramidal de características, por sus siglas en inglés FPN\footnote{FPN: Feature Pyramid Network}, se trata de una estructura que funciona en conjunto con el codificador \texttt{ResNet}, mientras el codificador tiene la tarea de reducir las dimensiones espaciales de la imágen de entrada y convertirlas a un mapa de característica (\emph{down-sampling}), el decodificador hace justamente lo opuesto (\emph{up-sampling}), a partir del mapa de características producto de la codificación, realiza una secuencia de deconvoluciones que recrearán la imágen en forma de máscara.
-A continuación en la figura \ref{fig:fpn_map} se puede apreciar la arquitectura y la transformación de las dimensiones de los datos, el número a lado izquiero de las capas de convolución representa la resolución en proporción y el número de lado derecho representa el número de canales.
+La arquitectura de red neuronal tipo red piramidal de características, por sus siglas en inglés FPN\footnote{FPN: Feature Pyramid Network}, se trata de una estructura que funciona en conjunto con el codificador \texttt{ResNet}, mientras el codificador tiene la tarea de realizar el \emph{downsampling} de las dimensiones espaciales de la imágen de entrada y convertirlas a un mapa de característica , el decodificador hace justamente lo opuesto (\emph{up-sampling}), a partir del mapa de características producto de la codificación, realiza una secuencia de deconvoluciones que construyen la máscara de segmentación estimada.
+
 
 \begin{figure}[H]
     \centering
@@ -327,7 +325,7 @@ A continuación en la figura \ref{fig:fpn_map} se puede apreciar la arquitectura
 \end{figure}
 \coltext{Traducir etiquetas}
 
-Esta arquitectura fue utilizada en la implementación de la herramienta propuesta.
+En la figura \ref{fig:fpn_map} se puede apreciar la arquitectura y la transformación de las dimensiones de los datos, el número a lado izquiero de las capas de convolución representa la resolución en proporción a la entrada y el número de lado derecho representa el número de canales. El número de canales aumenta mientras que la resolución disminuye.
 
 \section{Implementación de la Solución}
 Para la implementación de la herramienta propuesta, se utilizó \texttt{Python} como lenguaje principal. \texttt{Python} es un lenguaje de alto nivel con un extenso repositorio de paquetes desarrollados por la comunidad, también es un lenguaje ligero ideal para el procesamiento de datos y de operaciones con datos de altas dimensiones (\emph{high-dimensional data}), debído a esto último, se consideró \texttt{Python} la mejor opción para la implementación de la red neuronal profunda.
@@ -360,6 +358,26 @@ A continuación se especifican las librerías claves utilizadas para llevar a ca
         \hline
     \end{tabular}
     \label{tab:libs}
+\end{table}
+
+En el cuadro a continuación se específican las características de la computadora utilizada para el proceso de entrenamiento del modelo.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|}
+        \hline
+        Componente & Descripción \\
+        \hline
+        Procesador & Rizen 5 3600x, 3.80GHz, 6-Core \\
+        \hline
+        GPU & Nvidia GeForce 1050ti, 4gb \\
+        \hline
+        MOBO & Gigabyte Gaming AB-350 \\
+        \hline
+        RAM & HyperX Fury, 16gb, 2433mhz \\
+        \hline
+
+    \end{tabular}
 \end{table}
 
 \subsection{Computación Asistída por Hardware}
@@ -530,16 +548,44 @@ A continuación se da un breve ejemplo del uso del asistente de cargado.
 El \emph{pre-procesamiento} se define como una secuencia de transformaciones que se aplican al momento previo del entrenamiento y afecta a un subconjunto específico de los datos. Para el diseño de la secuencia de transformaciones tanto para el subconjunto de entrenamiento como el subconjunto fueron consideradas las siguientes características.
 
 \begin{description}
-    \item[resolución.]{ El codifícador admite resoluciones específicas, debído a las dimensiones admitidas para el filtrado de convolución de matríces.}
-    \item[número de muestras.]{La cantidad de datos disponibles para el entrenamiento afecta la precisión final, si el conjunto de datos es limitado se pueden realizar transformaciones de las imágenes presentes para obtener más datos de entrenamiento. Así como tener un conjunto muy extenso y con poca variabilidad afectaría también la capacidad de predecir imágenes generalizadas, se puede ajustar mediante el pre-procesamiento.}
+    \item[Resolución]{ El codifícador admite resoluciones específicas, debído a las dimensiones admitidas para el filtrado de convolución de matríces.}
+    \item[Número de muestras]{La cantidad de datos disponibles para el entrenamiento afecta la precisión final, si el conjunto de datos es limitado se pueden realizar transformaciones de las imágenes presentes para obtener más datos de entrenamiento. Así como tener un conjunto muy extenso y con poca variabilidad afectaría también la capacidad de predecir imágenes generalizadas, se puede ajustar mediante el pre-procesamiento.}
     \item[] 
 \end{description}
 
+
+\tikzstyle{block} = [rectangle, draw, fill=gray!20, 
+    text width=7.5em, text centered, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance = 1cm and 1cm]
+        \node [block] (input) {Imagen de Entrada ($m \times n$)};
+        \node [block, right= of input] (tr1) {Resize ($512 \times 512$)};
+        \node [block, right= of tr1] (tr2) {Interpolate (INTER$\_$AREA)};
+        \node [block, right= of tr2] (tr3) {Transpose (2, 0, 1)};
+        \node [block, below= of tr3] (out) {Dato de Salida ($N \times (512 \times 512)$)};
+        % Líneas
+        \path [line] (input) -- (tr1);
+        \path [line] (tr1) -- (tr2);
+        \path [line] (tr2) -- (tr3);
+        \path [line] (tr3) -- (out);
+
+    \end{tikzpicture}
+    \caption{Pipeline de pre-procesado.}
+    \label{fig: pipeline}
+\end{figure}
+
+Debido a que el \emph{dataset} es extenso y solo clasifíca entre dos categorías, no es necesario realizar demasiadas trasnformaciones, no obstante es importante trasponer la matríz de entrada para convertir la matríz a tensor.
+
 \subsection{Entrenamiento y Validación}
-Para poder determinar la eficiencia durante el \emph{entrenamiento} y optimizar los pesos sinápticos es necesario hacer úso de métricas, dichas métricas se aplicarán sobre el subconjunto de validación. Los datos utilizados fueron divididos en una proporción de $70\%$ para entrenamiento y $30\%$ para la validación, el subconjunto de validación no es usado durante el entrenamiento sino qué, al terminar una época se verifíca con ese subconjunto la precisión.
+Para poder determinar la eficiencia durante el \emph{entrenamiento} y optimizar los pesos sinápticos es necesario hacer úso de métricas, dichas métricas se aplicarán sobre el subconjunto de validación. Los datos utilizados fueron divididos en una proporción de $70\%$ para entrenamiento y $30\%$ para la validación, el subconjunto de validación no es usado durante el entrenamiento, sino qué, al terminar una época se verifíca con ese subconjunto la precisión.
 
 
-La métrica utilizada para evaluar el modelo es la del \emph{índice de Jaccard} (\emph{Intersection Over Union}) por sus siglas en inglés (IoU) \citep{fpn_1}, de la siguiente ecuación
+La métrica utilizada para evaluar el modelo es la del \emph{índice de Jaccard} (\emph{Intersection Over Union}) por sus siglas en inglés (IoU) \citep{fpn_1} de la siguiente ecuación,
 \begin{equation}
     J(A,B) = \frac{|A \cap B|}{| A \cup B |} = \frac{|A \cap B|}{|A| + |B| - |A \cap B|}
 \end{equation} 
