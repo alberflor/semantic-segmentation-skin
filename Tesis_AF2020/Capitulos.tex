@@ -109,7 +109,7 @@ Un \emph{modelo} se puede definir como el bloque intermedio entre los datos de e
 
 La unidad principal que compone el modelo de la red neuronal es el perceptrón, denominado \emph{nodo} en esta literatura. Se trata de una analogía matemática basada en el comportamiento de la neurona biológica, el nodo recibe $n$ entradas, las cuales son multiplicadas por el peso $p$, se suma el producto de las entradas por sus pesos $ e \times p$ y finalmente se multiplica por la función de activación $\phi$. 
 
-\begin{figure}[h!]
+\begin{figure}[b]
     \includegraphics[width=100mm]{Figuras/neural_network.eps}
     \centering
     \caption{Ejemplo de un perceptrón.}
@@ -181,7 +181,7 @@ A continuación se mencionan los trabajos revisados en los que se puede obtener 
 
 \citet{DBLP:journals/corr/ChenPK0Y16} en este trabajo hablan de la arquitectura denominada \texttt{Deep Lab}, la cual propone un acercamiento distinto a la parte de la reconstrucción en las capas finales del modelo. Al igual que otras arquitecturas cuenta con capas de convolución. agrupación de máximos y activación de rectificación linear unitaria, sin embargo, el componente clave aquí es la denominada convolución de hoyos (\emph{atrous convolution}), la cual es una modificación al filtro de convolución basado en la transformada de \emph{Wavelet} para el escalado del mapa de características (\emph{upsampling}). De esta forma se obtiene una alternativa al uso de capas de deconvolución y así se aumenta la resolución del mapa de características a la salida del modelo sin aumentar el tiempo de computación o la cantidad de parámetros.
 
-\citet{DBLP:journals/corr/TeichmannWZCU16} reducen la carga computacional en en los modelos de redes neuronales convolucionales mediante la unificación de las tres tareas principales de estas: clasificación, detección y segmentación. Denominada como multi-red neuronal \texttt{MultiNet} se trata de una arquitectura tipo codificador-decodificador en donde el decodificador esta compuesto de tres ramas las cuales corresponden a las tareas de clasificación, detección y segmentación por lo que se realizan las tres tareas de forma simultanea partiendo de la misma entrada (\emph{multi-tasking}) y usando la salida de cada una de las ramas para el ajuste fino de los parámetros del modelo (\emph{fine-tuning}).  
+\citet{DBLP:journals/corr/TeichmannWZCU16} reducen la carga computacional en los modelos de redes neuronales convolucionales mediante la unificación de las tres tareas principales de estas: clasificación, detección y segmentación. Denominada como multi-red neuronal \texttt{MultiNet} se trata de una arquitectura tipo codificador-decodificador en donde el decodificador esta compuesto de tres ramas las cuales corresponden a las tareas de clasificación, detección y segmentación por lo que se realizan las tres tareas de forma simultanea partiendo de la misma entrada (\emph{multi-tasking}) y usando la salida de cada una de las ramas para el ajuste fino de los parámetros del modelo (\emph{fine-tuning}).  
 
 \citet{KRONER2020261} hablan sobre un modelo de codificación-decodificación contextual basado en el proceso en el que los humanos obtenemos la información espacial de los escenarios visuales complejos, mediante un mapa topográfico de las salientes. Se basa en más en el proceso biológico con el que se obtiene la información espacial que en los métodos matemáticos para calcularla, dicho lo anterior, los principales componentes para determinar una saliente son color, la intensidad y la orientación.  
 
@@ -212,7 +212,7 @@ En esta sección se evalúan los trabajos revisados con el trabajo propuesto en 
     \begin{adjustbox}{width=\textwidth}
         \begin{tabular}[t]{|l|l|l|l|l|l|l|l|}
             \hline
-            Trabajo & Modelo & \rotatebox{90}{Clasificación} & \rotatebox{90}{Segmentación} & \rotatebox{90}{Supervisado} & \rotatebox{90}{Pre-entrenamiento} & \rotatebox{90}{Evaluación} & Salida\\
+            \bf{Trabajo} & \bf{Modelo} & \rotatebox{90}{Clasificación} & \rotatebox{90}{Segmentación} & \rotatebox{90}{Supervisado} & \rotatebox{90}{Pre-entrenamiento} & \rotatebox{90}{Evaluación} & Salida\\
             \hline
             \citet{DBLP:journals/corr/BadrinarayananK15} & \texttt{SegNet} & \cmark & \cmark & \cmark & \cmark & \cmark & label map\\
             \citet{DBLP:journals/corr/RonnebergerFB15} & \texttt{U-net} & \cmark & \cmark & \cmark & \xmark & \cmark & label map\\
@@ -254,7 +254,7 @@ La herramienta propuesta cuenta con tres fases principales:cargado y filtrado de
 \tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
     minimum height=2em]
 
-\begin{figure}[H]
+\begin{figure}[b]
 \centering    
 \begin{tikzpicture}[node distance = 4.5cm, auto]
     % Nodos.
@@ -273,7 +273,7 @@ La herramienta propuesta cuenta con tres fases principales:cargado y filtrado de
 Para poder llevar a cabo la creación del modelo primero es necesario tener un conjunto de datos (\emph{dataset}) que es el que será utilizado para el entrenamiento y la validación de la configuración de pesos sinápticos en la época presente.
 A partir de éste momento se referirá como \emph{muestra} al conjunto de datos de entrada del entrenamiento del modelo; como se mencionó al comienzo del capítulo, para llevar a cabo el entrenamiento es necesario otorgar al sistema dos entradas: la imágen real y la máscara conocida de las regiones ya clasíficadas. Por lo tanto una muestra es el equivalente a la concatenación de una imágen dermatolólogica y la máscara conocida correspondiente. Con una sola muestra se puede generar un modelo sin embargo la precisión sería muy baja, generalmente entre mayor sea la cantidad de muestras se puede obtener una mejor precisión. No obstante depende mucho de la variabilidad de las imágenes, ya que si se tratara de entrenar un modelo de muchas categorías, la variabilidad haría mas complejo el modelo y por ende requiriría de un mayor número de épocas para alcanzar una precisión viable (\emph{underfit}); así como el úso de un \emph{dataset} muy extenso de pocas categorías y con imágenes muy similares podría causar justamente lo contrario (\emph{overfit}), lo cuál no permitiría realizar predicciones correctamente en imágenes no tan parecidas a las usadas en el entrenamiento.
 
-\coltext{insertar ejemplo de dataset}
+\coltext{insertar grid de dataset}
 
 \subsection{Codificación de Características}
 Para poder realizar una predicción de la máscara segmentada, primero es necesario reducir las dimensiones de las imágenes sin afectar la información que estas representan. Para conseguir esto se utiliza un filtro de \emph{convolución de matríces}. Una imágen es una función bidimensional $ z = f(x,y)$, donde $x$ y $y$ son coordenadas espaciales y $z$ es el valor de la intensidad de la imágen en el punto $(x , y)$, en el caso de las imágenes a color se tienen tres funciones donde cada una representa la intensidad del pixel del canal correspondiente (rojo, verde o azul) \citep[~p. 100]{conv_1}. La convolución de matríces se define como la obtención de una matríz $C$ a partir de dos matríces $A$ y $B$. La matríz $A_{m \times n}$ sería el mapa de intensidad de pixeles de la imágen mientras que la matríz $B_{(2N+1) \times (2N+1)}$ es el kernel de la convolución, mediante la ecuación \ref{eq:conv_1} se obtiene la matríz $C = A * B$
@@ -285,7 +285,7 @@ c_{ij} = \frac{1}{b} \sum_{r=1}^{2N+1}\sum_{s=1}^{2N+1}(a_i-N+r-1, i-N+r-1)
 
 donde $b = \sum_{i,j=1}^{2N+1} b_{i,j}$, si $b=0$ se toma $b=1$.
 
-\begin{figure}[H]
+\begin{figure}[b]
     \centering
     \begin{tikzpicture}
         \draw[step=0.5cm, black, thin](0,0) grid (4,4);
@@ -316,10 +316,9 @@ El filtro de convolución es la base del proceso de codificado de la imagen, la 
 \subsection{Modelo FPN}
 La arquitectura de red neuronal tipo red piramidal de características, por sus siglas en inglés FPN\footnote{FPN: Feature Pyramid Network}, se trata de una estructura que funciona en conjunto con el codificador \texttt{ResNet}, mientras el codificador tiene la tarea de realizar el \emph{downsampling} de las dimensiones espaciales de la imágen de entrada y convertirlas a un mapa de característica , el decodificador hace justamente lo opuesto (\emph{up-sampling}), a partir del mapa de características producto de la codificación, realiza una secuencia de deconvoluciones que construyen la máscara de segmentación estimada.
 
-
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.30]{Figuras/fpn_ar.png}
+    \includegraphics[scale=0.40]{Figuras/fpn_ar.png}
     \caption{Representación de la arquitectura FPN \citep{fpn_2}.}
     \label{fig:fpn_map}
 \end{figure}
@@ -337,9 +336,10 @@ A continuación se especifican las librerías claves utilizadas para llevar a ca
 \begin{table}[H]
     \centering
     \caption{Tabla de librerías utilizadas para la implementación de la propuesta.}
+    \scalebox{0.90}{
     \begin{tabular}{|p{3cm}|p{10cm}|}
         \hline
-        Librería & Descripción \\
+        \bf{Librería} & \bf{Descripción} \\
         \hline
         \texttt{Torch.vision} & Este paquete es una colección de módulos relacionados con las operaciones de tensores y la aceleración de cálculos mediante hardware. Se usa en conjunto con \texttt{NumPY} y cuenta con las arquitecturas de redes neuronales típicas, así como herramientas para el cargado de datos y la configuración de parametros de los modelos.\\
         
@@ -356,19 +356,20 @@ A continuación se especifican las librerías claves utilizadas para llevar a ca
         \texttt{Albumentations} & Esta librería es principalmente útil para el pre-procesado de las imágenes al momento de realizar el entrenamiento, cuenta con funciones que permiten crear secuencias de transformaciones específicas para distíntos subconjuntos de datos así como la capacidad de transformar imágenes a tensores.\\
 
         \hline
-    \end{tabular}
+    \end{tabular}}
     \label{tab:libs}
 \end{table}
 
-En el cuadro a continuación se específican las características de la computadora utilizada para el proceso de entrenamiento del modelo.
+En el cuadro \ref{tab:specs} se especifícan las características del equipo en el cuál fue realizado el experimento.
 
 \begin{table}[H]
     \centering
+    \caption{Especificaciones técnicas de los componentes.}
     \begin{tabular}{|l|l|}
         \hline
-        Componente & Descripción \\
+        \bf{Componente} & \bf{Descripción} \\
         \hline
-        Procesador & Rizen 5 3600x, 3.80GHz, 6-Core \\
+        Procesador & Ryzen 5 3600x, 3.80GHz, 6-Core \\
         \hline
         GPU & Nvidia GeForce 1050ti, 4gb \\
         \hline
@@ -376,10 +377,9 @@ En el cuadro a continuación se específican las características de la computad
         \hline
         RAM & HyperX Fury, 16gb, 2433mhz \\
         \hline
-
     \end{tabular}
+    \label{tab:specs}
 \end{table}
-
 \subsection{Computación Asistída por Hardware}
 Los cálculos llevados en el proceso de entrenamiento involucra realizar operaciones con datos de altas dimensiones (\emph{high-dimentional data}) los cuales requieren una gran cantidad de recursos de procesamiento, estas operaciones al estar relacionadas con vectores y matríces pueden ser ejecutadas rapidamente por la unidad GPU\footnote{GPU: Graphics Processor Unit}, entre mayor sea la velocidad de procesamiento de la GPU más rapido es el entrenamiento de nuevos modelos y con mayor resolución.
 
@@ -462,6 +462,7 @@ El proceso de cargado de datos y filtrado es un proceso muy importante para la e
 Lo primero que se desarrolló fue un asistente de cargado y filtrado de imágenes, en el código \ref{code:load} se puede apreciar el código fuente y las funciones utilizadas para tal motivo. Al ser utilizado el objeto \emph{dataset} y alimentar los argumentos con los directorios de las imágenes se obtiene como resultado un objeto de dimensión $n \times 2 \times (m \times n)$ donde $n$ es el número de muestras cargadas y el primer elemento de la fila es la matríz de la imágen real, y el segúndo la matríz de la máscara conocída.
 
 
+\newcommand{\listingsfont}{\ttfamily}
 
 \renewcommand{\lstlistingname}{Código}
 \definecolor{codegreen}{rgb}{0,0.6,0}
@@ -471,6 +472,7 @@ Lo primero que se desarrolló fue un asistente de cargado y filtrado de imágene
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
 \lstdefinestyle{pystyle}{
+    basicstyle=\linespread{1.5}\listingsfont,
     backgroundcolor=\color{backcolour},   
     commentstyle=\color{codegreen},
     keywordstyle=\color{codeblue},
@@ -488,12 +490,9 @@ Lo primero que se desarrolló fue un asistente de cargado y filtrado de imágene
     showtabs=false,                  
     tabsize=2
 }
-
 \lstset{style=pystyle}
-
 \begin{lstlisting}[language = Python, label = {code:load} ,caption= Código fuente del asistente de cargado de imágenes.]
     # load_dataset.py
-
     # Creacion de la clase encargada de cargar, corregir y contener el conjunto de datos.
 
     class dataset ():

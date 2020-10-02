@@ -32,6 +32,9 @@
 	\usetikzlibrary{arrows, matrix, calc,shapes.geometric,positioning}
 \usepackage{forest}
 \usepackage{listings}
+\usepackage{setspace}
+\usepackage{caption}
+	\captionsetup[table]{font={normalsize,stretch=1.0}}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -91,7 +94,7 @@
 % Leyendas de figuras y encabezados de tablas %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand{\fnum@figure}{\textsc{Figura~\thefigure}}
-\renewcommand{\fnum@table}{\textsc{Cuadro~\thetable}\vspace{7mm}}
+\renewcommand{\fnum@table}{\textsc{Cuadro~\thetable}\vspace{2mm}}
 \setlength{\belowcaptionskip}{6pt}
 \setlength{\abovecaptionskip}{6pt}
 
