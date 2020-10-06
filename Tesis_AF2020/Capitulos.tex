@@ -273,8 +273,6 @@ La herramienta propuesta cuenta con tres fases principales:cargado y filtrado de
 Para poder llevar a cabo la creación del modelo primero es necesario tener un conjunto de datos (\emph{dataset}) que es el que será utilizado para el entrenamiento y la validación de la configuración de pesos sinápticos en la época presente.
 A partir de éste momento se referirá como \emph{muestra} al conjunto de datos de entrada del entrenamiento del modelo; como se mencionó al comienzo del capítulo, para llevar a cabo el entrenamiento es necesario otorgar al sistema dos entradas: la imágen real y la máscara conocida de las regiones ya clasíficadas. Por lo tanto una muestra es el equivalente a la concatenación de una imágen dermatolólogica y la máscara conocida correspondiente. Con una sola muestra se puede generar un modelo sin embargo la precisión sería muy baja, generalmente entre mayor sea la cantidad de muestras se puede obtener una mejor precisión. No obstante depende mucho de la variabilidad de las imágenes, ya que si se tratara de entrenar un modelo de muchas categorías, la variabilidad haría mas complejo el modelo y por ende requiriría de un mayor número de épocas para alcanzar una precisión viable (\emph{underfit}); así como el úso de un \emph{dataset} muy extenso de pocas categorías y con imágenes muy similares podría causar justamente lo contrario (\emph{overfit}), lo cuál no permitiría realizar predicciones correctamente en imágenes no tan parecidas a las usadas en el entrenamiento.
 
-\coltext{insertar grid de dataset}
-
 \subsection{Codificación de Características}
 Para poder realizar una predicción de la máscara segmentada, primero es necesario reducir las dimensiones de las imágenes sin afectar la información que estas representan. Para conseguir esto se utiliza un filtro de \emph{convolución de matríces}. Una imágen es una función bidimensional $ z = f(x,y)$, donde $x$ y $y$ son coordenadas espaciales y $z$ es el valor de la intensidad de la imágen en el punto $(x , y)$, en el caso de las imágenes a color se tienen tres funciones donde cada una representa la intensidad del pixel del canal correspondiente (rojo, verde o azul) \citep[~p. 100]{conv_1}. La convolución de matríces se define como la obtención de una matríz $C$ a partir de dos matríces $A$ y $B$. La matríz $A_{m \times n}$ sería el mapa de intensidad de pixeles de la imágen mientras que la matríz $B_{(2N+1) \times (2N+1)}$ es el kernel de la convolución, mediante la ecuación \ref{eq:conv_1} se obtiene la matríz $C = A * B$
 
@@ -316,13 +314,12 @@ El filtro de convolución es la base del proceso de codificado de la imagen, la 
 \subsection{Modelo FPN}
 La arquitectura de red neuronal tipo red piramidal de características, por sus siglas en inglés FPN\footnote{FPN: Feature Pyramid Network}, se trata de una estructura que funciona en conjunto con el codificador \texttt{ResNet}, mientras el codificador tiene la tarea de realizar el \emph{downsampling} de las dimensiones espaciales de la imágen de entrada y convertirlas a un mapa de característica , el decodificador hace justamente lo opuesto (\emph{up-sampling}), a partir del mapa de características producto de la codificación, realiza una secuencia de deconvoluciones que construyen la máscara de segmentación estimada.
 
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
-    \includegraphics[scale=0.40]{Figuras/fpn_ar.png}
+    \includegraphics[scale=0.55]{Figuras/fpn_ar_esp.png}
     \caption{Representación de la arquitectura FPN \citep{fpn_2}.}
     \label{fig:fpn_map}
 \end{figure}
-\coltext{Traducir etiquetas}
 
 En la figura \ref{fig:fpn_map} se puede apreciar la arquitectura y la transformación de las dimensiones de los datos, el número a lado izquiero de las capas de convolución representa la resolución en proporción a la entrada y el número de lado derecho representa el número de canales. El número de canales aumenta mientras que la resolución disminuye.
 
@@ -459,10 +456,7 @@ El proceso de cargado de datos y filtrado es un proceso muy importante para la e
 \end{figure}
 
 
-Lo primero que se desarrolló fue un asistente de cargado y filtrado de imágenes, en el código \ref{code:load} se puede apreciar el código fuente y las funciones utilizadas para tal motivo. Al ser utilizado el objeto \emph{dataset} y alimentar los argumentos con los directorios de las imágenes se obtiene como resultado un objeto de dimensión $n \times 2 \times (m \times n)$ donde $n$ es el número de muestras cargadas y el primer elemento de la fila es la matríz de la imágen real, y el segúndo la matríz de la máscara conocída.
-
-
-\newcommand{\listingsfont}{\ttfamily}
+Lo primero que se desarrolló fue un asistente de cargado y filtrado de imágenes, en el código \ref{code:load} se puede apreciar el código fuente y las funciones utilizadas para tal motivo. Al ser utilizado el objeto \emph{dataset} y alimentar los argumentos con los directorios de las imágenes se obtiene como resultado un objeto de dimensión $N \times 2 \times (m \times n)$ donde $N$ es el número de muestras cargadas y el primer elemento de la fila es la matríz de la imágen real, y el segúndo la matríz de la máscara conocída.
 
 \renewcommand{\lstlistingname}{Código}
 \definecolor{codegreen}{rgb}{0,0.6,0}
@@ -493,54 +487,36 @@ Lo primero que se desarrolló fue un asistente de cargado y filtrado de imágene
 \lstset{style=pystyle}
 \begin{lstlisting}[language = Python, label = {code:load} ,caption= Código fuente del asistente de cargado de imágenes.]
     # load_dataset.py
-    # Creacion de la clase encargada de cargar, corregir y contener el conjunto de datos.
-
     class dataset ():
-        def __init__(
-            self,
-            images_dir,
-            masks_dir,
-            classes=None,
-        ):
+        def __init__(self, images_dir, masks_dir, classes=None,):
         # Extraccion de ids de imagenes y mascaras.
         self.ids = listdir(images_dir)
         self.images_fps = [os.path.join(images_dir(img_id)
                           for img_id in self.ids]
-
         self.masks_fps = [os.path.join(mask_dir,
                          (img_id[:-4] + '_segmentation.png'))
                          for img_id in self.ids]
-
     # Lectura de imagenes y correcion de canales.
     def __getitem__(self,i):
         image = cv2.imread(self.images_fps[i])
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
         mask = cv2.imread(self.masks_fps[i],0)
-
         return image, mask
 \end{lstlisting}
 
-A continuación se da un breve ejemplo del uso del asistente de cargado.
-
-\begin{lstlisting}[language = Python, label = {code:load} ,caption= Uso de la clase.]
+\begin{lstlisting}[language = Python, label = {code:load_2} ,caption= Invocación de la función contenida dentro de la clase.]
 
     # main.py.
-    
     import load_dataset as ld 
-
     train_dir = 'Data/Train_Images'
     mask_dir = 'Data/Train_Images'
-
     set_de_datos = ld.dataset(train_dir, mask_dir)
-
-    # Al ser un vector de matrices se puede obtener una muestra del conjunto de datos mediante su posicion indizada.
-
+    # Al indicar la posicion dentro del dataset se obtiene una muestra dividida en dos objetos:
     imagen, mascara = set_de_datos[1]
 
-    # Dando como resultado dos matrices.
-
 \end{lstlisting}
+
+En el código \ref{code:load_2} se invoca la función \emph{dataset}, la cuál tiene por argumento la dirección de las imágenes reales y las máscaras conocidas, con esto se crea el conjunto de datos que posteriormente es utilizado en la  
 
 
 \subsection{Pre-procesamiento}
@@ -554,33 +530,54 @@ El \emph{pre-procesamiento} se define como una secuencia de transformaciones que
 
 
 \tikzstyle{block} = [rectangle, draw, fill=gray!20, 
-    text width=7.5em, text centered, minimum height=4em]
+    text width=7em, text centered, minimum height=4em]
 \tikzstyle{line} = [draw, -latex']
 \tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
     minimum height=2em]
 
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}[node distance = 1cm and 1cm]
+    \begin{tikzpicture}[node distance = 0.2cm and -0.5cm]
         \node [block] (input) {Imagen de Entrada ($m \times n$)};
-        \node [block, below=of input, right= of input] (tr1) {Resize ($512 \times 512$)};
-        \node [block, right= of tr1] (tr2) {Interpolate (INTER$\_$AREA)};
-        \node [block, right= of tr2] (tr3) {Transpose (2, 0, 1)};
-        \node [block, below= of tr3] (out) {Dato de Salida ($N \times (512 \times 512)$)};
+        \node [block, below right=of input] (tr1) {Resize ($512 \times 512$)};
+        \node [block, below right= of tr1] (tr2) {Interpolate (\small INTER$\_$AREA)};
+        \node [block, below right= of tr2] (tr3) {Transpose (2, 0, 1)};
+        \node [block, below right= of tr3] (out) {Dato de Salida ($N \times (512 \times 512)$)};
         % Líneas
-        \path [line] (input) -- (tr1);
-        \path [line] (tr1) -- (tr2);
-        \path [line] (tr2) -- (tr3);
-        \path [line] (tr3) -- (out);
+        \path [line] (input) -| (tr1);
+        \path [line] (tr1) -| (tr2);
+        \path [line] (tr2) -| (tr3);
+        \path [line] (tr3) -| (out);
 
     \end{tikzpicture}
-    \caption{Línea de pre-procesado.}
+    \caption{Línea de pre-procesamiento.}
     \label{fig: pipeline}
 \end{figure}
 
 Debido a que el \emph{dataset} es extenso y solo clasifíca entre dos categorías, no es necesario realizar demasiadas trasnformaciones, no obstante es importante trasponer la matríz de entrada para convertir la matríz a tensor.
 
 \subsection{Entrenamiento y Validación}
+La secuencia de entrenamiento consiste de un búcle en el cuál se condensan las imágenes en un grupo (\emph{batch}), para ser procesadas por el codificador de forma simultanea, esto para acelerar la velocidad de entrenamiento. Sin embargo, a mayor tamaño de batch también se requiere mayor memoria disponible por la unidad procesadora de gráficos y también la precisión del entrenamiento se ve influenciado. Posteriormente se evalúa mediante el \emph{índice de Jaccard}, como se muestra en la ecuación \ref{eq:jacc}.
+
+\begin{lstlisting}[language = Python, label = {code:train} ,caption= Búcle de entrenamiento. ]
+
+    # Variable inicializada en cero para almacenar la precision maxima obtenida.
+    max_score = 0 
+    for i in range(0,40):
+        print('\n Epoch: {}'.format(i))
+        train_logs = train_epoch.run(train_loader)
+        valid_logs = valid_epoch.run(valid_loader)
+
+        if max_score < valid_logs['iou_score']:
+            max_score = valid_logs['iou_score']
+            torch.save(model,('Model/'+encoder+'.pth'))
+            print('Highest Score Model Saved: {}'.format(max_score))
+        if i == 25:
+            optimizer.param_groups[0]['lr'] = 1e-5
+            print('decreased decoder learning rate to 1e-5')
+     lr= 0.0001),])
+\end{lstlisting}
+
 Para poder determinar la eficiencia durante el \emph{entrenamiento} y optimizar los pesos sinápticos es necesario hacer uso de métricas, dichas métricas se aplicarán sobre el subconjunto de validación. Los datos utilizados fueron divididos en una proporción de $70\%$ para entrenamiento y $30\%$ para la validación, el subconjunto de validación no es usado durante el entrenamiento, sino qué, al terminar una época se verifíca con ese subconjunto la precisión.
 
 
@@ -598,19 +595,57 @@ donde $A$ y $B$ se pueden interpretar como la máscara real y la máscara estima
 
 donde $y_i^c$ y $\hat y_i^c$ son valores binarios y corresponden a la probabilidad de que el pixel $i$ corresponda a la clase $c$ de un número $k$ de clases.
 
-Mediante la librería de Yakubovskiy \citep{Yakubovskiy:2019}, se pueden configurar los parámetros previamente al entrenamiento.
+La librería de Yakubovskiy \citep{Yakubovskiy:2019} cuenta con distintas métricas ya implementadas dentro de su \texttt{API}\footnote{Interfaz de programación por sus siglas en inglés, \emph{Application Programming Interface}.}, dichas métricas se pueden configurar previamente al entrenamiento. En el código \ref{code:metrics} se puede apreciar la selección de la función de métrica, la función de pérdida y el optimizador de pesos del modelo.
 
-\begin{lstlisting}[language = Python, label = {code:load} ,caption= Ejemplo de configuración de parámetros. ]
+\begin{lstlisting}[language = Python, label = {code:metrics} ,caption= Ejemplo de configuración de parámetros. ]
     # main.py.
     import segmentation_models_pytorch as smp 
-
-    metrics = [smp.utils.metrics.IoU(threshold=0.5),]
+    # Metrica de evaluacion (Jaccard Index)
+    metric = [smp.utils.metrics.IoU(threshold=0.5),]
+    # Funcion de perdida (Dice Loss)
     loss = smp.utils.losses.DiceLoss()
-    optimizer = torch.optim.Adam([dict(params=model.parameters(), lr= 0.0001),])
+    # Funcion optimizadora (Adam)
+    optimizer = torch.optim.Adam([dict(params=model.parameters(),
+     lr= 0.0001),])
 \end{lstlisting}
 
 \subsection{Predicción de Máscaras} 
 Una vez obtenido un modelo con precisión buena (\emph{good fit}), el objetivo es generar máscaras desconocidas a partír de las imágenes del set de pruebas. Para esto es necesario popular de nuevo un \emph{dataset} de dimensión $N \times (m \times n)$, básicamente es un vector de matríces donde $N$ es el número de imágenes para realizar la prueba, y $m \times n$ es la resolución de imágen de la cuál se desea obtener la máscara de segmentación.
+
+\begin{lstlisting}[language = Python, label = {code:test} ,caption= Código fuente del modulo de pruebas. ]
+    # test_model.py
+    def test_model(m_path, t_path, encoder, weights, classes, device):
+    # Cargar el modelo generado
+    model = torch.load(m_path)
+    prep_fn = smp.encoders.get_preprocessing_fn(encoder, weights)
+    # Crear el subconjunto de datos para pruebas
+    vis_dataset = ds.testing_data(t_path,
+    classes,augmentation=tfm.get_validation_augmentation())
+    test_dataset = ds.testing_data(t_path,
+    classes, 
+    augmentation=tfm.get_validation_augmentation(), preprocessing=tfm.get_preprocessing(prep_fn))
+    # Seleccionar una muestra al azar.
+    n = np.random.choice(len(vis_dataset))
+    vis = vis_dataset[n].astype('uint8')
+    test_image = test_dataset[n]
+    # Realizar una prediccion de mascara con la imagen aleatoria.
+    x_tensor = torch.from_numpy(test_image).to(device).unsqueeze(0)
+    pred_mask = model.predict(x_tensor)
+    pred_mask = (pred_mask.squeeze().cpu().numpy().round())
+
+    #Visualizar la imagen real y la mascara predicha.
+    ds.visualize(image=vis, predicted=pred_mask)
+\end{lstlisting}
+
+\begin{lstlisting}[language = Python, label = {code:test_2} ,caption= Uso de la función definida en el modulo de pruebas.]
+    # main.py
+    if test_sample:
+    tsm.test_model(model_path, test_dir, ENCODER, ENCODER_WEIGHTS, CLASSES, DEVICE)
+\end{lstlisting}
+
+En el código \ref{code:test}, se define la función que se encarga de cargar el modelo y cargar el subconjunto de datos para pruebas mientras que en el código \ref{code:test_2} se da un ejemplo del uso de dicha función. Dando como resultado una gráfica con la imágen de entrada y la máscara estimada para tal.
+
+
 
 \chapter{Experimentos}
 En este capítulo se presentan los experimentos llevados a cabo durante el desarrollo de la herramienta propuesta. Las siguientes secciones corresponden a diferentes experimentos llevados a cabo para validar la hipótesis del presente trabajo de tesis, cada experimento contiene tres subsecciones: \emph{diseño experimental}, \emph{resultados} y \emph{discusión}.
@@ -626,11 +661,11 @@ Y para finalizar en \emph{discusión}, se llega una conclusión basandose en los
 Este experimento tiene como objetivo determinar el codificador ideal para la arquitectura implementada basandosé en la información estadística del conjunto de datos de las imágenes, también determinar las transformaciones necesarias para coincidir con las dimensiones requeridas por la arquitectura y las ofrecidas por la imagen.
 
 \subsection{Diseño Experimental}
-Las métricas que serán evaluadas del conjunto de datos de entrenamiento son las siguientes:
+Las imágenes representan un mapa de características o de valores numéricos en forma de matríz, dichas características pueden ser analizadas para determinar la secuencia correcta de transformaciones en la línea de pre-procesado para acoplar correctamente las dimesiones de entrada de la imagen con las entradas disponibles del codificador.
 \begin{description}
     \item[Muestras] El número de muestras del conjunto de datos puede determinar las transformaciones posteriores tanto para reducir \emph{overfit} como para mejorar el \emph{underfit}.
     \item[Clases] La cantidad de clases entre las que el modelo tiene que clasificar determina la complejidad computacional de éste, por lo tanto también determina transformaciones requeridas.
-    \item[]  
+    \item[Histograma de Resoluciones] Determinar cuál es la frecuencia de dimensiones en el conjunto de datos.  
 \end{description}
 \subsection{Resultados}
 \subsection{Discusión}
@@ -650,7 +685,7 @@ donde $A$ es un mapa binario de pixeles que representa la máscara real y $B$ la
 \def\secondcircle{(2,0) circle (1.5cm)}
 \def\thirdcircle{(0:2cm) circle (1.5cm)}
 
-\begin{figure}[b]
+\begin{figure}[h]
     \centering
     \begin{tikzpicture}
         \draw \firstcircle node [above] {$A$};
@@ -674,14 +709,13 @@ En la sección anterior, el criterio de dados es utilizado para evaluar la simil
 Para determinar un porcentaje de similitud entre la máscara estimada con la máscara conocida o también denominada verdad absoluta (\emph{ground truth}) podemos utilizar una métrica como la de la ecuación \ref{eq:jacc}, el índice de Jaccard. Este criterio es relativamente similar al coeficiente de dados de la ecuación \ref{eq:diceloss}, mediante el solapado de ambas máscaras se promedía la coincidencia entre pixeles, sin embargo en el criterio \emph{IoU} el error tiene mayor penalización, por lo que se podría decir que es una versión mas robusta de evaluación ideal para evaluar el modelo final.
 
 \def\rectA{(0,0) rectangle (2,2)}
-\def\rectB{(3,-1) rectangle (1,1)}
+\def\rectB{(1,-1) rectangle (3,1)}
 
-\begin{figure}[b]
+\begin{figure}[h]
     \centering
     \begin{tikzpicture}
         \draw \rectA node [above] {$A$};
         \draw \rectB node [above] {$B$};
-        %\node at (-2, 0) {\large $2 \times$};
         \begin{scope}
             \clip \rectA;
             \fill[blue!20] \rectB;
