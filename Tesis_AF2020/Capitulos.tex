@@ -581,7 +581,7 @@ El \emph{pre-procesamiento} se define como una secuencia de transformaciones que
 Debido a que el \emph{dataset} es extenso y solo clasifíca entre dos categorías, no es necesario realizar demasiadas trasnformaciones, no obstante es importante trasponer la matríz de entrada para convertir la matríz a tensor.
 
 \subsection{Entrenamiento y Validación}
-Para poder determinar la eficiencia durante el \emph{entrenamiento} y optimizar los pesos sinápticos es necesario hacer úso de métricas, dichas métricas se aplicarán sobre el subconjunto de validación. Los datos utilizados fueron divididos en una proporción de $70\%$ para entrenamiento y $30\%$ para la validación, el subconjunto de validación no es usado durante el entrenamiento, sino qué, al terminar una época se verifíca con ese subconjunto la precisión.
+Para poder determinar la eficiencia durante el \emph{entrenamiento} y optimizar los pesos sinápticos es necesario hacer uso de métricas, dichas métricas se aplicarán sobre el subconjunto de validación. Los datos utilizados fueron divididos en una proporción de $70\%$ para entrenamiento y $30\%$ para la validación, el subconjunto de validación no es usado durante el entrenamiento, sino qué, al terminar una época se verifíca con ese subconjunto la precisión.
 
 
 La métrica utilizada para evaluar el modelo es la del \emph{índice de Jaccard} (\emph{Intersection Over Union}) por sus siglas en inglés (IoU) \citep{fpn_1} de la siguiente ecuación,
@@ -611,7 +611,38 @@ Mediante la librería de Yakubovskiy \citep{Yakubovskiy:2019}, se pueden configu
 \subsection{Predicción de Máscaras} 
 Una vez obtenido un modelo con precisión buena \emph{good fit}, el objetivo es generar máscaras desconocidas a partír de las imágenes del set de pruebas. Para esto es necesario popular de nuevo un \emph{dataset} de dimensión $N \times (m \times n)$, básicamente es un vector de matríces donde $N$ es el número de imágenes para realizar la prueba, y $m \times n$ es la resolución de imágen de la cuál se desea obtener la máscara de segmentación.
 
-\chapter{Diseño Experimental}
+\chapter{Experimentos}
+En este capítulo se presentan los experimentos llevados a cabo durante el desarrollo de la herramienta propuesta. Las siguientes secciones corresponden a diferentes experimentos llevados a cabo para validar la hipótesis del presente trabajo de tesis, cada experimento contiene tres subsecciones: \emph{diseño experimental}, \emph{resultados} y \emph{discusión}.
+
+En la subsección de \emph{diseño experimental}, se explica en qué consiste y qué valor se pretende calcular para determinar los mejores parámetros en el ajuste del modelo de la red neuronal profunda.
+
+En \emph{resultados}, se reportan los datos obtenidos en base al experimento llevado a cabo.
+
+Y para finalizar \emph{discusión}, se llega a la conclusión final dependiendo de los experimentos llevados a cabo.
+
+
+\section{Estadísticas de los Datos de Entrada} 
+Para poder determinar la secuencia de transformaciones ideal para el conjunto de datos presente es necesario estudiar las estadísticas de las imágenes correspondientes, este experimento también es necesario para determinar el codificador ideal con la mejor resolución disponible en relación con la complejidad computacional.
+\subsection{Diseño Experimental}
+\subsection{Resultados}
+\subsection{Discusión}
+
+\section{Evaluación del Aprendizaje}
+Una vez seleccionado el codificador ideal, es necesario evaluar el desempeño del aprendizaje mediante la comparación del mapa binario de la máscara real y el mapa probabilistico de la máscara obtenida por la configuración actual. Para esto se utiliza el coeficiente de dados (\emph{dice coefficient}), mediante el DC se puede evaluar la similitud entre dos matríces de mismas dimensiones, por lo tanto 
+\begin{equation}
+    \text{DC} = \frac{2|A \cap B |}{|A| + |B|}
+\end{equation}
+donde $A$ es un conjunto de intensidad de pixeles que representa la máscara real y $B$ la máscara estimada por la segmentación.
+\subsection{Diseño Experimental}
+\subsection{Resultados}
+\subsection{Discusión}
+
+\section{Validación de Máscaras}
+Para finalizar la validación de la herramienta propuesta, se compararon las máscaras obtenidas mediante la computación del modelo con la respectiva máscara real. 
+
+\subsection{Diseño Experimental}
+\subsection{Resultados}
+\subsection{Discusión}
 
 \chapter{Conclusiones}
 
