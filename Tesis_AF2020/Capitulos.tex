@@ -563,7 +563,7 @@ El \emph{pre-procesamiento} se define como una secuencia de transformaciones que
     \centering
     \begin{tikzpicture}[node distance = 1cm and 1cm]
         \node [block] (input) {Imagen de Entrada ($m \times n$)};
-        \node [block, right= of input] (tr1) {Resize ($512 \times 512$)};
+        \node [block, below=of input, right= of input] (tr1) {Resize ($512 \times 512$)};
         \node [block, right= of tr1] (tr2) {Interpolate (INTER$\_$AREA)};
         \node [block, right= of tr2] (tr3) {Transpose (2, 0, 1)};
         \node [block, below= of tr3] (out) {Dato de Salida ($N \times (512 \times 512)$)};
@@ -574,7 +574,7 @@ El \emph{pre-procesamiento} se define como una secuencia de transformaciones que
         \path [line] (tr3) -- (out);
 
     \end{tikzpicture}
-    \caption{Pipeline de pre-procesado.}
+    \caption{Línea de pre-procesado.}
     \label{fig: pipeline}
 \end{figure}
 
@@ -585,7 +585,8 @@ Para poder determinar la eficiencia durante el \emph{entrenamiento} y optimizar 
 
 
 La métrica utilizada para evaluar el modelo es la del \emph{índice de Jaccard} (\emph{Intersection Over Union}) por sus siglas en inglés (IoU) \citep{fpn_1} de la siguiente ecuación,
-\begin{equation}
+
+\begin{equation}\label{eq:jacc}
     J(A,B) = \frac{|A \cap B|}{| A \cup B |} = \frac{|A \cap B|}{|A| + |B| - |A \cap B|}
 \end{equation} 
 
@@ -609,43 +610,92 @@ Mediante la librería de Yakubovskiy \citep{Yakubovskiy:2019}, se pueden configu
 \end{lstlisting}
 
 \subsection{Predicción de Máscaras} 
-Una vez obtenido un modelo con precisión buena \emph{good fit}, el objetivo es generar máscaras desconocidas a partír de las imágenes del set de pruebas. Para esto es necesario popular de nuevo un \emph{dataset} de dimensión $N \times (m \times n)$, básicamente es un vector de matríces donde $N$ es el número de imágenes para realizar la prueba, y $m \times n$ es la resolución de imágen de la cuál se desea obtener la máscara de segmentación.
+Una vez obtenido un modelo con precisión buena (\emph{good fit}), el objetivo es generar máscaras desconocidas a partír de las imágenes del set de pruebas. Para esto es necesario popular de nuevo un \emph{dataset} de dimensión $N \times (m \times n)$, básicamente es un vector de matríces donde $N$ es el número de imágenes para realizar la prueba, y $m \times n$ es la resolución de imágen de la cuál se desea obtener la máscara de segmentación.
 
 \chapter{Experimentos}
 En este capítulo se presentan los experimentos llevados a cabo durante el desarrollo de la herramienta propuesta. Las siguientes secciones corresponden a diferentes experimentos llevados a cabo para validar la hipótesis del presente trabajo de tesis, cada experimento contiene tres subsecciones: \emph{diseño experimental}, \emph{resultados} y \emph{discusión}.
 
-En la subsección de \emph{diseño experimental}, se explica en qué consiste y qué valor se pretende calcular para determinar los mejores parámetros en el ajuste del modelo de la red neuronal profunda.
+En la subsección de \emph{diseño experimental}, se detalla el experimento y el parámetro que se pretende definir en base a este, todos los procesos realizados por la herramienta desarrollada en el presente trabajo de tesis se ejecutan de forma secuencial, debido a esto es necesario determinar el mejor parámetro en cada paso de la transformación.
 
-En \emph{resultados}, se reportan los datos obtenidos en base al experimento llevado a cabo.
+En \emph{resultados}, se reporta e interpreta todos los resultados obtenidos mediante el experimento llevado a cabo en esa sección, cada experimento cuenta con su propia sección y se determina el mejor parámetro para realizar el experimento siguiente. 
 
-Y para finalizar \emph{discusión}, se llega a la conclusión final dependiendo de los experimentos llevados a cabo.
+Y para finalizar en \emph{discusión}, se llega una conclusión basandose en los resultados obtenidos y la información que representan las gráficas.
 
 
 \section{Estadísticas de los Datos de Entrada} 
-Para poder determinar la secuencia de transformaciones ideal para el conjunto de datos presente es necesario estudiar las estadísticas de las imágenes correspondientes, este experimento también es necesario para determinar el codificador ideal con la mejor resolución disponible en relación con la complejidad computacional.
+Este experimento tiene como objetivo determinar el codificador ideal para la arquitectura implementada basandosé en la información estadística del conjunto de datos de las imágenes, también determinar las transformaciones necesarias para coincidir con las dimensiones requeridas por la arquitectura y las ofrecidas por la imagen.
+
 \subsection{Diseño Experimental}
+Las métricas que serán evaluadas del conjunto de datos de entrenamiento son las siguientes:
+\begin{description}
+    \item[Muestras] El número de muestras del conjunto de datos puede determinar las transformaciones posteriores tanto para reducir \emph{overfit} como para mejorar el \emph{underfit}.
+    \item[Clases] La cantidad de clases entre las que el modelo tiene que clasificar determina la complejidad computacional de éste, por lo tanto también determina transformaciones requeridas.
+    \item[]  
+\end{description}
 \subsection{Resultados}
 \subsection{Discusión}
 
 \section{Evaluación del Aprendizaje}
-Una vez seleccionado el codificador ideal, es necesario evaluar el desempeño del aprendizaje mediante la comparación del mapa binario de la máscara real y el mapa probabilistico de la máscara obtenida por la configuración actual. Para esto se utiliza el coeficiente de dados (\emph{dice coefficient}), mediante el DC se puede evaluar la similitud entre dos matríces de mismas dimensiones, por lo tanto 
-\begin{equation}
+Una vez seleccionado el codificador ideal, es necesario evaluar la configuración del modelo en la época presente y configuración actual, al finalizar cada ciclo de entrenamiento se realiza una validación con el porcentaje del conjunto de datos que no fue utilizado durante éste.
+\subsection{Diseño Experimental}
+Para determinar un valor probabilistico entre dos mapas de valores binarios es necesario utilizar un coeficiente que evalúe la similitud entre ambos conjuntos de datos, siendo el conjunto $A$ la máscara real o \emph{ground truth}, y el conjunto $B$ el mapa obtenido por la computación del modelo se utilizó el criterio de dados para determinar la probabilidad ($0 \% - 100 \%$), la ecuación del criterio de dados dice que la probabilidad de que dos mapas binarios sean iguales es dos veces la cantidad de pixeles sobrepuestos o idénticos entre la suma de los pixeles de ambos mapas, 
+
+\begin{equation}\label{eq:diceloss}
     \text{DC} = \frac{2|A \cap B |}{|A| + |B|}
 \end{equation}
-donde $A$ es un conjunto de intensidad de pixeles que representa la máscara real y $B$ la máscara estimada por la segmentación.
-\subsection{Diseño Experimental}
+
+donde $A$ es un mapa binario de pixeles que representa la máscara real y $B$ la máscara de segmentación obtenida por el modelo.
+
+\def\firstcircle{(0,0) circle (1.5cm)}
+\def\secondcircle{(2,0) circle (1.5cm)}
+\def\thirdcircle{(0:2cm) circle (1.5cm)}
+
+\begin{figure}[b]
+    \centering
+    \begin{tikzpicture}
+        \draw \firstcircle node [above] {$A$};
+        \draw \secondcircle node [above] {$B$};
+        %\node at (-2, 0) {\large $2 \times$};
+        \begin{scope}
+            \clip \firstcircle;
+            \fill[red!20] \secondcircle;
+        \end{scope}
+    \end{tikzpicture}
+    \caption{Representación de la región de sobreposición de pixeles en el coeficiente de dados.}
+\end{figure}
+
 \subsection{Resultados}
 \subsection{Discusión}
 
-\section{Validación de Máscaras}
-Para finalizar la validación de la herramienta propuesta, se compararon las máscaras obtenidas mediante la computación del modelo con la respectiva máscara real. 
+\section{Criterio de Jaccard}
+En la sección anterior, el criterio de dados es utilizado para evaluar la similitud entre un mapa binario y un mapa probabilistico correspondiente a la máscara conocida y la máscara estimada, durante el entrenamiento del modelo. Sin embargo para validar el resultado final es necesario utilizar una métrica similar, que penalice más el error o la diferencia entre ambos mapas.
 
 \subsection{Diseño Experimental}
+Para determinar un porcentaje de similitud entre la máscara estimada con la máscara conocida o también denominada verdad absoluta (\emph{ground truth}) podemos utilizar una métrica como la de la ecuación \ref{eq:jacc}, el índice de Jaccard. Este criterio es relativamente similar al coeficiente de dados de la ecuación \ref{eq:diceloss}, mediante el solapado de ambas máscaras se promedía la coincidencia entre pixeles, sin embargo en el criterio \emph{IoU} el error tiene mayor penalización, por lo que se podría decir que es una versión mas robusta de evaluación ideal para evaluar el modelo final.
+
+\def\rectA{(0,0) rectangle (2,2)}
+\def\rectB{(3,-1) rectangle (1,1)}
+
+\begin{figure}[b]
+    \centering
+    \begin{tikzpicture}
+        \draw \rectA node [above] {$A$};
+        \draw \rectB node [above] {$B$};
+        %\node at (-2, 0) {\large $2 \times$};
+        \begin{scope}
+            \clip \rectA;
+            \fill[blue!20] \rectB;
+        \end{scope}
+    \end{tikzpicture}
+    \caption{Representación de la región de sobreposición de pixeles en el índice de Jaccard.}
+\end{figure}
+
+
 \subsection{Resultados}
 \subsection{Discusión}
+
 
 \chapter{Conclusiones}
-
 \section{Discusión}
 
 \section{Trabajo a Futuro}
