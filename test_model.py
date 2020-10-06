@@ -5,7 +5,9 @@ import segmentation_models_pytorch as smp
 import numpy as np
 
 model_dir = 'Model/'
-file_name = 'se_resnext524d.pth'
+#file_name = 'se_resnext524d.pth'
+file_name = 'best_model.pth'
+
 model_path = model_dir + file_name
 test_dir = 'Data/Test_images/'
 ENCODER = 'se_resnext50_32x4d'
@@ -43,9 +45,9 @@ def test_model(m_path, t_path, encoder, weights, classes, device):
     ds.visualize(image=vis, predicted=pred_mask)
 
 # Test module.
-#test_model(m_path=model_path, 
-#    t_path=test_dir, 
-#    encoder=ENCODER, 
-#    weights=ENCODER_WEIGHTS, 
-#    classes=CLASSES, 
-#    device=DEVICE)
+# test_model(m_path=model_path, 
+#     t_path=test_dir, 
+#     encoder=ENCODER, 
+#     weights=ENCODER_WEIGHTS, 
+#     classes=CLASSES, 
+#     device=DEVICE)

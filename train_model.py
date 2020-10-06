@@ -6,20 +6,20 @@ import segmentation_models_pytorch as smp
 import numpy as np
 import os
 
-ENCODER = 'se_resnext50_32x4d'
-ENCODER_WEIGHTS = 'imagenet'
-DATA_DIR = "Data/"
-CLASSES = ['melanoma']
-DEVICE = 'cuda'
-ACTIVATION = 'sigmoid'
-train_img = os.path.join(DATA_DIR,"Training_input")
-train_mask = os.path.join(DATA_DIR,"Training_annot")
+#ENCODER = 'se_resnext50_32x4d'
+#ENCODER_WEIGHTS = 'imagenet'
+#DATA_DIR = "Data/"
+#CLASSES = ['melanoma']
+#DEVICE = 'cuda'
+#ACTIVATION = 'sigmoid'
+#train_img = os.path.join(DATA_DIR,"Training_input")
+#train_mask = os.path.join(DATA_DIR,"Training_annot")
 
 #Model parameters. 
-model = smp.FPN(encoder_name= ENCODER, encoder_weights=ENCODER_WEIGHTS, classes= len(CLASSES), activation= ACTIVATION)
-loss = smp.utils.losses.DiceLoss()
-metrics = [smp.utils.metrics.IoU(threshold=0.5),]
-optimizer = torch.optim.Adam([dict(params=model.parameters(), lr= 0.0001),])
+#model = smp.FPN(encoder_name= ENCODER, encoder_weights=ENCODER_WEIGHTS, classes= len(CLASSES), activation= ACTIVATION)
+#loss = smp.utils.losses.DiceLoss()
+#metrics = [smp.utils.metrics.IoU(threshold=0.5),]
+#optimizer = torch.optim.Adam([dict(params=model.parameters(), lr= 0.0001),])
 
 def train_new_model(model, images, masks, encoder, weights, class_arr, device,  batch, val_size, shuffle, seed_num, loss, metrics, optimizer):
 
@@ -73,8 +73,8 @@ def train_new_model(model, images, masks, encoder, weights, class_arr, device,  
 
         if max_score < valid_logs['iou_score']:
             max_score = valid_logs['iou_score']
-            torch.save(model, 'Model/best_model.pth' )
-            print('Best Model Saved')
+            torch.save(model,('Model/'+encoder+'.pth'))
+            print('Highest Score Model Saved: {}'.format(max_score))
         if i == 25:
             optimizer.param_groups[0]['lr'] = 1e-5
             print('decreased decoder learning rate to 1e-5')

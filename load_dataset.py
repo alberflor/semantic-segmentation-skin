@@ -139,3 +139,7 @@ class testing_data(Dataset):
         return image
     def __len__(self):
         return len(self.ids)
+
+#dataset = Dataset(train_img, train_mask, classes=['melanoma'])
+#image, mask = dataset[3]
+#visualize(image=image, mask=mask.squeeze())
