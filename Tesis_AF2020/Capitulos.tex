@@ -79,7 +79,7 @@ Los factores \emph{extrínsecos} son aquellos que suceden de forma agena al orga
 \subsection{Tipos de Cáncer de Piel}
 El cáncer de piel es un padecimiento que se puede manifestar en una gran variedad de formas distintas, algúnas de estas formas pueden representar un enorme riesgo para la salud de quien la padece mientras que otras pueden permanecer mucho tiempo sin afectar la calidad de vida del paciente; se clasifican principalmente en dos tipos: \emph{benigno} y \emph{maligno}.
 
-Los tumores del tipo \emph{benignos} no suelen ser considerados cáncer como tal, ya que tienen un crecimiento lento y no suelen extenderse a otras partes del cuerpo, por otro lado los tumores \emph{malignos}, si representan un riesgo mayor ya que crecen rapidamente y suelen hacer \emph{metástasis}, osea que migran a otras partes del cuerpo. 
+Los tumores del tipo \emph{benignos} no suelen ser considerados cáncer como tal, ya que tienen un crecimiento lento y no suelen extenderse a otras partes del cuerpo, por otro lado los tumores \emph{malignos}, si representan un riesgo mayor ya que crecen rapidamente y suelen hacer \emph{metástasis}, lo cual significa que migra a otras partes del cuerpo.
 
 \section{Redes Neuronales}
 
@@ -96,14 +96,13 @@ Hasta hace algunos años el desarrollo de aplicaciones de software solía realiz
 Las imágenes se pueden definir como una matriz de $m \times n \times 1$ pixeles en el caso de las imágenes de un solo canal (blanco y negro) y en el caso de imágenes a color es de $m \times n \times k$, donde $k$ es igual al numero de canales de color que tenga la imagen, siendo tres en el caso de imágenes RGB\footnote{RGB: Se refiere a los tres canales de color rojo, verde y azul, por sus siglas en inglés (\emph{red, green, blue}).}, es importante definir si las imágenes ingresarán al modelo a color o en blanco y negro debido a que esto define el numero de nodos de entrada de este, ya que para cada pixel debe corresponder un nodo de entrada y en el caso de imágenes a color también deberá tener un número de capas de nodos de entrada igual al número de canales que tenga la imagen.
 
 
-\begin{figure}[!htp]
-    \centering
-    \subfloat[imagen de un solo canal]{\label{a}\includegraphics[width=50mm]{Figuras/bg_matrix.eps}}
-    \qquad
-    \subfloat[imagen de triple canal]{\label{b}\includegraphics[width=50mm]{Figuras/rgb_matrix.eps}}
-    \caption{Comparación de dimensiones en imágenes en blanco y negro e imágenes a color.}
-\end{figure}
-
+%\begin{figure}[h]
+%\subfigure[a]{
+%    \begin{tikzpicture}
+%        \draw[step=0.5cm, gray, thin] (-2,2) grid (2,2);
+%    \end{tikzpicture}}
+%}
+\coltext{Draw grids}
 \subsection{Modelo}
 Un \emph{modelo} se puede definir como el bloque intermedio entre los datos de entrada (\emph{input}) y los datos de salida (\emph{output}), es el sistema encargado de transformar los datos de entrada en la salida deseada y consta de los siguientes componentes:
 
@@ -131,23 +130,18 @@ Partiendo de lo anterior, creando arreglos con estos nodos podemos formar estruc
 Para realizar el proceso de \emph{aprendizaje} del modelo, primero se debe evaluar cuál es el estado actual de las predicciones. Para esto es necesario evaluar que distancia existe entre el valor predicho y el valor real, esto se puede lograr mediante una \emph{función de pérdida} que se encargue de determinar que tanta diferencia (\emph{loss}) existe en las estimaciones del modelo con los pesos actuales.
 
 Un ejemplo de la función de pérdida es el de la función logarítmica del costo (\emph{log-likelihood}), como se muestra a continuación
-
 \begin{equation}
-    l(\mathbf{y}, \hat{\mathbf{y}}) = - \sum_{j=1}^q y_j \log \hat{y}_j     
+    l(\mathbf{y}, \hat{\mathbf{y}}) = - \sum_{j=1}^q (y_j \log \hat{y}_j),     
 \end{equation}
-
 $q$ representa el número de clases entre las cuales predecir, $y_j$ representa el valor de salida real, $\hat{y_j}$ el valor estimado de salida por el modelo y $j$ la posición indizada de clase.
 
 Ya que se tiene calculada la pérdida del modelo en su configuración de pesos actual, es necesario actualizar el valor de todos los pesos dentro del modelo para poder acercarnos al valor real. Aquí es donde participa el algoritmo de \emph{gradiente descendiente} \citep{alg:gradient}, dicho algoritmo se puede representar con la siguiente ecuación
-
 \begin{equation}
-        \text{error} = \frac{\partial}{\partial m} = \frac{2}{N}\sum_{i=1}^{N}-X_i(y_i-(mX_i+b))
+        \text{error} = \frac{\partial}{\partial m} = \frac{2}{N}\sum_{i=1}^{N}-X_i(y_i-(mX_i+b)),
 \end{equation}
-
 \begin{equation}
-        \frac{\partial}{\partial b} = \frac{2}{N}\sum_{i=1}^{N}(y_i-(mX_i+b)) 
+        \frac{\partial}{\partial b} = \frac{2}{N}\sum_{i=1}^{N}(y_i-(mX_i+b)),
 \end{equation}
-
 donde $m$ y $b$ son valores enteros que representan el peso de dos parámetros de un modelo, los cuáles serán optimizados para acercar la salida del modelo a la salida real.
 
 %\begin{algorithm}
@@ -179,7 +173,7 @@ A continuación se mencionan los trabajos revisados en los que se puede obtener 
 
 \citet{DBLP:journals/corr/RonnebergerFB15} proponen uno de los primeros modelos de la redes neuronales convolucionales denominada \texttt{U-net} dirigida al análisis de imágenes del area médica. Este trabajo consiste en una arquitectura con dos trayectorias: la trayectoria de contracción de la imagén y la trayectoria de expansión. En la trayectoria de contracción de la imagen se aplica una secuencia de convoluciones de dimension $3 \times 3$ con solapado, seguido de una función de activación de rectificación linear unitaria (ReLu) y posteriormente una operación de agrupación de máximos (\emph{max pooling}) para la compresión de la imagen (\emph{downsampling}). Por otro lado, la trayectoria de expansión consiste de el escalado de la imagen (\emph{upsampling}), en cada paso se aplica una capa de convolución de $2 \times 2$ a la cuál se concatena una imagen recortada del mapa de características de la trayectoria de contracción y dos convoluciones de $3 \times 3$ seguidos de una activación ReLu cada una. En total la arquitectura tiene 23 convoluciones (U-net).
 
-\citet{DBLP:journals/corr/ChenPK0Y16} en este trabajo se describe la arquitectura denominada \texttt{Deep Lab}, la cual propone un acercamiento distinto a la parte de la reconstrucción en las capas finales del modelo. Al igual que otras arquitecturas cuenta con capas de convolución. agrupación de máximos y activación de rectificación linear unitaria, sin embargo, el componente clave aquí es la denominada convolución de hoyos (\emph{atrous convolution}), la cual es una modificación al filtro de convolución basado en la transformada de \emph{Wavelet} para el escalado del mapa de características (\emph{upsampling}). De esta forma se obtiene una alternativa al uso de capas de deconvolución y así se aumenta la resolución del mapa de características a la salida del modelo sin aumentar el tiempo de computación o la cantidad de parámetros.
+\citet{DBLP:journals/corr/ChenPK0Y16} en este trabajo describen la arquitectura denominada \texttt{Deep Lab}, la cual propone un acercamiento distinto a la parte de la reconstrucción en las capas finales del modelo. Al igual que otras arquitecturas cuenta con capas de convolución. agrupación de máximos y activación de rectificación linear unitaria, sin embargo, el componente clave aquí es la denominada convolución de hoyos (\emph{atrous convolution}), la cual es una modificación al filtro de convolución basado en la transformada de \emph{Wavelet} para el escalado del mapa de características (\emph{upsampling}). De esta forma se obtiene una alternativa al uso de capas de deconvolución y así se aumenta la resolución del mapa de características a la salida del modelo sin aumentar el tiempo de computación o la cantidad de parámetros.
 
 \citet{DBLP:journals/corr/TeichmannWZCU16} reducen la carga computacional en los modelos de redes neuronales convolucionales mediante la unificación de las tres tareas principales de estas: clasificación, detección y segmentación. Denominada como multi-red neuronal \texttt{MultiNet} se trata de una arquitectura tipo codificador-decodificador en donde el decodificador esta compuesto de tres ramas las cuales corresponden a las tareas de clasificación, detección y segmentación por lo que se realizan las tres tareas de forma simultanea partiendo de la misma entrada (\emph{multi-tasking}) y usando la salida de cada una de las ramas para el ajuste fino de los parámetros del modelo (\emph{fine-tuning}).  
 
@@ -212,19 +206,19 @@ En esta sección se evalúan los trabajos revisados con el trabajo propuesto en 
     \begin{adjustbox}{width=\textwidth}
         \begin{tabular}[t]{|l|l|l|l|l|l|l|l|}
             \hline
-            \bf{Trabajo} & \bf{Modelo} & \rotatebox{90}{Clasificación} & \rotatebox{90}{Segmentación} & \rotatebox{90}{Supervisado} & \rotatebox{90}{Pre-entrenamiento} & \rotatebox{90}{Evaluación} & Salida\\
+            \bf{Trabajo} & \bf{Modelo} & \rotatebox{90}{Clasificación} & \rotatebox{90}{Segmentación} & \rotatebox{90}{Supervisado} & \rotatebox{90}{Pre-entrenamiento\phantom{m}} & \rotatebox{90}{Evaluación} & Salida\\
             \hline
-            \citet{DBLP:journals/corr/BadrinarayananK15} & \texttt{SegNet} & \cmark & \cmark & \cmark & \cmark & \cmark & label map\\
-            \citet{DBLP:journals/corr/RonnebergerFB15} & \texttt{U-net} & \cmark & \cmark & \cmark & \xmark & \cmark & label map\\
-            \citet{DBLP:journals/corr/ChenPK0Y16} & \texttt{DeepLab} & \cmark & \cmark & \cmark & \xmark & \cmark & label map\\   
-            \citet{DBLP:journals/corr/TeichmannWZCU16} & \texttt{MultiNet} & \cmark & \cmark & \cmark & \xmark & \cmark & label map\\   
-            \citet{KRONER2020261} & \texttt{VGG16} & \cmark & \cmark & \cmark & \cmark & \cmark & heat map\\ 
-            \citet{KADAMPUR2020100282} & \texttt{CNN} & \cmark & \xmark & \cmark & \xmark & \cmark & label map\\    
-            \citet{zhou2019emerging} & \texttt{ML / SVM} & \cmark & \xmark & \cmark & \xmark & \cmark & label \\    
-            \citet{DBLP:journals/corr/LucCCV16} & \texttt{CNN/GAN} & \cmark & \cmark & \cmark & \cmark & \cmark & label map\\         
-            \citet{JAIN2015735} & \texttt{A.B.C.D} & \xmark & \cmark & \xmark & \xmark & \xmark & label\\
+            \citet{DBLP:journals/corr/BadrinarayananK15} & \texttt{SegNet} & \cmark & \cmark & \cmark & \cmark & \cmark & mapa de etiquetas\\
+            \citet{DBLP:journals/corr/RonnebergerFB15} & \texttt{U-net} & \cmark & \cmark & \cmark & \xmark & \cmark & mapa de etiquetas\\
+            \citet{DBLP:journals/corr/ChenPK0Y16} & \texttt{DeepLab} & \cmark & \cmark & \cmark & \xmark & \cmark & mapa de etiquetas\\   
+            \citet{DBLP:journals/corr/TeichmannWZCU16} & \texttt{MultiNet} & \cmark & \cmark & \cmark & \xmark & \cmark & mapa de etiquetas\\   
+            \citet{KRONER2020261} & \texttt{VGG16} & \cmark & \cmark & \cmark & \cmark & \cmark & mapa de calor\\ 
+            \citet{KADAMPUR2020100282} & \texttt{CNN} & \cmark & \xmark & \cmark & \xmark & \cmark & mapa de etiquetas\\    
+            \citet{zhou2019emerging} & \texttt{ML / SVM} & \cmark & \xmark & \cmark & \xmark & \cmark & etiqueta\\    
+            \citet{DBLP:journals/corr/LucCCV16} & \texttt{CNN/GAN} & \cmark & \cmark & \cmark & \cmark & \cmark & mapa de etiquetas\\         
+            \citet{JAIN2015735} & \texttt{A.B.C.D} & \xmark & \cmark & \xmark & \xmark & \xmark & etiqueta\\
             \hline
-            Propuesta de tesis & \texttt{FPN} & \cmark & \cmark & \cmark & \cmark & \cmark & label map\\
+            Propuesta de tesis & \texttt{FPN} & \cmark & \cmark & \cmark & \cmark & \cmark & mapa de etiquetas\\
             \hline   
         \end{tabular}
     \end{adjustbox}
@@ -275,12 +269,10 @@ A partir de éste momento se referirá como \emph{muestra} al conjunto de datos 
 
 \subsection{Codificación de Características}
 Para poder realizar una predicción de la máscara segmentada, primero es necesario reducir las dimensiones de las imágenes sin afectar la información que estas representan. Para conseguir esto se utiliza un filtro de \emph{convolución de matríces}. Una imágen es una función bidimensional $ z = f(x,y)$, donde $x$ y $y$ son coordenadas espaciales y $z$ es el valor de la intensidad de la imágen en el punto $(x , y)$, en el caso de las imágenes a color se tienen tres funciones donde cada una representa la intensidad del pixel del canal correspondiente (rojo, verde o azul) \citep[~p. 100]{conv_1}. La convolución de matríces se define como la obtención de una matríz $C$ a partir de dos matríces $A$ y $B$. La matríz $A_{m \times n}$ sería el mapa de intensidad de pixeles de la imágen mientras que la matríz $B_{(2N+1) \times (2N+1)}$ es el kernel de la convolución, mediante la ecuación \ref{eq:conv_1} se obtiene la matríz $C = A * B$
-
 \begin{equation}
-c_{ij} = \frac{1}{b} \sum_{r=1}^{2N+1}\sum_{s=1}^{2N+1}(a_i-N+r-1, i-N+r-1)
+c_{ij} = \frac{1}{b} \sum_{r=1}^{2N+1}\sum_{s=1}^{2N+1}(a_i-N+r-1, i-N+r-1),
 \label{eq:conv_1}
 \end{equation}
-
 donde $b = \sum_{i,j=1}^{2N+1} b_{i,j}$, si $b=0$ se toma $b=1$.
 
 \begin{figure}[b]
@@ -320,6 +312,7 @@ La arquitectura de red neuronal tipo red piramidal de características, por sus 
     \caption{Representación de la arquitectura FPN \citep{fpn_2}.}
     \label{fig:fpn_map}
 \end{figure}
+\coltext{corregir $\times$}
 
 En la figura \ref{fig:fpn_map} se puede apreciar la arquitectura y la transformación de las dimensiones de los datos, el número a lado izquiero de las capas de convolución representa la resolución en proporción a la entrada y el número de lado derecho representa el número de canales. El número de canales aumenta mientras que la resolución disminuye.
 
@@ -366,19 +359,19 @@ En el cuadro \ref{tab:specs} se especifícan las características del equipo en 
         \hline
         \bf{Componente} & \bf{Descripción} \\
         \hline
-        Procesador & Ryzen 5 3600x, 3.80GHz, 6-Core \\
+        CPU & AMD Ryzen 5 3600x, 3.80 GHz, de seis núcleos.\\
         \hline
-        GPU & Nvidia GeForce 1050ti, 4gb \\
+        GPU & Nvidia GeForce 1050ti, 4 GB. \\
         \hline
-        MOBO & Gigabyte Gaming AB-350 \\
+        MOBO & Gigabyte Gaming AB-350. \\
         \hline
-        RAM & HyperX Fury, 16gb, 2433mhz \\
+        RAM & HyperX Fury, 16 GB, 2433 MHz. \\
         \hline
     \end{tabular}
     \label{tab:specs}
 \end{table}
 \subsection{Computación Asistída por Hardware}
-Los cálculos llevados en el proceso de entrenamiento involucra realizar operaciones con datos de altas dimensiones (\emph{high-dimensional data}) los cuales requieren una gran cantidad de recursos de procesamiento, estas operaciones al estar relacionadas con vectores y matríces pueden ser ejecutadas rapidamente por la unidad GPU\footnote{GPU: Graphics Processor Unit}, entre mayor sea la velocidad de procesamiento de la GPU más rapido es el entrenamiento de nuevos modelos y con mayor resolución.
+Los cálculos llevados en el proceso de entrenamiento involucra realizar operaciones con datos de altas dimensiones (\emph{high-dimensional data}) los cuales requieren una gran cantidad de recursos de procesamiento, estas operaciones al estar relacionadas con vectores y matríces pueden ser ejecutadas rapidamente por la unidad GPU\footnote{GPU: Graphics Processor Unit}, entre mayor sea la velocidad de procesamiento de la GPU más rápido es el entrenamiento de nuevos modelos y con mayor resolución.
 
 \subsection{Módulos de la Implementación}
 La herramienta desarrollada en el presente trabajo de tesis se divide en cuatro módulos funcionales y un módulo central encargado de controlar la ejecución de los mismos. En la figura \ref{fig: modules} se puede observar la estrúctura modular del software desarrollad, dentro de dichos módulos se encuentran las funciones específicas de esa categoría y en el módulo principal se encuentran los parámetros del modelo.
@@ -405,8 +398,8 @@ La herramienta desarrollada en el presente trabajo de tesis se divide en cuatro 
     \label{fig: modules}
 \end{figure}
 
-\subsection{Cargado de Datos}
-El proceso de cargado de datos y filtrado es un proceso muy importante para la ejecución correcta en las siguientes transformaciones, para el entrenamiento del modelo se utilizará una base de datos obtenida de la Asociación de Recolección de Imágenes dermatolólogicas, por sus siglas en inglés (\emph{ISIC}\footnote{ISIC: International Skin Imaging Collaboration.}). La base de datos de ISIC cuenta con 10mil imágenes de entrenamiento con resoluciones distintas, con diferentes tonos de iluminación y rotación, así como su máscara de segmentación conocida y 2mil imágenes para realizar pruebas, también con resoluciones no estandarizadas y sin máscara de segmentación.
+\subsection{Lectura de Entrada}
+El proceso de cargado de datos y filtrado es un proceso muy importante para la ejecución correcta en las siguientes transformaciones, para el entrenamiento del modelo se utilizará una base de datos obtenida de la Asociación de Recolección de Imágenes dermatolólogicas, por sus siglas en inglés (\emph{ISIC}\footnote{ISIC: International Skin Imaging Collaboration.}). La base de datos de ISIC cuenta con diez mil imágenes de entrenamiento con resoluciones distintas, con diferentes tonos de iluminación y rotación, así como su máscara de segmentación conocida y dos mil imágenes para realizar pruebas, también con resoluciones no estandarizadas y sin máscara de segmentación.
 
 \definecolor{folderbg}{RGB}{124,166,198}
 \definecolor{folderborder}{RGB}{110,144,169}
@@ -516,7 +509,7 @@ Lo primero que se desarrolló fue un asistente de cargado y filtrado de imágene
 
 \end{lstlisting}
 
-En el código \ref{code:load_2} se invoca la función \emph{dataset}, la cuál tiene por argumento la dirección de las imágenes reales y las máscaras conocidas, con esto se crea el conjunto de datos que posteriormente es utilizado en la  
+En el código \ref{code:load_2} se invoca la función \texttt{dataset}, la cuál tiene por argumento la dirección de las imágenes reales y las máscaras conocidas, con esto se crea el conjunto de datos que posteriormente es utilizado en la sección de entrenamiento.
 
 
 \subsection{Pre-procesamiento}
@@ -530,7 +523,7 @@ El \emph{pre-procesamiento} se define como una secuencia de transformaciones que
 
 
 \tikzstyle{block} = [rectangle, draw, fill=gray!20, 
-    text width=7em, text centered, minimum height=4em]
+    text width=10em, text centered, minimum height=4em]
 \tikzstyle{line} = [draw, -latex']
 \tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
     minimum height=2em]
@@ -538,23 +531,23 @@ El \emph{pre-procesamiento} se define como una secuencia de transformaciones que
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}[node distance = 0.2cm and -0.5cm]
-        \node [block] (input) {Imagen de Entrada ($m \times n$)};
-        \node [block, below right=of input] (tr1) {Resize ($512 \times 512$)};
-        \node [block, below right= of tr1] (tr2) {Interpolate (\small INTER$\_$AREA)};
-        \node [block, below right= of tr2] (tr3) {Transpose (2, 0, 1)};
+        \node [block] (input) {Imagen de Entrada \newline($m \times n$)};
+        \node [block, below right=of input] (tr1) {Ajuste de tamaño ($512 \times 512$)};
+        \node [block, below right= of tr1] (tr2) {Interpolación (\texttt{\small INTER$\_$AREA)}};
+        \node [block, below right= of tr2] (tr3) {Transposición (2, 0, 1)};
         \node [block, below right= of tr3] (out) {Dato de Salida ($N \times (512 \times 512)$)};
         % Líneas
         \path [line] (input) -| (tr1);
         \path [line] (tr1) -| (tr2);
         \path [line] (tr2) -| (tr3);
         \path [line] (tr3) -| (out);
-
     \end{tikzpicture}
     \caption{Línea de pre-procesamiento.}
     \label{fig: pipeline}
 \end{figure}
+\coltext{arreglar textos}
 
-Debido a que el \emph{dataset} es extenso y solo clasifíca entre dos categorías, no es necesario realizar demasiadas trasnformaciones, no obstante es importante trasponer la matríz de entrada para convertir la matríz a tensor.
+Debido a que el conjunto de datos es extenso y solo clasifíca entre dos categorías, no es necesario realizar demasiadas trasnformaciones, no obstante es importante trasponer la matríz de entrada para convertir la matríz a tensor.
 
 \subsection{Entrenamiento y Validación}
 La secuencia de entrenamiento consiste de un búcle en el cuál se condensan las imágenes en un grupo (\emph{batch}), para ser procesadas por el codificador de forma simultanea, esto para acelerar la velocidad de entrenamiento. Sin embargo, a mayor tamaño de batch también se requiere mayor memoria disponible por la unidad procesadora de gráficos y también la precisión del entrenamiento se ve influenciado. Posteriormente se evalúa mediante el \emph{índice de Jaccard}, como se muestra en la ecuación \ref{eq:jacc}.
@@ -656,16 +649,16 @@ En la subsección de \emph{diseño experimental}, se detalla el experimento y el
 
 En \emph{resultados}, se reporta e interpreta todos los resultados obtenidos mediante el experimento llevado a cabo en esa sección, cada experimento cuenta con su propia sección y se determina el mejor parámetro para realizar el experimento siguiente. 
 
-Y para finalizar en \emph{discusión}, se llega una conclusión basandose en los resultados obtenidos y la información que representan las gráficas.
+Para finalizar en \emph{discusión}, se llega una conclusión basándose en los resultados obtenidos y la información que representan las gráficas.
 
 
 \section{Estadísticas de los Datos de Entrada} 
-Este experimento tiene como objetivo determinar el codificador ideal para la arquitectura implementada basandosé en la información estadística del conjunto de datos de las imágenes, también determinar las transformaciones necesarias para coincidir con las dimensiones requeridas por la arquitectura y las ofrecidas por la imagen.
+Este experimento tiene como objetivo determinar el codificador ideal para la arquitectura implementada basándose en la información estadística del conjunto de datos de las imágenes, también determinar las transformaciones necesarias para coincidir con las dimensiones requeridas por la arquitectura y las ofrecidas por la imagen.
 
 \subsection{Diseño Experimental}
 Las imágenes representan un mapa de características o de valores numéricos en forma de matríz, dichas características pueden ser analizadas para determinar la secuencia correcta de transformaciones en la línea de pre-procesado para acoplar correctamente las dimesiones de entrada de la imagen con las entradas disponibles del codificador.
 \begin{description}
-    \item[Muestras] El número de muestras del conjunto de datos puede determinar las transformaciones posteriores tanto para reducir \emph{overfit} como para mejorar el \emph{underfit}.
+    \item[Muestras] El número de muestras del conjunto de datos puede determinar las transformaciones posteriores tanto para reducir \emph{sobreajuste}, como para mejorar el \emph{subajuste}.
     \item[Clases] La cantidad de clases entre las que el modelo tiene que clasificar determina la complejidad computacional de éste, por lo tanto también determina transformaciones requeridas.
     \item[Histograma de Resoluciones] Determinar cuál es la frecuencia de dimensiones en el conjunto de datos.  
 \end{description}
