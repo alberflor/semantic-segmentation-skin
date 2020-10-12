@@ -1,16 +1,16 @@
 
 \chapter{Introducción}
 
-La piel es considerada el órgano más grande del cuerpo humano; está compuesta por tres capas: \emph{\gls{epidermis}}, \emph{\gls{dermis}} e \emph{\gls{hipodermis}} (figura \ref{fig:skin1_jpg}). La principal función de la piel es proteger al cuerpo de las hostilidades del medio ambiente como la radiación solar y los factores externos como las bacterias, sin embargo también cumple otras funciones importantes aparte de proteger los órganos y los tejidos internos, tales otras funciones son regular nuestra temperatura corporal, registrar sensaciones de presión, frío, calor y es una interfaz para poder sentir e interactuar con lo que tenemos a nuestro alrededor.
+La piel es considerada como el órgano más grande del cuerpo humano; está compuesta por tres capas: \emph{\gls{epidermis}}, \emph{\gls{dermis}} e \emph{\gls{hipodermis}}, tal como se ilustra en la figura \ref{fig:skin1_jpg}. La función principal de la piel es la de proteger al cuerpo de las hostilidades del medio ambiente tales como la radiación solar y los factores externos como las bacterias, proteger a los órganos y otros tejidos internos, y también funciona como una interfaz que nos permite interactuar con el medio ambiente otorgándonos la capacidad de percibir sensaciones tales como el tacto y la temperatura.
 
 \begin{figure}[h!]
-    \includegraphics[width=80mm, scale = 0.5]{Figuras/skin_structure_esp.eps}
+    \includegraphics[scale = 1.0]{Figuras/skin_structure_esp.eps}
     \centering
     \caption{Ilustración de las capas de la piel y sus apéndices \citep{skin_1}.}
     \label{fig:skin1_jpg}
 \end{figure}
 
-Sin embargo, debido a la exposición continua a las radiaciones de la luz es común desarrollar enfermedades en la piel que afectan la forma en que las células de la piel se reproducen, causando graves daños en el tejido celular y en algunos casos resultando letal. Estas anomalías en la piel se denominan como \emph{cáncer de piel}, y se clasifican de la siguiente forma: cáncer de células basales, cáncer de células escamosas y melanomas \citep{cancer_org}.
+Sin embargo, debido a la exposición continua a la radiación solar o artificial, un porcentaje de la población llega a desarrollar anomalías relacionadas a la piel. Una de estas anomalías es la denominada \emph{melanoma}, la cuál es una mutación originada en los melanocitos (células encargadas de otorgar la pigmentación marrón a la piel), en donde estas células crecen sin control y se esparcen a otras partes del cuerpo, ocasionando graves daños a la salud de quien la padece y que sin una detección temprana puede aumentar rápidamente el riesgo de fallecimiento \citep{cancer_org}.
 
 \begin{figure}[h!]
     \includegraphics[width=80mm]{Figuras/skin_cancer_bbc.jpg}
@@ -19,26 +19,29 @@ Sin embargo, debido a la exposición continua a las radiaciones de la luz es com
     \label{fig:can_jpg}
 \end{figure}
 
- Su detección temprana es imprescindible para reducir las probabilidades de fallecimiento. Por lo tanto es necesario seguir desarrollando tecnologías que faciliten la detección de este tipo de padecimientos de forma rápida y sencilla; y que vaya enfocada en aumentar la accesibilidad a dichos diagnósticos y de esta forma reducir la tasa de mortalidad por este padecimiento.
+ Su detección temprana es imprescindible para reducir el porcentaje de mortalidad que esta enfermedad representa, de ahí el porqué es importante no solamente trabajar en encontrar un tratamiento, sino también (y de forma simultánea), trabajar e investigar en el uso de tecnologías emergentes que permitan su detección temprana, fiable y al alcance de la mayoría.
 
-En los últimos años se han logrado muchos avances en cuanto al desarrollo de software inteligente lo cuál ha permitido un mayor acceso a diferentes servicios, una de las tecnologías que han adquirido mayor importancia es la \emph{\gls{rn}}, se trata de una tecnología que tiene la capacidad de \emph{aprender} mediante el úso de datos históricos y mediante funciones de optimización crear un modelo matemático capaz de predecir, clasificar o recrear datos futuros o desconocidos. Algunos de los sectores que han comenzado a adoptar esta tecnología son: el sector automotriz (piloto automático), el sector de manufactura (optimización de procesos), el sector de entretenimiento (recomendaciones personalizadas), el sector médico (diagnóstico de imágenes). 
+En los últimos años se han logrado muchos avances en cuanto al desarrollo de \emph{software} inteligente, una de las tecnologías que han adquirido mayor importancia es la \emph{\gls{rn}}, la cual se trata de un modelo matemático que tiene la capacidad de \emph{aprender} mediante el uso de bases de datos y mediante funciones de optimización que permite la configuración de dicho modelo y le otorga la capacidad de predecir, clasificar o construir datos ya sean futuros o desconocidos. Algunos de los sectores que se han beneficiado más de esta tecnología son: el sector automotriz (pilotos automáticos), el sector de manufactura (optimización de procesos), el sector de entretenimiento (recomendaciones personalizadas), el sector médico (diagnóstico de imágenes). 
 
 
 \section{Hipótesis}
-Es posible clasificar los píxeles en distintas categorías dentro de una imagen gracias a las avances actuales de inteligencia artificial y la técnica de segmentación. Mediante la técnica de \emph{\gls{seg}} es posible crear un reconocedor visual que no solo detecte la presencia y ubicación del elemento a reconocer, sino que, también obtenga otros datos descriptivos del elemento como el tamaño, forma y región que abarca dentro de la imagen.
+El presente trabajo de tesis tiene como hipótesis el uso de la inteligencia artificial para la detección y clasificación del melanoma de piel; mediante la implementación de un modelo basado en el aprendizaje profundo, es posible crear una aplicación de \emph{software} que entrene y optimice un modelo para realizar la tarea de la \emph{segmentación semántica}, la cual se trata de la transformación y predicción de pixeles para obtener la clasificación de las diferentes regiones que representa una imágen dermatológica. Y de esta manera obtener una aplicación de reconocimiento visual cuya robustez pueda ser verificada a partir de una serie de experimentos.
+
+
+%Es posible clasificar los píxeles en distintas categorías dentro de una %imagen gracias a las avances actuales de inteligencia artificial y la técnica %de segmentación. Mediante la técnica de \emph{\gls{seg}} es posible crear un %reconocedor visual que no solo detecte la presencia y ubicación del elemento %a reconocer, sino que, también obtenga otros datos descriptivos del elemento %como el tamaño, forma y región que abarca dentro de la imagen.
 
 \section{Objetivos}
-Primero en \emph{objetivo general} se habla de manera conceptual la problemática a resolver tales como cuales son las situaciones en las que podemos optimizar la resolución de un problema mediante el uso de la red neuronal, posteriormente en los \emph{objetivos específicos} se describe de forma puntual los pasos a realizar en el presente trabajo de tésis para llegar al resultado deseado.
+Primero en \emph{objetivo general}, se habla de manera conceptual la problemática a resolver tales como cuales son las situaciones en las que podemos optimizar la resolución de un problema mediante el uso de la red neuronal, posteriormente en los \emph{objetivos específicos} se describe de forma puntual los pasos a realizar en el presente trabajo de tésis para llegar al resultado deseado.
 
-El \emph{objetivo general} de este trabajo de tésis es la creación de una aplicación con la capacidad de reconocer y segmentar melanoma en la piel de forma automatizada, con el motivo de asistir a los médicos dedicados a esta labor a optimizar y extender la detección temprana, consiguiendo así una reducción en su mortalidad.
+El \emph{objetivo general} de este trabajo de tesis es la creación de una aplicación con la capacidad de reconocer y segmentar melanoma en la piel de forma automatizada, esto con el motivo de asistir a los médicos dedicados a esta labor a optimizar y extender la detección temprana, consiguiendo así reducir la tasa de mortalidad de este padicimiento.
 
-El \emph{objetivo específico}, es el implementar un modelo de red neuronal cuya entrada sean imágenes que pueden o no contener la presencia de alguno de los tipos de cáncer de piel comunes, y como salida del modelo se obtenga un mapa de características donde de haber presencia de el cáncer este se distinga mediante una región colorada en el espacio que abarca. El modelo debe cumplir con las siguientes características:
+El \emph{objetivo específico}, es el de implementar un modelo de red neuronal cuya entrada sean imágenes que pueden o no contener la presencia de alguno de los tipos de cáncer de piel comunes, y como salida del modelo se obtenga un mapa de características donde de haber presencia de el cáncer este se distinga mediante una región colorada en el espacio que abarca. El modelo debe cumplir con las siguientes características:
 
 \begin{itemize}
     \item El modelo debe ser capaz de trabajar con imágenes a color o en blanco y negro.
     \item El modelo debe contar con una función capaz de evaluar la precisión.
     \item El modelo debe contar con un algoritmo capaz de optimizar la precisión.
-    \item El modelo debe ser capaz de segmentar correctamente imágenes no usadas en los datos de entrenamiento.
+    \item El modelo debe ser capaz de segmentar correctamente en imágenes no utilizadas en los datos de entrenamiento.
 \end{itemize}
 
 \begin{figure}[!htp]
