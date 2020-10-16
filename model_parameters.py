@@ -5,25 +5,26 @@ import torch
 import segmentation_models_pytorch as smp
 
 class model_params:
+    #instanciated params
+    def __init__(self):
+        #model_params
+        self.encoder = 'se_resnext50_32x4d'
+        self.classes = ['melanoma']
+        self.pre_tr_weights = 'imagenet'
+        self.device = 'cuda'
+        self.act_func = 'sigmoid'
 
-    #model_params
-    encoder = 'se_resnext50_32x4d'
-    classes = ['melanoma']
-    pre_tr_weights = 'imagenet'
-    device = 'cuda'
-    act_func = 'sigmoid'
+        #paths
+        self.data = 'Data/'
+        self.model_dir = 'Model/'
+        self.file_name = 'se_resnext524d.pth'
+        self.model_path = self.model_dir + self.file_name
+        self.test_dir = 'Data/Test_images'
+        self.images_dir = os.path.join(self.data,"Training_input")
+        self.masks_dir = os.path.join(self.data, "Training_annot")
 
-    #paths
-    data = 'Data/'
-    model_dir = 'Model/'
-    file_name = 'se_resnext524d.pth'
-    model_path = model_dir + file_name
-    test_dir = 'Data/Test_images'
-    images_dir = os.path.join(data,"Training_input")
-    masks_dir = os.path.join(data, "Training_annot")
-
-    #model_config
-    model = smp.FPN(encoder_name=encoder, encoder_weights=pre_tr_weights, classes=len(classes), activation=act_func)
-    loss = smp.utils.losses.DiceLoss()
-    metrics = [smp.utils.metrics.IoU(threshold=0.5),]
-    optimizer = torch.optim.Adam([dict(params=model.parameters(),lr=0.0001),])    
+        #model_config
+        self.model = smp.FPN(encoder_name=self.encoder, encoder_weights=self.pre_tr_weights, classes=len(self.classes), activation=self.act_func)
+        self.loss = smp.utils.losses.DiceLoss()
+        self.metrics = [smp.utils.metrics.IoU(threshold=0.5),]
+        self.optimizer = torch.optim.Adam([dict(params=self.model.parameters(),lr=0.0001),])    

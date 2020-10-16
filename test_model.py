@@ -49,9 +49,10 @@ def test_model(m_path, t_path, s_path, encoder, weights, classes, device):
     ds.visualize(image=vis, predicted=pred_mask)
 
 def test_wrap(a):
-    print(a.model_params.model_path)
+    print(a.model_path)
 
 import model_parameters as mp
 
-print(mp.model_params.model_path)
-test_wrap(mp.model_params.model_path)
+model_instance = mp.model_params()
+
+test_wrap(model_instance)
