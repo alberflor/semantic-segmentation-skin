@@ -19,18 +19,21 @@ CLASSES = ['melanoma']
 DEVICE = 'cuda'
 
 
-def test_model(m_path, t_path, s_path, encoder, weights, classes, device):
+import model_parameters as mp
+
+
+def test_model(m):
     # Load model
-    model = torch.load(m_path)
-    prep_fn = smp.encoders.get_preprocessing_fn(encoder, weights)
+    model = torch.load(m.model_path)
+    prep_fn = smp.encoders.get_preprocessing_fn(m.encoder, m.pre_tr_weights)
 
     # Load data to test
-    vis_dataset = ds.testing_data(t_path,
-    classes,
+    vis_dataset = ds.testing_data(m.test_dir,
+    m.classes,
     augmentation=tfm.get_validation_augmentation())
 
-    test_dataset = ds.testing_data(t_path,
-    classes, 
+    test_dataset = ds.testing_data(m.test_dir,
+    m.classes, 
     augmentation=tfm.get_validation_augmentation(), 
     preprocessing=tfm.get_preprocessing(prep_fn))
 
@@ -40,19 +43,11 @@ def test_model(m_path, t_path, s_path, encoder, weights, classes, device):
     test_image = test_dataset[n]
 
     # Predict using model
-    x_tensor = torch.from_numpy(test_image).to(device).unsqueeze(0)
+    x_tensor = torch.from_numpy(test_image).to(m.device).unsqueeze(0)
     pred_mask = model.predict(x_tensor)
     pred_mask = (pred_mask.squeeze().cpu().numpy().round())
-    cv2.imwrite(s_path)
+    #cv2.imwrite(s_path)
 
     #Visualize prediction
     ds.visualize(image=vis, predicted=pred_mask)
 
-def test_wrap(a):
-    print(a.model_path)
-
-import model_parameters as mp
-
-model_instance = mp.model_params()
-
-test_wrap(model_instance)

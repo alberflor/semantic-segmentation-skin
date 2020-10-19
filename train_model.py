@@ -21,13 +21,13 @@ import os
 #metrics = [smp.utils.metrics.IoU(threshold=0.5),]
 #optimizer = torch.optim.Adam([dict(params=model.parameters(), lr= 0.0001),])
 
-def train_new_model(model, images, masks, encoder, weights, class_arr, device,  batch, val_size, shuffle, seed_num, loss, metrics, optimizer):
+def train_new_model(m, batch, val_size, shuffle, seed_num):
 
-    preprocessing_fn = smp.encoders.get_preprocessing_fn(encoder, weights)
+    preprocessing_fn = smp.encoders.get_preprocessing_fn(m.encoder, m.pre_tr_weights)
     # Loading data.
-    dataset = ld.Dataset(images,
-    masks,
-    classes= class_arr,
+    dataset = ld.Dataset(m.images_dir,
+    m.masks_dir,
+    classes= m.classes,
     augmentation=tfm.get_training_augmentation(),
     preprocessing=tfm.get_preprocessing(preprocessing_fn))
 
@@ -49,19 +49,19 @@ def train_new_model(model, images, masks, encoder, weights, class_arr, device,  
 
     # Epoch configuration.
 
-    train_epoch = smp.utils.train.TrainEpoch(model,
-    loss=loss,
-    metrics=metrics,
-    optimizer=optimizer,
-    device=device,
+    train_epoch = smp.utils.train.TrainEpoch(m.model,
+    loss=m.loss,
+    metrics=m.metrics,
+    optimizer=m.optimizer,
+    device=m.device,
     verbose=True,
     )
 
     valid_epoch = smp.utils.train.ValidEpoch(
-    model,
-    loss=loss,
-    metrics=metrics,
-    device=device,
+    m.model,
+    loss=m.loss,
+    metrics=m.metrics,
+    device=m.device,
     verbose=True,
     )
 
@@ -73,11 +73,9 @@ def train_new_model(model, images, masks, encoder, weights, class_arr, device,  
 
         if max_score < valid_logs['iou_score']:
             max_score = valid_logs['iou_score']
-            torch.save(model,('Model/'+encoder+'.pth'))
+            torch.save(m.model,('Model/'+ m.encoder + '.pth'))
             print('Highest Score Model Saved: {}'.format(max_score))
         if i == 25:
-            optimizer.param_groups[0]['lr'] = 1e-5
+            m.optimizer.param_groups[0]['lr'] = 1e-5
             print('decreased decoder learning rate to 1e-5')
-
-# Test module
-#train_new_model(model, train_img, train_mask, ENCODER, ENCODER_WEIGHTS, CLASSES, DEVICE, 12, 0.3, True, 42, loss, metrics, optimizer)
+ 
