@@ -749,15 +749,37 @@ donde $A$ es un mapa binario de pixeles que representa la máscara real y $B$ la
 \end{figure}
 
 \subsection{Resultados}
-
-\begin{figure*}
+Durante el entrenamiento del modelo, se evaluó la perdida o el error mediante el coeficiente de dados, dicha evaluación fue realizada en cada iteración y los datos fueron registrados para posteriormente graficar la curva. La curva de la pérdida debe tender a descender cuando el modelo mejora su precisión, al terminar todas las iteraciones se vuelve a pasar el modelo por el proceso de entrenamiento utilizando la configuración del modelo anterior hasta llegar a la mejor precisión posible. En la figura \ref{fig:dice_loss_epochs}, se puede observar la curva en cada una de las épocas.
+\begin{figure*}[h!]
     \centering
-    \begin{tabular}{lc}
-        Época 1 &
-        \includegraphics[width=9cm]{../Plots/dl_epoch_0.png} \\
-        Época 2 &
-        \includegraphics[width=9cm]{../Plots/dl_epoch_1.png} \\
+    \begin{tabular}{ccc}
+        \includegraphics[width=4cm]{../Plots/dl_epoch_0.png} &
+        \includegraphics[width=4cm]{../Plots/dl_epoch_1.png} &
+        \includegraphics[width=4cm]{../Plots/dl_epoch_2.png} \\
+
+        \includegraphics[width=4cm]{../Plots/dl_epoch_3.png} &
+        \includegraphics[width=4cm]{../Plots/dl_epoch_4.png} &
+        \includegraphics[width=4cm]{../Plots/dl_epoch_5.png} \\
+
+        \includegraphics[width=4cm]{../Plots/dl_epoch_6.png} &
+        \includegraphics[width=4cm]{../Plots/dl_epoch_7.png} &
+        \includegraphics[width=4cm]{../Plots/dl_epoch_8.png} \\
+
+        \includegraphics[width=4cm]{../Plots/dl_epoch_9.png} &
+        \includegraphics[width=4cm]{../Plots/dl_epoch_10.png} &
+        \includegraphics[width=4cm]{../Plots/dl_epoch_11.png} \\
+
+        \includegraphics[width=4cm]{../Plots/dl_epoch_12.png} &
+        \includegraphics[width=4cm]{../Plots/dl_epoch_13.png} &
+        \includegraphics[width=4cm]{../Plots/dl_epoch_14.png} \\
+
+        \includegraphics[width=4cm]{../Plots/dl_epoch_15.png} &
+        \includegraphics[width=4cm]{../Plots/dl_epoch_16.png} &
+        \includegraphics[width=4cm]{../Plots/dl_epoch_17.png} \\
+        
     \end{tabular}
+    \caption{Curva de la pérdida según el coeficiente de dados en cada época.}
+    \label{fig:dice_loss_epochs}
 \end{figure*}
 
 \subsection{Discusión}
@@ -786,6 +808,41 @@ Para determinar un porcentaje de similitud entre la máscara estimada con la má
 
 
 \subsection{Resultados}
+Al diferencia de la evaluación mediante el coeficiente de dados,la cual se realiza durante el entrenamiento, la evaluación del criterio de Jaccard se realiza después del entrenamiento, específicamente en la fase de validación donde se vuelve a comparar el mapa de valores binarios real y el mapa probabilístico obtenido con el modelo al finalizar la época presente y dando una mayor penalización al error. En la figura \ref{fig:iou_epochs} se puede observar la forma que la curva toma a través de las iteraciones y su evolución en cada época.
+
+\begin{figure*}[h!]
+    \centering
+    \begin{tabular}{ccc}
+        \includegraphics[width=4.5cm]{../Plots/score_epoch_0.png} &
+        \includegraphics[width=4.5cm]{../Plots/score_epoch_1.png} &
+        \includegraphics[width=4.5cm]{../Plots/score_epoch_2.png} \\
+
+        \includegraphics[width=4.5cm]{../Plots/score_epoch_3.png} &
+        \includegraphics[width=4.5cm]{../Plots/score_epoch_4.png} &
+        \includegraphics[width=4.5cm]{../Plots/score_epoch_5.png} \\
+
+        \includegraphics[width=4.5cm]{../Plots/score_epoch_6.png} &
+        \includegraphics[width=4.5cm]{../Plots/score_epoch_7.png} &
+        \includegraphics[width=4.5cm]{../Plots/score_epoch_8.png} \\
+
+        \includegraphics[width=4.5cm]{../Plots/score_epoch_9.png} &
+        \includegraphics[width=4.5cm]{../Plots/score_epoch_10.png} &
+        \includegraphics[width=4.5cm]{../Plots/score_epoch_11.png} \\
+
+        \includegraphics[width=4.5cm]{../Plots/score_epoch_12.png} &
+        \includegraphics[width=4.5cm]{../Plots/score_epoch_13.png} &
+        \includegraphics[width=4.5cm]{../Plots/score_epoch_14.png} \\
+
+        \includegraphics[width=4.5cm]{../Plots/score_epoch_15.png} &
+        \includegraphics[width=4.5cm]{../Plots/score_epoch_16.png} &
+        \includegraphics[width=4.5cm]{../Plots/score_epoch_17.png} \\
+    \end{tabular}
+
+    \caption{Curvas de la evaluación del criterio de Jaccard en cada época.}
+    \label{fig:iou_epochs}
+\end{figure*}
+
+
 \subsection{Discusión}
 
 
