@@ -47,6 +47,10 @@ class Dataset(BaseDataset):
     ):
         # Path to images and filter placeholder.    
         self.ids = os.listdir(images_dir)
+
+        #Split dataset, let empty for full usage.
+        self.ids = self.ids[:1000]
+
         self.filtered = [file for file in self.ids if file.endswith(".placeholder")]
 
         # Remove filtered

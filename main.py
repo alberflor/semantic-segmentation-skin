@@ -25,7 +25,7 @@ test_sample = True
 print('semantic segmentation V1.0')
 
 if train_model:
-    trm.train_new_model(model_class, 3, 0.4, True, 42)
+    trm.train_new_model(model_class, 6, 0.3, False, 42)
 
 if test_sample:
     tsm.test_model(model_class)

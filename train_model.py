@@ -5,21 +5,9 @@ from torch.utils.data.sampler import SubsetRandomSampler
 import segmentation_models_pytorch as smp
 import numpy as np
 import os
+import matplotlib.pyplot as plt
 
-#ENCODER = 'se_resnext50_32x4d'
-#ENCODER_WEIGHTS = 'imagenet'
-#DATA_DIR = "Data/"
-#CLASSES = ['melanoma']
-#DEVICE = 'cuda'
-#ACTIVATION = 'sigmoid'
-#train_img = os.path.join(DATA_DIR,"Training_input")
-#train_mask = os.path.join(DATA_DIR,"Training_annot")
 
-#Model parameters. 
-#model = smp.FPN(encoder_name= ENCODER, encoder_weights=ENCODER_WEIGHTS, classes= len(CLASSES), activation= ACTIVATION)
-#loss = smp.utils.losses.DiceLoss()
-#metrics = [smp.utils.metrics.IoU(threshold=0.5),]
-#optimizer = torch.optim.Adam([dict(params=model.parameters(), lr= 0.0001),])
 
 def train_new_model(m, batch, val_size, shuffle, seed_num):
 
@@ -48,7 +36,6 @@ def train_new_model(m, batch, val_size, shuffle, seed_num):
     valid_loader = torch.utils.data.DataLoader(dataset, batch_size=batch, sampler=valid_sampler)
 
     # Epoch configuration.
-
     train_epoch = smp.utils.train.TrainEpoch(m.model,
     loss=m.loss,
     metrics=m.metrics,
@@ -65,12 +52,37 @@ def train_new_model(m, batch, val_size, shuffle, seed_num):
     verbose=True,
     )
 
-    max_score = 0 
+    max_score = 0
     for i in range(0,40):
         print('\n Epoch: {}'.format(i))
-        train_logs = train_epoch.run(train_loader)
-        valid_logs = valid_epoch.run(valid_loader)
+        train_logs, loss_t, metric_t = train_epoch.run(train_loader)
+        
+        loss_array = np.asarray(loss_t)
+        loss_values = [k['dice_loss'] for k in loss_array]
+        print(loss_values)
 
+        m.loss_logs = loss_values
+        fig_1 = plt.figure()
+        plt.plot(loss_values)
+        plt.ylabel('Coeficiente de dados', fontsize=12)
+        plt.xlabel('Iteración', fontsize=12)
+        plt.savefig('Plots/'+'dl_epoch_'+str(i))
+        
+        
+        valid_logs, loss_v, metric_v = valid_epoch.run(valid_loader)
+        
+        metric_array = np.asarray(metric_v)
+        metric_values = [k['iou_score'] for k in metric_array]
+        print(metric_values)
+
+        m.score_logs = metric_values
+
+        fig_2 = plt.figure()
+        plt.plot(metric_values)
+        plt.ylabel('Índice de Jaccard', fontsize=12)
+        plt.xlabel('Iteración', fontsize=12)
+        plt.savefig('Plots/'+'score_epoch_'+str(i))
+        
         if max_score < valid_logs['iou_score']:
             max_score = valid_logs['iou_score']
             torch.save(m.model,('Model/'+ m.encoder + '.pth'))
