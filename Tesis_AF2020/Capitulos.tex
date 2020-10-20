@@ -577,18 +577,14 @@ La secuencia de entrenamiento consiste de un búcle en el cuál se condensan las
 Para poder determinar la eficiencia durante el \emph{entrenamiento} y optimizar los pesos sinápticos es necesario hacer uso de métricas, dichas métricas se aplicarán sobre el subconjunto de validación. Los datos utilizados fueron divididos en una proporción de $70\%$ para entrenamiento y $30\%$ para la validación, el subconjunto de validación no es usado durante el entrenamiento, sino qué, al terminar una época se verifíca con ese subconjunto la precisión.
 
 
-La métrica utilizada para evaluar el modelo es la del \emph{índice de Jaccard} (\emph{Intersection Over Union}) por sus siglas en inglés (IoU) \citep{fpn_1} de la siguiente ecuación,
-
+La métrica utilizada para evaluar el modelo es la del \emph{índice de Jaccard} (\emph{Intersection Over Union}) por sus siglas en inglés (IoU) \citep{fpn_1} de la siguiente ecuación
 \begin{equation}\label{eq:jacc}
-    J(A,B) = \frac{|A \cap B|}{| A \cup B |} = \frac{|A \cap B|}{|A| + |B| - |A \cap B|}
+    J(A,B) = \frac{|A \cap B|}{| A \cup B |} = \frac{|A \cap B|}{|A| + |B| - |A \cap B|} \text{,}
 \end{equation} 
-
 donde $A$ y $B$ se pueden interpretar como la máscara real y la máscara estimada, y debido a que las imágenes consisten de pixeles, la ecuación anterior se puede representar en el caso de objetos discretos como
-
 \begin{equation}
     J = \frac{1}{n} \sum_{c=1}^{k} W_c \sum_{i=1}^{n}\frac{y_i^c \hat y_i^c}{y_i^c + \hat y_i^c - y_i^c \hat y_i^c}
 \end{equation} 
-
 donde $y_i^c$ y $\hat y_i^c$ son valores binarios y corresponden a la probabilidad de que el pixel $i$ corresponda a la clase $c$ de un número $k$ de clases.
 
 La librería de Yakubovskiy \citep{Yakubovskiy:2019} cuenta con distintas métricas ya implementadas dentro de su \texttt{API}\footnote{Interfaz de programación por sus siglas en inglés, \emph{Application Programming Interface}.}, dichas métricas se pueden configurar previamente al entrenamiento. En el código \ref{code:metrics} se puede apreciar la selección de la función de métrica, la función de pérdida y el optimizador de pesos del modelo.
@@ -652,7 +648,7 @@ En la subsección de \emph{diseño experimental}, se detalla el experimento y el
 
 En \emph{resultados}, se reporta e interpreta todos los resultados obtenidos mediante el experimento llevado a cabo en esa sección, cada experimento cuenta con su propia sección y se determina el mejor parámetro para realizar el experimento siguiente. 
 
-Para finalizar en \emph{discusión}, se llega una conclusión basándose en los resultados obtenidos y la información que representan las gráficas.
+Para finalizar en \emph{discusión}, se llega una conclusión basada en los resultados obtenidos y la información que representan las gráficas.
 
 
 \section{Estadísticas de los Datos de Entrada} 
@@ -663,9 +659,64 @@ Las imágenes representan un mapa de características o de valores numéricos en
 \begin{description}
     \item[Muestras] El número de muestras del conjunto de datos puede determinar las transformaciones posteriores tanto para reducir \emph{sobreajuste}, como para mejorar el \emph{subajuste}.
     \item[Clases] La cantidad de clases entre las que el modelo tiene que clasificar determina la complejidad computacional de éste, por lo tanto también determina transformaciones requeridas.
-    \item[Histograma de Resoluciones] Determinar cuál es la frecuencia de dimensiones en el conjunto de datos.  
+    \item[Valor Umbral] Para determinar la complejidad de las imágenes para ser segmentadas, se puede realizar un estudio del umbral para determinar el rango específico de intensidad de pixeles en el que se encuentra el objeto.
 \end{description}
+
 \subsection{Resultados}
+Los resultados obtenidos de este experimento resultan de la aplicación de filtros de umbralización a un conjunto de datos de entrada para estudiar la forma en la que cambia la región de intensidad en la que se ubica la mayor recurrencia de píxeles.
+
+\begin{table}[b]
+    \centering
+    \caption{Características del conjunto de datos.}
+    \begin{tabular}{|l|l|}
+        \hline
+        \bf{Dato} & \bf{Valor} \\
+        \hline
+        Muestras & 10,000 \\
+        \hline
+        Clases & 2 \\
+        \hline
+        Res. Mínima & 1024 px \\
+        \hline
+        Res. Máxima & 2550 px \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Posteriormente se realizó un estudio del valor umbral (\emph{thresholding}), para determinar la región característica de la intensidad de los píxeles y utilizar dicho valor dentro de las transformaciones del pre-entrenamiento. Para llevar esto a cabo primero se realizó un histograma de intensidad de píxeles del conjunto de datos entrante, a partir de dicho histograma se determinó el valor umbral y posteriormente se aplicó la función de umbral binario para dar como resultado una discretización de la intensidad de píxeles.
+\begin{figure}[]
+    \centering
+    \includegraphics[scale=0.7]{../Plots/Images_input.png}
+    \caption{Muestra del conjunto de datos usados para el experimento.}
+    \label{fig:img_in}    
+\end{figure}
+
+Para este experimento es importante considerar que una intensidad de $\text{pixel} = 0$, en una escala de grises significa que sería completamente negro, mientras que si $\text{pixel} = 255$, significa que el pixel es completamente blanco. Lo mismo aplica a las imágenes a color pero en su correspondiente canal. 
+
+\begin{figure}[]
+    \centering
+    \includegraphics[scale=0.65]{../Plots/threshold_input.png}
+    \caption{Histogramas sobre la intensidad de píxeles en el conjunto.}
+    \label{fig:hist_in}    
+\end{figure}
+
+Los píxeles de las imágenes de entrada tienen una forma de $m \times n$, por lo que para evaluar la intensidad de todos los píxeles es necesario aplanar la dimensión del arreglo, para esto se utilizó la función \texttt{Ravel} de \texttt{NumPy}, la cuál da como resultado un arreglo de una sola dimensión a partir de un arreglo de varias dimensiones o con subarreglos.
+
+
+\begin{figure}[]
+    \centering
+    \includegraphics[scale=0.7]{../Plots/Images_output.png}
+    \caption{Conjunto de datos después del filtro de umbral.}
+    \label{fig:img_out}    
+\end{figure}
+
+\begin{figure}[]
+    \centering
+    \includegraphics[scale=0.65]{../Plots/threshold_output.png}
+    \caption{Histograma de intensidad de píxeles después del filtro de umbral.}
+    \label{fig:hist_out}    
+\end{figure}
+
 \subsection{Discusión}
 
 \section{Evaluación del Aprendizaje}
@@ -683,7 +734,7 @@ donde $A$ es un mapa binario de pixeles que representa la máscara real y $B$ la
 \def\secondcircle{(2,0) circle (1.5cm)}
 \def\thirdcircle{(0:2cm) circle (1.5cm)}
 
-\begin{figure}[h]
+\begin{figure}[b]
     \centering
     \begin{tikzpicture}
         \draw \firstcircle node [above] {$A$};
@@ -698,6 +749,17 @@ donde $A$ es un mapa binario de pixeles que representa la máscara real y $B$ la
 \end{figure}
 
 \subsection{Resultados}
+
+\begin{figure*}
+    \centering
+    \begin{tabular}{lc}
+        Época 1 &
+        \includegraphics[width=9cm]{../Plots/dl_epoch_0.png} \\
+        Época 2 &
+        \includegraphics[width=9cm]{../Plots/dl_epoch_1.png} \\
+    \end{tabular}
+\end{figure*}
+
 \subsection{Discusión}
 
 \section{Criterio de Jaccard}
@@ -709,7 +771,7 @@ Para determinar un porcentaje de similitud entre la máscara estimada con la má
 \def\rectA{(0,0) rectangle (2,2)}
 \def\rectB{(1,-1) rectangle (3,1)}
 
-\begin{figure}[h]
+\begin{figure}[b]
     \centering
     \begin{tikzpicture}
         \draw \rectA node [above] {$A$};
