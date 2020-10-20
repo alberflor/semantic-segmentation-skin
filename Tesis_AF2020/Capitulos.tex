@@ -576,17 +576,6 @@ La secuencia de entrenamiento consiste de un búcle en el cuál se condensan las
 
 Para poder determinar la eficiencia durante el \emph{entrenamiento} y optimizar los pesos sinápticos es necesario hacer uso de métricas, dichas métricas se aplicarán sobre el subconjunto de validación. Los datos utilizados fueron divididos en una proporción de $70\%$ para entrenamiento y $30\%$ para la validación, el subconjunto de validación no es usado durante el entrenamiento, sino qué, al terminar una época se verifíca con ese subconjunto la precisión.
 
-
-La métrica utilizada para evaluar el modelo es la del \emph{índice de Jaccard} (\emph{Intersection Over Union}) por sus siglas en inglés (IoU) \citep{fpn_1} de la siguiente ecuación
-\begin{equation}\label{eq:jacc}
-    J(A,B) = \frac{|A \cap B|}{| A \cup B |} = \frac{|A \cap B|}{|A| + |B| - |A \cap B|} \text{,}
-\end{equation} 
-donde $A$ y $B$ se pueden interpretar como la máscara real y la máscara estimada, y debido a que las imágenes consisten de pixeles, la ecuación anterior se puede representar en el caso de objetos discretos como
-\begin{equation}
-    J = \frac{1}{n} \sum_{c=1}^{k} W_c \sum_{i=1}^{n}\frac{y_i^c \hat y_i^c}{y_i^c + \hat y_i^c - y_i^c \hat y_i^c}
-\end{equation} 
-donde $y_i^c$ y $\hat y_i^c$ son valores binarios y corresponden a la probabilidad de que el pixel $i$ corresponda a la clase $c$ de un número $k$ de clases.
-
 La librería de Yakubovskiy \citep{Yakubovskiy:2019} cuenta con distintas métricas ya implementadas dentro de su \texttt{API}\footnote{Interfaz de programación por sus siglas en inglés, \emph{Application Programming Interface}.}, dichas métricas se pueden configurar previamente al entrenamiento. En el código \ref{code:metrics} se puede apreciar la selección de la función de métrica, la función de pérdida y el optimizador de pesos del modelo.
 
 \begin{lstlisting}[language = Python, label = {code:metrics} ,caption= Ejemplo de configuración de parámetros. ]
@@ -750,7 +739,7 @@ donde $A$ es un mapa binario de pixeles que representa la máscara real y $B$ la
 
 \subsection{Resultados}
 Durante el entrenamiento del modelo, se evaluó la perdida o el error mediante el coeficiente de dados, dicha evaluación fue realizada en cada iteración y los datos fueron registrados para posteriormente graficar la curva. La curva de la pérdida debe tender a descender cuando el modelo mejora su precisión, al terminar todas las iteraciones se vuelve a pasar el modelo por el proceso de entrenamiento utilizando la configuración del modelo anterior hasta llegar a la mejor precisión posible. En la figura \ref{fig:dice_loss_epochs}, se puede observar la curva en cada una de las épocas.
-\begin{figure*}[h!]
+\begin{figure*}[]
     \centering
     \begin{tabular}{ccc}
         \includegraphics[width=4cm]{../Plots/dl_epoch_0.png} &
@@ -790,10 +779,20 @@ En la sección anterior, el criterio de dados es utilizado para evaluar la simil
 \subsection{Diseño Experimental}
 Para determinar un porcentaje de similitud entre la máscara estimada con la máscara conocida o también denominada verdad absoluta (\emph{ground truth}) podemos utilizar una métrica como la de la ecuación \ref{eq:jacc}, el índice de Jaccard. Este criterio es relativamente similar al coeficiente de dados de la ecuación \ref{eq:diceloss}, mediante el solapado de ambas máscaras se promedía la coincidencia entre pixeles, sin embargo en el criterio \emph{IoU} el error tiene mayor penalización, por lo que se podría decir que es una versión mas robusta de evaluación ideal para evaluar el modelo final.
 
+La métrica utilizada para evaluar el modelo es la del \emph{índice de Jaccard} (\emph{Intersection Over Union}) por sus siglas en inglés (IoU) \citep{fpn_1} de la siguiente ecuación
+\begin{equation}\label{eq:jacc}
+    J(A,B) = \frac{|A \cap B|}{| A \cup B |} = \frac{|A \cap B|}{|A| + |B| - |A \cap B|} \text{,}
+\end{equation} 
+donde $A$ y $B$ se pueden interpretar como la máscara real y la máscara estimada, y debido a que las imágenes consisten de pixeles, la ecuación anterior se puede representar también como
+\begin{equation}
+    J = \frac{1}{n} \sum_{c=1}^{k} W_c \sum_{i=1}^{n}\frac{y_i^c \hat y_i^c}{y_i^c + \hat y_i^c - y_i^c \hat y_i^c} \text{,}
+\end{equation} 
+donde $y_i^c$ y $\hat y_i^c$ son valores binarios y corresponden a la probabilidad de que el pixel $i$ corresponda a la clase $c$ de un número $k$ de clases.
+
 \def\rectA{(0,0) rectangle (2,2)}
 \def\rectB{(1,-1) rectangle (3,1)}
 
-\begin{figure}[b]
+\begin{figure}[h!]
     \centering
     \begin{tikzpicture}
         \draw \rectA node [above] {$A$};
@@ -804,13 +803,15 @@ Para determinar un porcentaje de similitud entre la máscara estimada con la má
         \end{scope}
     \end{tikzpicture}
     \caption{Representación de la región de sobreposición de pixeles en el índice de Jaccard.}
+    \label{fig:jacc_inter}
 \end{figure}
 
+La figura \ref{fig:jacc_inter} representa, en la forma de un diagrama de Venn, la proporción de píxeles que coinciden (área sombreda) y el error (márgenes), es muy similar a la ecuación del coeficiente de dados sin embargo, tiene una mayor penalización en el error, siendo una mejor métrica post-entrenamiento.
 
 \subsection{Resultados}
 Al diferencia de la evaluación mediante el coeficiente de dados,la cual se realiza durante el entrenamiento, la evaluación del criterio de Jaccard se realiza después del entrenamiento, específicamente en la fase de validación donde se vuelve a comparar el mapa de valores binarios real y el mapa probabilístico obtenido con el modelo al finalizar la época presente y dando una mayor penalización al error. En la figura \ref{fig:iou_epochs} se puede observar la forma que la curva toma a través de las iteraciones y su evolución en cada época.
 
-\begin{figure*}[h!]
+\begin{figure*}[]
     \centering
     \begin{tabular}{ccc}
         \includegraphics[width=4.5cm]{../Plots/score_epoch_0.png} &
