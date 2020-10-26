@@ -3,7 +3,11 @@ import cv2
 
 def get_training_augmentation():
     train_transform = [
-        albu.Resize(224,224,interpolation=cv2.INTER_AREA),
+        albu.Resize(320,320,interpolation=cv2.INTER_AREA),
+        albu.RandomCrop(height=320, width=320, always_apply=False, p=0.3),
+        albu.HorizontalFlip(p=0.5),
+        albu.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2, brightness_by_max=True, always_apply=False, p=0.4),
+        albu.ShiftScaleRotate(scale_limit=0.5, rotate_limit=0, shift_limit=0.1, p=1, border_mode=0),
     ]
     return albu.Compose(train_transform)
 
@@ -12,7 +16,7 @@ def get_validation_augmentation():
 
     test_transform= [
 
-        albu.Resize(512,512,interpolation=cv2.INTER_AREA),
+        albu.Resize(320,320,interpolation=cv2.INTER_AREA),
 
     ]
     return albu.Compose(test_transform)

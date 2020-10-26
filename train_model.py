@@ -53,20 +53,24 @@ def train_new_model(m, batch, val_size, shuffle, seed_num):
     )
 
     max_score = 0
-    for i in range(0,40):
+    for i in range(0,20):
         print('\n Epoch: {}'.format(i))
         train_logs, loss_t, metric_t = train_epoch.run(train_loader)
         
         loss_array = np.asarray(loss_t)
         loss_values = [k['dice_loss'] for k in loss_array]
         print(loss_values)
-
         m.loss_logs = loss_values
-        fig_1 = plt.figure()
+
+        #Plot dice loss
+        fig_1 = plt.figure(figsize=(1.5,1.5))
+        plt.ylim(0,0.8)
+        plt.ylabel('Coeficiente de dados', fontsize=11)
+        plt.xlabel('Iteración', fontsize=11)
+
         plt.plot(loss_values)
-        plt.ylabel('Coeficiente de dados', fontsize=12)
-        plt.xlabel('Iteración', fontsize=12)
-        plt.savefig('Plots/'+'dl_epoch_'+str(i))
+        
+        plt.savefig('Plots/'+'dl_epoch_'+str(i), bbox_inches='tight')
         
         
         valid_logs, loss_v, metric_v = valid_epoch.run(valid_loader)
@@ -77,17 +81,20 @@ def train_new_model(m, batch, val_size, shuffle, seed_num):
 
         m.score_logs = metric_values
 
-        fig_2 = plt.figure()
+        #Plot IoU score
+        fig_2 = plt.figure(figsize=(1.5,1.5))
+        plt.ylim(0,1)
+        plt.ylabel('Índice de Jaccard', fontsize=11)
+        plt.xlabel('Iteración', fontsize=11)
         plt.plot(metric_values)
-        plt.ylabel('Índice de Jaccard', fontsize=12)
-        plt.xlabel('Iteración', fontsize=12)
-        plt.savefig('Plots/'+'score_epoch_'+str(i))
+        
+        plt.savefig('Plots/'+'score_epoch_'+str(i), bbox_inches='tight')
         
         if max_score < valid_logs['iou_score']:
             max_score = valid_logs['iou_score']
             torch.save(m.model,('Model/'+ m.encoder + '.pth'))
             print('Highest Score Model Saved: {}'.format(max_score))
-        if i == 25:
+        if i == 10:
             m.optimizer.param_groups[0]['lr'] = 1e-5
             print('decreased decoder learning rate to 1e-5')
  
