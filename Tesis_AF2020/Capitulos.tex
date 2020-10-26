@@ -717,11 +717,9 @@ Los píxeles de las imágenes de entrada tienen una forma de $m \times n$, por l
 Una vez seleccionado el codificador ideal, es necesario evaluar la configuración del modelo en la época presente y configuración actual, al finalizar cada ciclo de entrenamiento se realiza una validación con el porcentaje del conjunto de datos que no fue utilizado durante éste.
 \subsection{Diseño Experimental}
 Para determinar un valor probabilistico entre dos mapas de valores binarios es necesario utilizar un coeficiente que evalúe la similitud entre ambos conjuntos de datos, siendo el conjunto $A$ la máscara real o \emph{ground truth}, y el conjunto $B$ el mapa obtenido por la computación del modelo se utilizó el criterio de dados para determinar la probabilidad ($0 \% - 100 \%$), la ecuación del criterio de dados dice que la probabilidad de que dos mapas binarios sean iguales es dos veces la cantidad de pixeles sobrepuestos o idénticos entre la suma de los pixeles de ambos mapas, 
-
 \begin{equation}\label{eq:diceloss}
     \text{DC} = \frac{2|A \cap B |}{|A| + |B|}
 \end{equation}
-
 donde $A$ es un mapa binario de pixeles que representa la máscara real y $B$ la máscara de segmentación obtenida por el modelo.
 
 \def\firstcircle{(0,0) circle (1.5cm)}
@@ -744,7 +742,7 @@ donde $A$ es un mapa binario de pixeles que representa la máscara real y $B$ la
 
 \subsection{Resultados}
 Durante el entrenamiento del modelo, se evaluó la perdida o el error mediante el coeficiente de dados, dicha evaluación fue realizada en cada iteración y los datos fueron registrados para posteriormente graficar la curva. La curva de la pérdida debe tender a descender cuando el modelo mejora su precisión, al terminar todas las iteraciones se vuelve a pasar el modelo por el proceso de entrenamiento utilizando la configuración del modelo anterior hasta llegar a la mejor precisión posible. En la figura \ref{fig:dice_loss_epochs}, se puede observar la curva en cada una de las épocas.
-\begin{figure*}[]
+\begin{figure*}[!b]
     \centering
     \begin{tabular}{ccc}
         \includegraphics[width=4cm]{../Plots/dl_epoch_0.png} &
@@ -759,6 +757,15 @@ Durante el entrenamiento del modelo, se evaluó la perdida o el error mediante e
         \includegraphics[width=4cm]{../Plots/dl_epoch_7.png} &
         \includegraphics[width=4cm]{../Plots/dl_epoch_8.png} \\
 
+    \end{tabular}        
+    \caption{Curva de la pérdida según el coeficiente de dados en cada época.}
+    \label{fig:dice_loss_epochs}
+\end{figure*}
+
+\begin{figure*}[ht]
+    \centering
+    \begin{tabular}{ccc}\ContinuedFloat
+
         \includegraphics[width=4cm]{../Plots/dl_epoch_9.png} &
         \includegraphics[width=4cm]{../Plots/dl_epoch_10.png} &
         \includegraphics[width=4cm]{../Plots/dl_epoch_11.png} \\
@@ -770,21 +777,19 @@ Durante el entrenamiento del modelo, se evaluó la perdida o el error mediante e
         \includegraphics[width=4cm]{../Plots/dl_epoch_15.png} &
         \includegraphics[width=4cm]{../Plots/dl_epoch_16.png} &
         \includegraphics[width=4cm]{../Plots/dl_epoch_17.png} \\
-        
-    \end{tabular}
+    \end{tabular}        
     \caption{Curva de la pérdida según el coeficiente de dados en cada época.}
     \label{fig:dice_loss_epochs}
 \end{figure*}
-
 \subsection{Discusión}
 
 \section{Criterio de Jaccard}
-En la sección anterior, el criterio de dados es utilizado para evaluar la similitud entre un mapa binario y un mapa probabilistico correspondiente a la máscara conocida y la máscara estimada, durante el entrenamiento del modelo. Sin embargo para validar el resultado final es necesario utilizar una métrica similar, que penalice más el error o la diferencia entre ambos mapas.
+En la sección anterior, el coeficiente de dados es utilizado para evaluar la diferencia entre un mapa binario y un mapa probabilistico correspondientes a la máscara conocida y la máscara estimada, durante el entrenamiento del modelo. Sin embargo para validar el resultado final es necesario utilizar una métrica muy similar que evalúe ahora la similitud, y que al mismo tiempo penalice más el error.
 
 \subsection{Diseño Experimental}
-Para determinar un porcentaje de similitud entre la máscara estimada con la máscara conocida o también denominada verdad absoluta (\emph{ground truth}) podemos utilizar una métrica como la de la ecuación \ref{eq:jacc}, el índice de Jaccard. Este criterio es relativamente similar al coeficiente de dados de la ecuación \ref{eq:diceloss}, mediante el solapado de ambas máscaras se promedía la coincidencia entre pixeles, sin embargo en el criterio \emph{IoU} el error tiene mayor penalización, por lo que se podría decir que es una versión mas robusta de evaluación ideal para evaluar el modelo final.
+Para determinar un porcentaje de similitud entre la máscara estimada con la máscara conocida (\emph{ground truth}) podemos utilizar una métrica como la de la ecuación \ref{eq:jacc}, el índice de Jaccard. Este criterio es relativamente similar al coeficiente de dados de la ecuación \ref{eq:diceloss}, mediante el solapado de ambas máscaras se promedía la coincidencia entre pixeles, sin embargo en el criterio de Jaccard \emph{IoU} el error tiene mayor penalización, por lo que se podría decir que es una versión mas estricta de evaluación, lo cual es ideal para evaluar el modelo resultante tras cada época.
 
-La métrica utilizada para evaluar el modelo es la del \emph{índice de Jaccard} (\emph{Intersection Over Union}) por sus siglas en inglés (IoU) \citep{fpn_1} de la siguiente ecuación
+La métrica utilizada para evaluar el modelo es la del \emph{índice de Jaccard} (\emph{Intersection Over Union}) por sus siglas en inglés (\emph{IoU}) \citep{fpn_1} de la siguiente ecuación
 \begin{equation}\label{eq:jacc}
     J(A,B) = \frac{|A \cap B|}{| A \cup B |} = \frac{|A \cap B|}{|A| + |B| - |A \cap B|} \text{,}
 \end{equation} 
@@ -816,7 +821,7 @@ La figura \ref{fig:jacc_inter} representa, en la forma de un diagrama de Venn, l
 \subsection{Resultados}
 Al diferencia de la evaluación mediante el coeficiente de dados,la cual se realiza durante el entrenamiento, la evaluación del criterio de Jaccard se realiza después del entrenamiento, específicamente en la fase de validación donde se vuelve a comparar el mapa de valores binarios real y el mapa probabilístico obtenido con el modelo al finalizar la época presente y dando una mayor penalización al error. En la figura \ref{fig:iou_epochs} se puede observar la forma que la curva toma a través de las iteraciones y su evolución en cada época.
 
-\begin{figure*}[]
+\begin{figure*}[!b]
     \centering
     \begin{tabular}{ccc}
         \includegraphics[width=4.5cm]{../Plots/score_epoch_0.png} &
@@ -830,6 +835,15 @@ Al diferencia de la evaluación mediante el coeficiente de dados,la cual se real
         \includegraphics[width=4.5cm]{../Plots/score_epoch_6.png} &
         \includegraphics[width=4.5cm]{../Plots/score_epoch_7.png} &
         \includegraphics[width=4.5cm]{../Plots/score_epoch_8.png} \\
+        
+    \end{tabular}
+    \caption{Curvas de la evaluación del criterio de Jaccard en cada época.}
+    \label{fig:iou_epochs}
+\end{figure*}
+
+\begin{figure*}[ht]\ContinuedFloat
+    \centering
+    \begin{tabular}{ccc}
 
         \includegraphics[width=4.5cm]{../Plots/score_epoch_9.png} &
         \includegraphics[width=4.5cm]{../Plots/score_epoch_10.png} &
@@ -847,6 +861,7 @@ Al diferencia de la evaluación mediante el coeficiente de dados,la cual se real
     \caption{Curvas de la evaluación del criterio de Jaccard en cada época.}
     \label{fig:iou_epochs}
 \end{figure*}
+
 
 
 \subsection{Discusión}
