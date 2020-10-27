@@ -20,7 +20,7 @@
 	\graphicspath{{Figuras/}}
 \usepackage[clearempty,pagestyles]{titlesec}
 	\setcounter{secnumdepth}{4}
-\usepackage[table]{xcolor}
+\usepackage[table, rgb]{xcolor}
 	\definecolor{cincinnati-red}{RGB}{190,0,0}
 	\definecolor{Green}{rgb}{0,255,0}
 \usepackage{float}
@@ -35,7 +35,6 @@
 \usepackage{setspace}
 \usepackage{caption}
 	\captionsetup[table]{font={normalsize,stretch=1.0}}
-\usepackage{longtable}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -104,7 +103,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \setlength{\parindent}{10mm}
 \setlength{\parskip}{0.9em}
-\def\baselinestretch{1.5}
+\def\baselinestretch{1.8}
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 % Algunas definiciones %
