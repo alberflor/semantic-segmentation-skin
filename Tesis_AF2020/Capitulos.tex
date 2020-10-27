@@ -70,12 +70,13 @@ El capítulo 5 describe a profundidad la implementación de la propuesta, desde 
 Finalmente, en el capítulo 6 se exponen los resultados obtenidos de la implementación del producto científico en el capítulo anterior, así como un análisis y conclusión final sobre los valores obtenidos en precision y tiempo de entrenamiento. 
 
 \chapter{Antecedentes}
-En este capítulo se introduce de forma teórica conceptos relacionados con el trabajo propuesto, primero se define que es el \emph{cáncer de piel}, cuales son los factores que influyen en el desarollo de este padecimiento, los tipos de cáncer y las diferencias entre estos. Después algunos conceptos relacionados con las redes neuronales necesarios para un entendimiento sólido del \emph{aprendizaje profundo}, tales como los elementos clave que conforman a la red neuronal, la manera en la que esta evalúa su precisión, y el algoritmo de optimización.
+En este capítulo se introducen de forma teórica los conceptos relacionados con el trabajo propuesto, primero se define que es el \emph{cáncer de piel}, cuales son los factores que influyen en el desarollo de este padecimiento, los tipos de cáncer y las diferencias entre estos. Después algunos conceptos relacionados con las redes neuronales necesarios para un entendimiento sólido del \emph{aprendizaje profundo}, tales como los elementos clave que conforman a la red neuronal, la manera en la que esta evalúa su precisión, y el algoritmo de optimización.
 
 \section{Cáncer de Piel}
-El \emph{cáncer de piel} es una enfermedad que suele relacionarse con la aparición de lunares o manchas que no se encontraban previamente, se pueden manifestar como manchas oscuras o rojizas, bultos y/o escamas en la superficie de la piel y afecta a todos los tonos de la piel por igual. Esta enfermedad se desarrolla principalmente en partes del cuerpo expuestas al sol, sin embargo también se puede desarrollar en partes que no suelen exponerse. Algunos factores como la exposición a los rayos ultravioletas (UV), el uso de sustancias como el tabaco o el envejecimiento son factores correlacionados con la aparición del \emph{cáncer de piel}, existen dos factores de envejecimiento y se dividen en dos grupos: \emph{intrínsecos} y \emph{extrínsecos}.
+El \emph{cáncer de piel} es una enfermedad que suele relacionarse con la aparición de lunares o manchas que no se encontraban previamente, se pueden manifestar como manchas oscuras o rojizas, bultos y/o escamas en la superficie de la piel y afecta a todos los tonos de piel por igual. Esta enfermedad se suele desarrollar principalmente en partes del cuerpo expuestas al sol, sin embargo, también se puede desarrollar en partes que no suelen exponerse. Algunos factores como la exposición a los rayos ultravioletas (rayos UV), el uso de sustancias como el tabaco o el envejecimiento son factores correlacionados con la aparición del \emph{cáncer de piel}, existen dos tipos de factores: \emph{intrínsecos} y \emph{extrínsecos}.
 
 Los factores \emph{intrínsecos} son aquellos que suceden de forma interna en la piel, un ejemplo de esto es el envejecimiento cronológico, el cual es un proceso natural que consiste en degradación del colágeno, la elastina y el adelgazamiento de la epidermis debido al envejecimiento celular al paso de los años y de el efecto de algunas hormonas.
+\bigskip
 
 Los factores \emph{extrínsecos} son aquellos que suceden de forma agena al organismo, como es el caso del \emph{foto-envejecimiento} el cual sucede cuando nos encontramos expuestos a los rayos ultravioletas (UV). Este factor de envejecimiento genera lesiones en las cadenas de ácido desoxirribonucleico (ADN) debido a la oxidación y afecta la regeneración de celulas, al sistema inmune y a la forma en la que se regula la pigmentación \citep{skin_aging}.
 
@@ -98,14 +99,30 @@ Hasta hace algunos años el desarrollo de aplicaciones de software solía realiz
 \subsection{Imágenes como Datos}
 Las imágenes se pueden definir como una matriz de $m \times n \times 1$ pixeles en el caso de las imágenes de un solo canal (blanco y negro) y en el caso de imágenes a color es de $m \times n \times k$, donde $k$ es igual al número de canales de color que tenga la imagen, siendo tres en el caso de imágenes RGB\footnote{RGB: Se refiere a los tres canales de color rojo, verde y azul, por sus siglas en inglés (\emph{red, green, blue}).}, es importante definir si las imágenes ingresarán al modelo a color o en blanco y negro debido a que esto define el número de nodos de entrada de este, ya que para cada pixel debe corresponder un nodo de entrada y en el caso de imágenes a color también deberá tener un número de capas de nodos de entrada igual al número de canales que tenga la imagen.
 
+\definecolor{red_matrix}{rgb}{0.6, 0, 0}
+\definecolor{green_matrix}{rgb}{0, 0.8, 0}
+\definecolor{blue_matrix}{rgb}{0, 0.25, 1}
 
-%\begin{figure}[h]
-%\subfigure[a]{
-%    \begin{tikzpicture}
-%        \draw[step=0.5cm, gray, thin] (-2,2) grid (2,2);
-%    \end{tikzpicture}}
-%}
-\coltext{Draw grids}
+\begin{figure*}[htp]
+    \centering
+    \subfloat[Escala de grises.]{
+        \label{mtr_1}
+        \begin{tikzpicture}
+            \draw[step=5mm, black, line width=0.30mm] (-2,-2) grid (2,2);
+        \end{tikzpicture}
+    }
+    \qquad
+    \subfloat[A color.]{
+        \label{mtr_2} 
+        \begin{tikzpicture}
+            \draw[step=5mm, red_matrix, line width=0.30mm] (-2.5,-2.5) grid (1.5,1.5);
+            \draw[step=5mm, green_matrix, line width=0.30mm] (-2,-2) grid (2,2);
+            \draw[step=5mm, blue, line width=0.30mm] (-1.5,-1.5) grid (2.5,2.5);
+        \end{tikzpicture}
+    }
+    \caption{Comparación de las dimensiones entre los distintos canales de color.}
+\end{figure*}
+
 \subsection{Modelo}
 Un \emph{modelo} se puede definir como el bloque intermedio entre los datos de entrada (\emph{input}) y los datos de salida (\emph{output}), es el sistema encargado de transformar los datos de entrada en la salida deseada y consta de los siguientes componentes:
 
@@ -366,9 +383,11 @@ En el cuadro \ref{tab:specs} se especifícan las características del equipo en 
         \hline
         GPU & Nvidia GeForce 1050ti, 4 GB. \\
         \hline
-        MOBO & Gigabyte Gaming AB-350. \\
-        \hline
         RAM & HyperX Fury, 16 GB, 2433 MHz. \\
+        \hline
+        Tarjeta Madre & Gigabyte Gaming AB-350. \\
+        \hline
+        Sistema Operativo & Ubuntu 20.4 \\
         \hline
     \end{tabular}
     \label{tab:specs}
@@ -640,9 +659,7 @@ En este capítulo se presentan los experimentos llevados a cabo durante el desar
 
 En la subsección de \emph{diseño experimental}, se detalla el experimento y el parámetro que se pretende definir en base a este, todos los procesos realizados por la herramienta desarrollada en el presente trabajo de tesis se ejecutan de forma secuencial, debido a esto es necesario determinar el mejor parámetro en cada paso de la transformación.
 
-En \emph{resultados}, se reporta e interpreta todos los resultados obtenidos mediante el experimento llevado a cabo en esa sección, cada experimento cuenta con su propia sección y se determina el mejor parámetro para realizar el experimento siguiente. 
-
-Para finalizar en \emph{discusión}, se llega una conclusión basada en los resultados obtenidos y la información que representan las gráficas.
+En \emph{resultados}, se reporta e interpreta todos los resultados obtenidos mediante el experimento llevado a cabo en esa sección, cada experimento cuenta con su propia sección y se determina el mejor parámetro para realizar el experimento siguiente. Para finalizar en \emph{discusión}, se llega una conclusión basada en los resultados obtenidos y la información que representan las gráficas.
 
 
 \section{Estadísticas de los Datos de Entrada} 
@@ -662,7 +679,7 @@ Los resultados obtenidos de este experimento resultan de la aplicación de filtr
 \begin{table}[b]
     \centering
     \caption{Características del conjunto de datos.}
-    \begin{tabular}{|l|l|}
+    \begin{tabular}{|l| r|}
         \hline
         \bf{Dato} & \bf{Valor} \\
         \hline
@@ -670,9 +687,9 @@ Los resultados obtenidos de este experimento resultan de la aplicación de filtr
         \hline
         Clases & 2 \\
         \hline
-        Res. Mínima & 1024 px \\
+        Res. Mínima & 1,024 px \\
         \hline
-        Res. Máxima & 2550 px \\
+        Res. Máxima & 2,550 px \\
         \hline
     \end{tabular}
 \end{table}
@@ -689,7 +706,7 @@ Para este experimento es importante considerar que una intensidad de $\text{pixe
 
 \begin{figure}[]
     \centering
-    \includegraphics[scale=0.65]{../Plots/threshold_input.png}
+    \includegraphics[]{../Plots/threshold_input.png}
     \caption{Histogramas sobre la intensidad de píxeles en el conjunto.}
     \label{fig:hist_in}    
 \end{figure}
