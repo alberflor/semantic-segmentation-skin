@@ -219,11 +219,11 @@ En esta sección se evalúan los trabajos revisados con el trabajo propuesto en 
     \item[Evaluación]{El sistema cuenta con una función de evaluación y un algoritmo de optimización.}
     \item[Salida]{Características de los datos obtenidos en la salida del modelo.}
 \end{description}
-\newpage
-\begin{table}[hbt!]{
+
+\begin{table}[b!]{
     \centering
     \caption{Similitudes y diferencias entre los trabajos revisados; las características implementadas se representan con \cmark, mientras que las no implementadas con \xmark.}
-    \begin{adjustbox}{width=\textwidth}
+        \scalebox{0.80}{
         \begin{tabular}[t]{|l|l|l|l|l|l|l|l|}
             \hline
             \bf{Trabajo} & \bf{Modelo} & \rotatebox{90}{Clasificación} & \rotatebox{90}{Segmentación} & \rotatebox{90}{Supervisado} & \rotatebox{90}{Pre-entrenamiento\phantom{m}} & \rotatebox{90}{Evaluación} & Salida\\
@@ -241,7 +241,7 @@ En esta sección se evalúan los trabajos revisados con el trabajo propuesto en 
             Propuesta de tesis & \texttt{FPN} & \cmark & \cmark & \cmark & \cmark & \cmark & mapa de etiquetas\\
             \hline   
         \end{tabular}
-    \end{adjustbox}
+        }
     \label{Tab:comp_1}}
 \end{table}
 
@@ -379,19 +379,20 @@ En el cuadro \ref{tab:specs} se especifícan las características del equipo en 
         \hline
         \bf{Componente} & \bf{Descripción} \\
         \hline
-        CPU & AMD Ryzen 5 3600x, 3.80 GHz, de seis núcleos.\\
+        Procesador & AMD Ryzen 5 3600x, 3.80 GHz, de seis núcleos.\\
         \hline
-        GPU & Nvidia GeForce 1050ti, 4 GB. \\
+        Tarjeta Gráfica & Nvidia GeForce 1050ti, 4 GB. \\
         \hline
         RAM & HyperX Fury, 16 GB, 2433 MHz. \\
         \hline
         Tarjeta Madre & Gigabyte Gaming AB-350. \\
         \hline
-        Sistema Operativo & Ubuntu 20.4 \\
+        Sistema Operativo & Ubuntu 20.4 64 bits \\
         \hline
     \end{tabular}
     \label{tab:specs}
 \end{table}
+
 \subsection{Computación Asistída por Hardware}
 Los cálculos llevados en el proceso de entrenamiento involucran realizar operaciones con datos de altas dimensiones (\emph{high-dimensional data}) los cuales requieren una gran cantidad de recursos de procesamiento, estas operaciones al estar relacionadas con vectores y matríces pueden ser ejecutadas rapidamente por la unidad GPU\footnote{GPU: Graphics Processor Unit}, entre mayor sea la velocidad de procesamiento de la GPU más rápido es el entrenamiento de nuevos modelos y con mayor resolución.
 
@@ -695,40 +696,163 @@ Los resultados obtenidos de este experimento resultan de la aplicación de filtr
 \end{table}
 
 Posteriormente se realizó un estudio del valor umbral (\emph{thresholding}), para determinar la región característica de la intensidad de los píxeles y utilizar dicho valor dentro de las transformaciones del pre-entrenamiento. Para llevar esto a cabo primero se realizó un histograma de intensidad de píxeles del conjunto de datos entrante, a partir de dicho histograma se determinó el valor umbral y posteriormente se aplicó la función de umbral binario para dar como resultado una discretización de la intensidad de píxeles.
-\begin{figure}[]
-    \centering
-    \includegraphics[scale=0.7]{../Plots/Images_input.png}
-    \caption{Muestra del conjunto de datos usados para el experimento.}
-    \label{fig:img_in}    
-\end{figure}
 
-Para este experimento es importante considerar que una intensidad de $\text{pixel} = 0$, en una escala de grises significa que sería completamente negro, mientras que si $\text{pixel} = 255$, significa que el pixel es completamente blanco. Lo mismo aplica a las imágenes a color pero en su correspondiente canal. 
-
-\begin{figure}[]
-    \centering
-    \includegraphics[]{../Plots/threshold_input.png}
-    \caption{Histogramas sobre la intensidad de píxeles en el conjunto.}
-    \label{fig:hist_in}    
-\end{figure}
+Para este experimento es importante considerar que una intensidad de $\text{pixel} = 0$, en una escala de grises significa que sería completamente negro, mientras que si $\text{pixel} = 255$, significa que el pixel es completamente blanco. Lo mismo aplica a las imágenes a color pero en su correspondiente canal.
 
 Los píxeles de las imágenes de entrada tienen una forma de $m \times n$, por lo que para evaluar la intensidad de todos los píxeles es necesario aplanar la dimensión del arreglo, para esto se utilizó la función \texttt{Ravel} de \texttt{NumPy}, la cuál da como resultado un arreglo de una sola dimensión a partir de un arreglo de varias dimensiones o con subarreglos.
 
-
-\begin{figure}[]
+\begin{figure*}[!b]
     \centering
-    \includegraphics[scale=0.7]{../Plots/Images_output.png}
-    \caption{Conjunto de datos después del filtro de umbral.}
-    \label{fig:img_out}    
-\end{figure}
+    \begin{tabular}{ccc}
+        \includegraphics[width=4cm]{../Plots/THR/sample_0.png} &
+        \includegraphics[width=4cm]{../Plots/THR/sample_1.png} &
+        \includegraphics[width=4cm]{../Plots/THR/sample_2.png} \\
 
-\begin{figure}[]
+        \includegraphics[width=4cm]{../Plots/THR/sample_3.png} &
+        \includegraphics[width=4cm]{../Plots/THR/sample_4.png} &
+        \includegraphics[width=4cm]{../Plots/THR/sample_5.png} \\
+
+        \includegraphics[width=4cm]{../Plots/THR/sample_6.png} &
+        \includegraphics[width=4cm]{../Plots/THR/sample_7.png} &
+        \includegraphics[width=4cm]{../Plots/THR/sample_8.png} \\
+
+    \end{tabular}        
+    \caption{Curva de la pérdida según el coeficiente de dados en cada época.}
+    \label{fig:thresh_input}
+\end{figure*}
+
+\begin{figure*}[ht]
     \centering
-    \includegraphics[scale=0.65]{../Plots/threshold_output.png}
-    \caption{Histograma de intensidad de píxeles después del filtro de umbral.}
-    \label{fig:hist_out}    
-\end{figure}
+    \begin{tabular}{ccc}\ContinuedFloat
+
+        \includegraphics[width=4cm]{../Plots/THR/sample_9.png} &
+        \includegraphics[width=4cm]{../Plots/THR/sample_10.png} &
+        \includegraphics[width=4cm]{../Plots/THR/sample_11.png} \\
+
+        \includegraphics[width=4cm]{../Plots/THR/sample_12.png} &
+        \includegraphics[width=4cm]{../Plots/THR/sample_13.png} &
+        \includegraphics[width=4cm]{../Plots/THR/sample_14.png} \\
+
+    \end{tabular}        
+    \caption{Curva de la pérdida según el coeficiente de dados en cada época.}
+    \label{fig:thresh_input}
+\end{figure*}
+
+\begin{figure*}[!b]
+    \centering
+    \begin{tabular}{ccc}
+        \includegraphics[width=4cm]{../Plots/THR/threshold_input_0.png} &
+        \includegraphics[width=4cm]{../Plots/THR/threshold_input_1.png} &
+        \includegraphics[width=4cm]{../Plots/THR/threshold_input_2.png} \\
+
+        \includegraphics[width=4cm]{../Plots/THR/threshold_input_3.png} &
+        \includegraphics[width=4cm]{../Plots/THR/threshold_input_4.png} &
+        \includegraphics[width=4cm]{../Plots/THR/threshold_input_5.png} \\
+
+        \includegraphics[width=4cm]{../Plots/THR/threshold_input_6.png} &
+        \includegraphics[width=4cm]{../Plots/THR/threshold_input_7.png} &
+        \includegraphics[width=4cm]{../Plots/THR/threshold_input_8.png} \\
+
+    \end{tabular}        
+    \caption{Histogramas de densidad de la intensidad de pixeles de la imagen entrante.}
+    \label{fig:thresh_input_1}
+\end{figure*}
+
+\begin{figure*}[ht]
+    \centering
+    \begin{tabular}{ccc}\ContinuedFloat
+
+        \includegraphics[width=4cm]{../Plots/THR/threshold_input_9.png} &
+        \includegraphics[width=4cm]{../Plots/THR/threshold_input_10.png} &
+        \includegraphics[width=4cm]{../Plots/THR/threshold_input_11.png} \\
+
+        \includegraphics[width=4cm]{../Plots/THR/threshold_input_12.png} &
+        \includegraphics[width=4cm]{../Plots/THR/threshold_input_13.png} &
+        \includegraphics[width=4cm]{../Plots/THR/threshold_input_14.png} \\
+
+    \end{tabular}        
+    \caption{Histogramas de densidad de la intensidad de pixeles de la imagen entrante.}
+    \label{fig:thresh_input_2}
+\end{figure*}
+
+\begin{figure*}[!b]
+    \centering
+    \begin{tabular}{ccc}
+        \includegraphics[width=4cm]{../Plots/THR/filtered_0.png} &
+        \includegraphics[width=4cm]{../Plots/THR/filtered_1.png} &
+        \includegraphics[width=4cm]{../Plots/THR/filtered_2.png} \\
+
+        \includegraphics[width=4cm]{../Plots/THR/filtered_3.png} &
+        \includegraphics[width=4cm]{../Plots/THR/filtered_4.png} &
+        \includegraphics[width=4cm]{../Plots/THR/filtered_5.png} \\
+        
+        \includegraphics[width=4cm]{../Plots/THR/filtered_6.png} &
+        \includegraphics[width=4cm]{../Plots/THR/filtered_7.png} &
+        \includegraphics[width=4cm]{../Plots/THR/filtered_8.png} \\
+
+    \end{tabular}        
+    \caption{Histogramas de densidad de la intensidad de pixeles de la imagen entrante.}
+    \label{fig:output_1}
+\end{figure*}
+
+\begin{figure*}[ht]
+    \centering
+    \begin{tabular}{ccc}\ContinuedFloat
+
+        \includegraphics[width=4cm]{../Plots/THR/filtered_9.png} &
+        \includegraphics[width=4cm]{../Plots/THR/filtered_10.png} &
+        \includegraphics[width=4cm]{../Plots/THR/filtered_11.png} \\
+
+        \includegraphics[width=4cm]{../Plots/THR/filtered_12.png} &
+        \includegraphics[width=4cm]{../Plots/THR/filtered_13.png} &
+        \includegraphics[width=4cm]{../Plots/THR/filtered_14.png} \\
+
+    \end{tabular}        
+    \caption{Histogramas de densidad de la intensidad de pixeles de la imagen entrante.}
+    \label{fig:output_2}
+\end{figure*}
+
+\begin{figure*}[!h]
+    \centering
+    \begin{tabular}{ccc}
+        \includegraphics[width=4cm]{../Plots/THR/threshold_output_0.png} &
+        \includegraphics[width=4cm]{../Plots/THR/threshold_output_1.png} &
+        \includegraphics[width=4cm]{../Plots/THR/threshold_output_2.png} \\
+
+        \includegraphics[width=4cm]{../Plots/THR/threshold_output_3.png} &
+        \includegraphics[width=4cm]{../Plots/THR/threshold_output_4.png} &
+        \includegraphics[width=4cm]{../Plots/THR/threshold_output_5.png} \\
+
+        \includegraphics[width=4cm]{../Plots/THR/threshold_output_6.png} &
+        \includegraphics[width=4cm]{../Plots/THR/threshold_output_7.png} &
+        \includegraphics[width=4cm]{../Plots/THR/threshold_output_8.png} \\
+
+    \end{tabular}        
+    \caption{Histograma de densidad de la intensidad de pixeles después de aplicar el umbral.}
+    \label{fig:thresh_out_1}
+\end{figure*}
+
+\begin{figure*}[!ht]
+    \centering
+    \begin{tabular}{ccc}\ContinuedFloat
+
+        \includegraphics[width=4cm]{../Plots/THR/threshold_output_9.png} &
+        \includegraphics[width=4cm]{../Plots/THR/threshold_output_10.png} &
+        \includegraphics[width=4cm]{../Plots/THR/threshold_output_11.png} \\
+
+        \includegraphics[width=4cm]{../Plots/THR/threshold_output_12.png} &
+        \includegraphics[width=4cm]{../Plots/THR/threshold_output_13.png} &
+        \includegraphics[width=4cm]{../Plots/THR/threshold_output_14.png} \\
+
+    \end{tabular}        
+    \caption{Histograma de densidad de la intensidad de pixeles después de aplicar el umbral.}
+    \label{fig:thresh_out_2}
+\end{figure*}
 
 \subsection{Discusión}
+En la serie de imágenes que se muestran en la sección de resultadso se puede observar las muestras que fueron utilizadas para dicho experimento y posteriormente un histograma de densidad, en la figura \ref{fig:thresh_input_1} se puede observar que los pixeles se encuentran mayormente distribuidos, esto significa que clasificar dichos valores requiriría mayor complejidad de calculos. Sin embargo, después de aplicar el filtro de umbralización se puede observar en la figura \ref{fig:output_1} que la imagen aun conserva su información relevante y en la figura \ref{fig:thresh_out_1} que ahora la intensidad de los pixeles no está tan distribuida, sino qué, ahora se acumulan en dos valores específicos, resultando en un calculo más eficiente.
+
+\clearpage
 
 \section{Evaluación del Aprendizaje}
 Una vez seleccionado el codificador ideal, es necesario evaluar la configuración del modelo en la época presente y configuración actual, al finalizar cada ciclo de entrenamiento se realiza una validación con el porcentaje del conjunto de datos que no fue utilizado durante éste.
@@ -743,7 +867,7 @@ donde $A$ es un mapa binario de pixeles que representa la máscara real y $B$ la
 \def\secondcircle{(2,0) circle (1.5cm)}
 \def\thirdcircle{(0:2cm) circle (1.5cm)}
 
-\begin{figure}[b]
+\begin{figure}[!h]
     \centering
     \begin{tikzpicture}
         \draw \firstcircle node [above] {$A$};
@@ -759,6 +883,8 @@ donde $A$ es un mapa binario de pixeles que representa la máscara real y $B$ la
 
 \subsection{Resultados}
 Durante el entrenamiento del modelo, se evaluó la perdida o el error mediante el coeficiente de dados, dicha evaluación fue realizada en cada iteración y los datos fueron registrados para posteriormente graficar la curva. La curva de la pérdida debe tender a descender cuando el modelo mejora su precisión, al terminar todas las iteraciones se vuelve a pasar el modelo por el proceso de entrenamiento utilizando la configuración del modelo anterior hasta llegar a la mejor precisión posible. En la figura \ref{fig:dice_loss_epochs}, se puede observar la curva en cada una de las épocas.
+
+
 \begin{figure*}[!b]
     \centering
     \begin{tabular}{ccc}
@@ -802,7 +928,7 @@ Durante el entrenamiento del modelo, se evaluó la perdida o el error mediante e
 \subsection{Discusión}
 En la sección de resultados muestra en la figura \ref{fig:dice_loss_epochs} la curva de error según el coeficiente de dados, cada gráfica representa una época y sus iteraciones correspondientes. Como se puede observar, en la primera iteración de la primera época el error es mayor, conforme van pasando las épocas la curva se aplana y tiende a cero. Esto nos da a entender que el error disminuye, por lo tanto el modelo se optimiza de forma correcta. 
 
-
+\clearpage
 
 \section{Criterio de Jaccard}
 En la sección anterior, el coeficiente de dados es utilizado para evaluar la diferencia entre un mapa binario y un mapa probabilistico correspondientes a la máscara conocida y la máscara estimada, durante el entrenamiento del modelo. Sin embargo para validar el resultado final es necesario utilizar una métrica muy similar que evalúe ahora la similitud, y que al mismo tiempo penalice más el error.
