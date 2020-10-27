@@ -798,7 +798,11 @@ Durante el entrenamiento del modelo, se evaluó la perdida o el error mediante e
     \caption{Curva de la pérdida según el coeficiente de dados en cada época.}
     \label{fig:dice_loss_epochs}
 \end{figure*}
+
 \subsection{Discusión}
+En la sección de resultados muestra en la figura \ref{fig:dice_loss_epochs} la curva de error según el coeficiente de dados, cada gráfica representa una época y sus iteraciones correspondientes. Como se puede observar, en la primera iteración de la primera época el error es mayor, conforme van pasando las épocas la curva se aplana y tiende a cero. Esto nos da a entender que el error disminuye, por lo tanto el modelo se optimiza de forma correcta. 
+
+
 
 \section{Criterio de Jaccard}
 En la sección anterior, el coeficiente de dados es utilizado para evaluar la diferencia entre un mapa binario y un mapa probabilistico correspondientes a la máscara conocida y la máscara estimada, durante el entrenamiento del modelo. Sin embargo para validar el resultado final es necesario utilizar una métrica muy similar que evalúe ahora la similitud, y que al mismo tiempo penalice más el error.
@@ -879,10 +883,8 @@ Al diferencia de la evaluación mediante el coeficiente de dados,la cual se real
     \label{fig:iou_epochs}
 \end{figure*}
 
-
-
 \subsection{Discusión}
-
+Una vez finalizado el experimento del criterio de Jaccard, se obtuvieron las gráficas correspondientes a cada época y sus iteraciones. En la figura \ref{fig:iou_epochs} se puede observar en la curva el nivel de similitud, en un principio la precisión del modelo fluctúa al rededor del 75\% y conforme van avanzando las épocas, la curva se endereza y la precisión alcanza un 96\% aproximadamente.
 
 \chapter{Conclusiones}
 \section{Discusión}
