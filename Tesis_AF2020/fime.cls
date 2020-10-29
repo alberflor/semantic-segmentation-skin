@@ -12,7 +12,6 @@
 	\deactivatetilden
 	\spanishdecimal{.}
 	\addto\captionsspanish{\renewcommand{\listtablename}{Índice de Cuadros}}
-
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amsfonts,amssymb}
 	\allowdisplaybreaks[4]
@@ -101,6 +100,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 % Sangría e interlineado %
 %%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \setlength{\parindent}{10mm}
 \setlength{\parskip}{0.9em}
 \def\baselinestretch{1.8}
