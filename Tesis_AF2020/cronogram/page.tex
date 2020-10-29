@@ -1,0 +1,28 @@
+\documentclass[landscape]{article}
+\usepackage{graphicx}
+\usepackage{pdflscape}
+\usepackage{caption}
+\usepackage[compact]{titlesec}      
+
+\begin{document}
+\begin{figure}[h]
+\vspace{-3cm}
+\begin{center} {\scshape\LARGE Cronograma de actividades \par} \end{center}
+\vspace{0.2cm}
+\hspace{3.5cm}
+ \makebox[0pt]{%
+    \includegraphics[width=21cm,height=16cm]{cronogram.pdf}}
+ \vspace{1cm}
+      
+\begin{tabular}{p{0.45\textwidth}cp{0.45\textwidth}}
+  \centering Tesista & & \centering Vo.Bo \\
+\end{tabular}
+
+\begin{tabular}{p{0.45\textwidth}cp{0.45\textwidth}}
+  \cline{1-1} \cline{3-3} \\
+  \centering José Angel Ramírez Cantú & & \centering Dra. Satu Elisa Schaeffer 
+\end{tabular}
+\end{figure}
+
+\pagenumbering{gobble}
+\end{document}

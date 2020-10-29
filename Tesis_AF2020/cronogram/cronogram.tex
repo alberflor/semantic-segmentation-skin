@@ -1,0 +1,26 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfgantt}
+
+\begin{document}
+\begin{ganttchart}{1}{20}
+\gantttitle{2020}{12} 
+\gantttitle{2021}{8} \\
+\gantttitle{Octubre}{4} 
+\gantttitle{Noviembre}{4} 
+\gantttitle{Diciembre}{4} 
+\gantttitle{Enero}{4}
+\gantttitle{Febrero}{4}\\
+\gantttitlelist{1,...,20}{1}\\
+\ganttgroup{Investigación}{1}{4}\\
+\ganttbar{Análisis del problema}{1}{2}\\
+\ganttbar{Definir objetivo}{3}{4}\\
+\ganttgroup{Implementación}{5}{12}\\
+\ganttbar{Fase de desarrollo}{5}{8}\\
+\ganttbar{Fase de implementación}{9}{12}\\
+\ganttgroup{Evaluación}{13}{18}\\
+\ganttbar{Diseño experimental}{13}{16}\\
+\ganttbar{Análisis experimental}{16}{18}\\
+\ganttgroup{Recolección de entregables}{19}{20}
+\end{ganttchart}
+
+\end{document}
