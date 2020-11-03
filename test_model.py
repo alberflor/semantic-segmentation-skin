@@ -49,5 +49,5 @@ def test_model(m):
     #cv2.imwrite(s_path)
 
     #Visualize prediction
-    ds.visualize(image=vis, predicted=pred_mask)
+    #ds.visualize(image=vis, predicted=pred_mask)
 
