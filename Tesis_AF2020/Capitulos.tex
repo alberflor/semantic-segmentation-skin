@@ -988,7 +988,17 @@ Al diferencia de la evaluación mediante el coeficiente de dados,la cual se real
 \end{figure*}
 
 \subsection{Discusión}
-Una vez finalizado el experimento del criterio de Jaccard, se obtuvieron las gráficas correspondientes a cada época y sus iteraciones. En la figura \ref{fig:iou_epochs} se puede observar en la curva el nivel de similitud, en un principio la precisión del modelo fluctúa al rededor del 75\% y conforme van avanzando las épocas, la curva se endereza y la precisión alcanza un 96\% aproximadamente.
+Una vez finalizado el experimento del criterio de Jaccard, se obtuvieron las gráficas correspondientes a cada época y sus iteraciones. En la figura \ref{fig:iou_epochs} se puede observar en la curva el nivel de similitud, en un principio la precisión del modelo fluctúa al rededor del 75\% y conforme van avanzando las épocas, la curva se endereza y la precisión alcanza un 96\% en la época numero 6, siendo este número la cantidad ideal de épocas de entrenamiento ya que éste es el límite de la precisión por debajo del sobreajuste. Si las épocas siguen continuando aún cuando se alcanzó la precisión máxima considerada viable (\emph{fit}), se causaría un sobreajuste que impediría la correcta predicción de máscaras en imágenes más distintas del conjunto de datos de entrenamiento, esto sin embargo se puede arreglar mediante la aplicación de filtros aleatorios en el pre-procesado para aumentar la complejidad de la predicción y por consecuencia reducir el sobreajuste. Dichos filtros consisten en recortes aleatorios de la imagen, voltear vertical u horizontalmente imágenes al azar o un ajuste aleatorio de brillo y contraste.
+
+
+\section{Resumen de Experimentos}
+
+En el experimento de \emph{estadísticas de los datos de entrada}, se realizó una serie de histogramas de un conjunto de imágenes para visualizar la distribución de la intensidad de los pixeles, también se aplicó un filtro de umbral para comparar la distribución antes y después. Se determinó que con un filtrado de umbral a un valor de $50\%$ fue suficiente para agrupar la intensidad de pixeles en dos columnas principales sin perder la información relevante de la imagen.
+
+En el experimento de \emph{evaluación del aprendizaje}, se realizó mediante el coeficiente de dados un registro del error en el modelo al paso de las épocas y se comprobó que en efecto, el error tiende a reducirse conforme las épocas avanzan. También se determinó que después de 6 épocas de entrenamiento el error se suele reducir casi totalmente, siendo el resto de épocas no tan relevantes para el aprendizaje.
+
+En el experimento de \emph{criterio de Jaccard}, se aplicó una metodología similar a la del coeficiente de dados, sin embargo, ésta fue aplicada post-entrenamiento en la parte de validación y el criterio de Jaccard penaliza aún más el error, las gráficas mostradas en la figura \ref{fig:iou_epochs} muestran que tan acertada es la máscara obtenida por el modelo en comparación con la máscara real. También se determinó que el sobreajuste puede ser un problema en el conjunto de datos utilizado debido a la similitud entre las imágenes, por lo tanto se agregaron transformaciones aleatorias para compensar el sobreajuste.
+
 
 \chapter{Conclusiones}
 
