@@ -1,10 +1,10 @@
 
 \chapter{Introducción}
 
-La piel es considerada como el órgano más grande del cuerpo humano; está compuesta por tres capas: \emph{\gls{epidermis}}, \emph{\gls{dermis}} e \emph{\gls{hipodermis}}, tal como se ilustra en la figura \ref{fig:skin1_jpg}. La función principal de la piel es la de proteger al cuerpo de las hostilidades del medio ambiente tales como la radiación solar y los factores externos como las bacterias, proteger a los órganos y otros tejidos internos, y también funciona como una interfaz que nos permite interactuar con el medio ambiente otorgándonos la capacidad de percibir sensaciones tales como el tacto y la temperatura.
+La piel es considerada como el órgano más grande del cuerpo humano; está compuesta por tres capas: epidermis, dermis e hipodermis, tal como se ilustra en la figura \ref{fig:skin1_jpg}. La función principal de la piel es la de proteger al cuerpo de las hostilidades del medio ambiente tales como la radiación solar y los factores externos como las bacterias, proteger a los órganos y otros tejidos internos, y también funciona como una interfaz que nos permite interactuar con el medio ambiente otorgándonos la capacidad de percibir sensaciones tales como el tacto y la temperatura.
 
 \begin{figure}[h!]
-    \includegraphics[scale = 1.0]{Figuras/skin_structure_esp.eps}
+    \includegraphics[width=70mm]{Figuras/skin_structure_esp.eps}
     \centering
     \caption{Ilustración de las capas de la piel y sus apéndices \citep{skin_1}.}
     \label{fig:skin1_jpg}
@@ -13,9 +13,9 @@ La piel es considerada como el órgano más grande del cuerpo humano; está comp
 Sin embargo, debido a la exposición continua a la radiación solar o artificial, un porcentaje de la población llega a desarrollar anomalías relacionadas a la piel. Una de estas anomalías es la denominada \emph{melanoma}, la cuál es una mutación originada en los melanocitos (células encargadas de otorgar la pigmentación marrón a la piel), en donde estas células crecen sin control y se esparcen a otras partes del cuerpo, ocasionando graves daños a la salud de quien la padece y que sin una detección temprana puede aumentar rápidamente el riesgo de fallecimiento \citep{cancer_org}.
 
 \begin{figure}[h!]
-    \includegraphics[width=80mm]{Figuras/skin_cancer_bbc.jpg}
+    \includegraphics[width=60mm]{Figuras/ISIC_0012591.jpg}
     \centering
-    \caption{Ejemplo de melanoma \citep{cancer_img_1}.}
+    \caption{Ejemplo de melanoma extraída de la base de datos de ISIC \citep{isic_skin}.}
     \label{fig:can_jpg}
 \end{figure}
 
@@ -220,10 +220,11 @@ En esta sección se evalúan los trabajos revisados con el trabajo propuesto en 
     \item[Salida]{Características de los datos obtenidos en la salida del modelo.}
 \end{description}
 
-\begin{table}[b!]{
+\begin{table}[b!]
     \centering
     \caption{Similitudes y diferencias entre los trabajos revisados; las características implementadas se representan con \cmark, mientras que las no implementadas con \xmark.}
-        \scalebox{0.80}{
+    \begin{center}
+    \scalebox{0.80}{
         \begin{tabular}[t]{|l|l|l|l|l|l|l|l|}
             \hline
             \bf{Trabajo} & \bf{Modelo} & \rotatebox{90}{Clasificación} & \rotatebox{90}{Segmentación} & \rotatebox{90}{Supervisado} & \rotatebox{90}{Pre-entrenamiento\phantom{m}} & \rotatebox{90}{Evaluación} & Salida\\
@@ -242,7 +243,8 @@ En esta sección se evalúan los trabajos revisados con el trabajo propuesto en 
             \hline   
         \end{tabular}
         }
-    \label{Tab:comp_1}}
+    \end{center}
+    \label{Tab:comp_1}
 \end{table}
 
 \newpage
@@ -473,33 +475,8 @@ El proceso de cargado de datos y filtrado es un proceso muy importante para la e
 
 Lo primero que se desarrolló fue un asistente de cargado y filtrado de imágenes, en el código \ref{code:load} se puede apreciar el código fuente y las funciones utilizadas para tal motivo. Al ser utilizado el objeto \emph{dataset} y alimentar los argumentos con los directorios de las imágenes se obtiene como resultado un objeto de dimensión $N \times 2 \times (m \times n)$ donde $N$ es el número de muestras cargadas y el primer elemento de la fila es la matríz de la imágen real, y el segúndo la matríz de la máscara conocída.
 
-\renewcommand{\lstlistingname}{Código}
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codeblue}{rgb}{0.121, 0.203, 0.858}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
-
-\lstdefinestyle{pystyle}{
-    basicstyle=\linespread{0.8},
-    backgroundcolor=\color{backcolour},   
-    commentstyle=\color{codegreen},
-    keywordstyle=\color{codeblue},
-    numberstyle=\tiny\color{codegray},
-    stringstyle=\color{codepurple},
-    basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
-    showstringspaces=false,
-    showtabs=false,                  
-    tabsize=2
-}
 \lstset{style=pystyle}
+
 \begin{lstlisting}[language = Python, label = {code:load} ,caption= Código fuente del asistente de cargado de imágenes.]
     # load_dataset.py
     class dataset ():
@@ -552,6 +529,7 @@ El \emph{pre-procesamiento} se define como una secuencia de transformaciones que
 
 \begin{figure}[H]
     \centering
+    \begin{adjustbox}{width=0.9\linewidth}
     \begin{tikzpicture}[node distance = 0.2cm and -2cm]
         \node [block] (input) {Imagen de Entrada \newline($m \times n$)};
         \node [block, below right=of input] (tr1) {Ajuste de tamaño ($512 \times 512$)};
@@ -564,6 +542,7 @@ El \emph{pre-procesamiento} se define como una secuencia de transformaciones que
         \path [line] (tr2) -| (tr3);
         \path [line] (tr3) -| (out);
     \end{tikzpicture}
+    \end{adjustbox}
     \caption{Línea de pre-procesamiento.}
     \label{fig: pipeline}
 \end{figure}
@@ -849,14 +828,14 @@ Los píxeles de las imágenes de entrada tienen una forma de $m \times n$, por l
 \end{figure*}
 
 \subsection{Discusión}
-En la serie de imágenes que se muestran en la sección de resultadso se puede observar las muestras que fueron utilizadas para dicho experimento y posteriormente un histograma de densidad, en la figura \ref{fig:thresh_input_1} se puede observar que los pixeles se encuentran mayormente distribuidos, esto significa que clasificar dichos valores requiriría mayor complejidad de calculos. Sin embargo, después de aplicar el filtro de umbralización se puede observar en la figura \ref{fig:output_1} que la imagen aun conserva su información relevante y en la figura \ref{fig:thresh_out_1} que ahora la intensidad de los pixeles no está tan distribuida, sino qué, ahora se acumulan en dos valores específicos, resultando en un calculo más eficiente.
+En la serie de imágenes que se muestran en la sección de resultadso se puede observar las muestras que fueron utilizadas para dicho experimento y posteriormente un histograma de densidad. En la figura \ref{fig:thresh_input_1} se puede observar que los pixeles se encuentran mayormente distribuidos, esto significa que clasificar dichos valores requiriría mayor complejidad de calculos. Sin embargo, después de aplicar el filtro de umbralización se puede observar en la figura \ref{fig:output_1} que la imagen aún conserva su información relevante y en la figura \ref{fig:thresh_out_1} que ahora la intensidad de los pixeles no está tan distribuida, sino qué, ahora se acumulan en dos valores específicos, resultando en un cálculo más eficiente.
 
 \clearpage
 
 \section{Evaluación del Aprendizaje}
 Una vez seleccionado el codificador ideal, es necesario evaluar la configuración del modelo en la época presente y configuración actual, al finalizar cada ciclo de entrenamiento se realiza una validación con el porcentaje del conjunto de datos que no fue utilizado durante éste.
 \subsection{Diseño Experimental}
-Para determinar un valor probabilistico entre dos mapas de valores binarios es necesario utilizar un coeficiente que evalúe la similitud entre ambos conjuntos de datos, siendo el conjunto $A$ la máscara real o \emph{ground truth}, y el conjunto $B$ el mapa obtenido por la computación del modelo se utilizó el criterio de dados para determinar la probabilidad ($0 \% - 100 \%$), la ecuación del criterio de dados dice que la probabilidad de que dos mapas binarios sean iguales es dos veces la cantidad de pixeles sobrepuestos o idénticos entre la suma de los pixeles de ambos mapas, 
+Para determinar un valor probabilistico entre dos mapas de valores binarios es necesario utilizar un coeficiente que evalúe la similitud entre ambos conjuntos de datos, siendo el conjunto $A$ la máscara real o \emph{ground truth}, y el conjunto $B$ el mapa obtenido por la computación del modelo se utilizó el criterio de dados para determinar la probabilidad, la ecuación del criterio de dados dice que la probabilidad de que dos mapas binarios sean iguales es dos veces la cantidad de pixeles sobrepuestos o idénticos entre la suma de los pixeles de ambos mapas, 
 \begin{equation}\label{eq:diceloss}
     \text{DC} = \frac{2|A \cap B |}{|A| + |B|}
 \end{equation}
@@ -887,17 +866,17 @@ Durante el entrenamiento del modelo, se evaluó la perdida o el error mediante e
 \begin{figure*}[!b]
     \centering
     \begin{tabular}{ccc}
-        \includegraphics[width=4cm]{../Plots/dl_epoch_0.png} &
-        \includegraphics[width=4cm]{../Plots/dl_epoch_1.png} &
-        \includegraphics[width=4cm]{../Plots/dl_epoch_2.png} \\
+        \includegraphics[width=3.5cm]{../Plots/dl_epoch_0.png} &
+        \includegraphics[width=3.5cm]{../Plots/dl_epoch_1.png} &
+        \includegraphics[width=3.5cm]{../Plots/dl_epoch_2.png} \\
 
-        \includegraphics[width=4cm]{../Plots/dl_epoch_3.png} &
-        \includegraphics[width=4cm]{../Plots/dl_epoch_4.png} &
-        \includegraphics[width=4cm]{../Plots/dl_epoch_5.png} \\
+        \includegraphics[width=3.5cm]{../Plots/dl_epoch_3.png} &
+        \includegraphics[width=3.5cm]{../Plots/dl_epoch_4.png} &
+        \includegraphics[width=3.5cm]{../Plots/dl_epoch_5.png} \\
 
-        \includegraphics[width=4cm]{../Plots/dl_epoch_6.png} &
-        \includegraphics[width=4cm]{../Plots/dl_epoch_7.png} &
-        \includegraphics[width=4cm]{../Plots/dl_epoch_8.png} \\
+        \includegraphics[width=3.5cm]{../Plots/dl_epoch_6.png} &
+        \includegraphics[width=3.5cm]{../Plots/dl_epoch_7.png} &
+        \includegraphics[width=3.5cm]{../Plots/dl_epoch_8.png} \\
 
     \end{tabular}        
     \caption{Curva de la pérdida según el coeficiente de dados en cada época.}
@@ -908,24 +887,24 @@ Durante el entrenamiento del modelo, se evaluó la perdida o el error mediante e
     \centering
     \begin{tabular}{ccc}\ContinuedFloat
 
-        \includegraphics[width=4cm]{../Plots/dl_epoch_9.png} &
-        \includegraphics[width=4cm]{../Plots/dl_epoch_10.png} &
-        \includegraphics[width=4cm]{../Plots/dl_epoch_11.png} \\
+        \includegraphics[width=3.5cm]{../Plots/dl_epoch_9.png} &
+        \includegraphics[width=3.5cm]{../Plots/dl_epoch_10.png} &
+        \includegraphics[width=3.5cm]{../Plots/dl_epoch_11.png} \\
 
-        \includegraphics[width=4cm]{../Plots/dl_epoch_12.png} &
-        \includegraphics[width=4cm]{../Plots/dl_epoch_13.png} &
-        \includegraphics[width=4cm]{../Plots/dl_epoch_14.png} \\
+        \includegraphics[width=3.5cm]{../Plots/dl_epoch_12.png} &
+        \includegraphics[width=3.5cm]{../Plots/dl_epoch_13.png} &
+        \includegraphics[width=3.5cm]{../Plots/dl_epoch_14.png} \\
 
-        \includegraphics[width=4cm]{../Plots/dl_epoch_15.png} &
-        \includegraphics[width=4cm]{../Plots/dl_epoch_16.png} &
-        \includegraphics[width=4cm]{../Plots/dl_epoch_17.png} \\
+        \includegraphics[width=3.5cm]{../Plots/dl_epoch_15.png} &
+        \includegraphics[width=3.5cm]{../Plots/dl_epoch_16.png} &
+        \includegraphics[width=3.5cm]{../Plots/dl_epoch_17.png} \\
     \end{tabular}        
     \caption{Curva de la pérdida según el coeficiente de dados en cada época.}
     \label{fig:dice_loss_epochs}
 \end{figure*}
 
 \subsection{Discusión}
-En la sección de resultados muestra en la figura \ref{fig:dice_loss_epochs} la curva de error según el coeficiente de dados, cada gráfica representa una época y sus iteraciones correspondientes. Como se puede observar, en la primera iteración de la primera época el error es mayor, conforme van pasando las épocas la curva se aplana y tiende a cero. Esto nos da a entender que el error disminuye, por lo tanto el modelo se optimiza de forma correcta. 
+En la sección de resultados muestra en la figura \ref{fig:dice_loss_epochs} la curva de error según el coeficiente de dados, cada gráfica representa una época y sus iteraciones correspondientes. Como se puede observar, en la primera iteración de la primera época el error es mayor, conforme van pasando las épocas la curva se aplana y tiende a cero. Esto indica que el error disminuye, por lo tanto el modelo mejora la configuración de los pesos sinapticos de los parámetros de forma correcta. 
 
 \clearpage
 
@@ -970,17 +949,17 @@ Al diferencia de la evaluación mediante el coeficiente de dados,la cual se real
 \begin{figure*}[!b]
     \centering
     \begin{tabular}{ccc}
-        \includegraphics[width=4.5cm]{../Plots/score_epoch_0.png} &
-        \includegraphics[width=4.5cm]{../Plots/score_epoch_1.png} &
-        \includegraphics[width=4.5cm]{../Plots/score_epoch_2.png} \\
+        \includegraphics[width=3.5cm]{../Plots/score_epoch_0.png} &
+        \includegraphics[width=3.5cm]{../Plots/score_epoch_1.png} &
+        \includegraphics[width=3.5cm]{../Plots/score_epoch_2.png} \\
 
-        \includegraphics[width=4.5cm]{../Plots/score_epoch_3.png} &
-        \includegraphics[width=4.5cm]{../Plots/score_epoch_4.png} &
-        \includegraphics[width=4.5cm]{../Plots/score_epoch_5.png} \\
+        \includegraphics[width=3.5cm]{../Plots/score_epoch_3.png} &
+        \includegraphics[width=3.5cm]{../Plots/score_epoch_4.png} &
+        \includegraphics[width=3.5cm]{../Plots/score_epoch_5.png} \\
 
-        \includegraphics[width=4.5cm]{../Plots/score_epoch_6.png} &
-        \includegraphics[width=4.5cm]{../Plots/score_epoch_7.png} &
-        \includegraphics[width=4.5cm]{../Plots/score_epoch_8.png} \\
+        \includegraphics[width=3.5cm]{../Plots/score_epoch_6.png} &
+        \includegraphics[width=3.5cm]{../Plots/score_epoch_7.png} &
+        \includegraphics[width=3.5cm]{../Plots/score_epoch_8.png} \\
         
     \end{tabular}
     \caption{Curvas de la evaluación del criterio de Jaccard en cada época.}
@@ -991,17 +970,17 @@ Al diferencia de la evaluación mediante el coeficiente de dados,la cual se real
     \centering
     \begin{tabular}{ccc}
 
-        \includegraphics[width=4.5cm]{../Plots/score_epoch_9.png} &
-        \includegraphics[width=4.5cm]{../Plots/score_epoch_10.png} &
-        \includegraphics[width=4.5cm]{../Plots/score_epoch_11.png} \\
+        \includegraphics[width=3.5cm]{../Plots/score_epoch_9.png} &
+        \includegraphics[width=3.5cm]{../Plots/score_epoch_10.png} &
+        \includegraphics[width=3.5cm]{../Plots/score_epoch_11.png} \\
 
-        \includegraphics[width=4.5cm]{../Plots/score_epoch_12.png} &
-        \includegraphics[width=4.5cm]{../Plots/score_epoch_13.png} &
-        \includegraphics[width=4.5cm]{../Plots/score_epoch_14.png} \\
+        \includegraphics[width=3.5cm]{../Plots/score_epoch_12.png} &
+        \includegraphics[width=3.5cm]{../Plots/score_epoch_13.png} &
+        \includegraphics[width=3.5cm]{../Plots/score_epoch_14.png} \\
 
-        \includegraphics[width=4.5cm]{../Plots/score_epoch_15.png} &
-        \includegraphics[width=4.5cm]{../Plots/score_epoch_16.png} &
-        \includegraphics[width=4.5cm]{../Plots/score_epoch_17.png} \\
+        \includegraphics[width=3.5cm]{../Plots/score_epoch_15.png} &
+        \includegraphics[width=3.5cm]{../Plots/score_epoch_16.png} &
+        \includegraphics[width=3.5cm]{../Plots/score_epoch_17.png} \\
     \end{tabular}
 
     \caption{Curvas de la evaluación del criterio de Jaccard en cada época.}
@@ -1013,15 +992,19 @@ Una vez finalizado el experimento del criterio de Jaccard, se obtuvieron las gr�
 
 \chapter{Conclusiones}
 
-En este documento fue descrito el proceso de segmentación semántica, mediante el cual es posible clasificar las regiones dentro de una imagen que corresponden a una categoría específica, siendo aquí el caso del melanoma de piel, se implementó una arquitectura de red neuronal profunda que consiste en filtros de convolución asociados a un peso sináptico el cual se ajusta de acuerdo a los criterios de evaluación, creando una linea de procesamiento que transforma la imagen entrante en un mapa probabilístico correspondiente a las regiones que la componen.
+En este documento fue descrito el proceso de la implementación de segmentación semántica, mediante el cual es posible clasificar las regiones dentro de una imagen que corresponden a una categoría específica, siendo aquí el caso del melanoma de piel, se implementó una arquitectura de red neuronal profunda que consiste en filtros de convolución asociados a un peso sináptico el cual se ajusta de acuerdo a los criterios de evaluación, creando una linea de procesamiento que transforma la imagen entrante en un mapa probabilístico correspondiente a las regiones que la componen.
 
-La relevancia del presente trabajo de tesis radica en la naturaleza de la tecnología que fue utilizada para la realización de las tareas de segmentación, aunque es posible realizar la misma tarea mediante una secuencia lineal de transformaciones adecuada al tipo de imágenes dermatolólogicas, la precisión de dicho programa no mejoraría de forma automática a menos que de forma activa se ajusten los parámetros involucrados en la transformación, siendo el número de parámetros involucrados una cantidad masiva. Mediante el uso de redes neuronales el proceso de ajuste de los parámetros se realiza de forma automática mediante los criterios mencionados en el capítulo 5, aún cuando es necesario ajustar manualmente parámetros relacionados con el entrenamiento del modelo y de la evaluación del mismo, la cantidad de ajustes necesarios no varía en función de la complejidad de las imágenes a procesar, sino qué, va en función de la arquitectura seleccionada como recipiente para el modelo. La implementación de la arquitectura de red neuronal convolucional fue llevada a cabo gracias a la librería de \citet{Yakubovskiy:2019}, cual está desarrollada en el lenguaje de \texttt{Python} y contiene las principales arquitecturas de redes neuronales ya adaptadas para la realización de tareas de segmentación semántica, el resto de la implementación consistió principalmente en establecer las lineas de pre-procesamiento de imágenes para cumplir con los requisitos de admisión para ingresar a la arquitectura de pirámide de características, obteniendo de forma satisfactoria la segmentación semántica.
+La relevancia del presente trabajo de tesis se fundamenta en la naturaleza de la tecnología que fue utilizada para la realización de las tareas de segmentación, aunque es posible realizar la misma tarea mediante una secuencia lineal de transformaciones adecuada al tipo de imágenes dermatolólogicas, la precisión de dicho programa no mejoraría de forma automática a menos que de forma activa se ajusten los parámetros involucrados en la transformación, siendo el número de parámetros involucrados una cantidad masiva. Mediante el uso de redes neuronales el proceso de ajuste de los parámetros se realiza de forma automática mediante los criterios mencionados en el capítulo 5, aún cuando es necesario ajustar manualmente parámetros relacionados con el entrenamiento del modelo y de la evaluación del mismo, la cantidad de ajustes necesarios no varía en función de la complejidad de las imágenes a procesar, sino qué, va en función de la arquitectura seleccionada como recipiente para el modelo. La implementación de la arquitectura de red neuronal convolucional fue llevada a cabo gracias a la librería de \citet{Yakubovskiy:2019}, cual está desarrollada en el lenguaje de \texttt{Python} y contiene las principales arquitecturas de redes neuronales ya adaptadas para la realización de tareas de segmentación semántica, el resto de la implementación consistió principalmente en establecer las lineas de pre-procesamiento de imágenes para cumplir con los requisitos de admisión para ingresar a la arquitectura de pirámide de características, obteniendo de forma satisfactoria la segmentación semántica.
 
 \section{Discusión}
 
 El software desarrollado mostró resultados eficientes en las tareas de segmentación semántica con una precisión máxima del $96\%$. Mediante la definición de la linea de pre-procesamiento fue posible ajustar distintos parámetros de la ejecución, una de las principales dificultades en el entrenamiento del modelo fue la adaptación de las dimensiones de las imágenes a las dimensiones requeridas por la arquitectura, sin embargo, esto fue resuelto mediante la aplicación de una interpolación utilizando la librería de \texttt{OpenCV}. El entrenamiento en sí requiere de grandes recursos de memoria, por lo que la resolución máxima de predicción está directamente limitada por la capacidad del hardware de llevar a cabo el entrenamiento, sin embargo, una vez obtenido el modelo de segmentación semántica, independientemente de su complejidad, utilizarlo no requirió tantos recursos como al entrenarlo, siendo aún viable la utilización de este sofware por una gran cantidad de dispositivos en el post-entrenamiento. Al final se obtuvo un software con la capacidad de tanto generar nuevos modelos y modificar sus parámetros de entrenamiento, como de utilizar dichos modelos para generar máscaras de segmentación semántica en imágenes dermatolólogicas relacionadas al melanoma. Así mismo, el software desarrollado en el presente trabajo de tesis provee las transformaciones requeridas para adaptar las dimensiones de los datos, independientemente de su resolución y de la cantidad de canales de color con los que cuente, dando como resultado una máscara de segmentación semántica con resolución estandarizada.
 
 \section{Trabajo a Futuro}
+La principal razón por la que muchos científicos estudian y desarrollan la técnica de segmentación semántica es porque mediante ésta técnica se obtiene información muy relevante sobre el objeto que se está estudiando, por ejemplo, muchos autores enfocan las redes neuronales para obtener información de medio como distinguir mediante una cámara a las personas, a los objetos, a las señales de tráfico. La razón es porque teniendo esta información es posible realizar algo como un vehículo de conducción autónoma, y ahí es donde reside la clave del paso siguiente. Tomando únicamente el concepto de la segmentación semántica, es posible pensar en muchas posibilidades en las que pueda ser aplicada, principalmente en el área médica. Por ejemplo, podría ser aplicado para segmentar partes del cuerpo de forma externa e interna, incluso podría desarrollarse un sistema de visión con un modelo pre-entrenado para asistir a personas con ceguera parcial a detectar obstáculos en el camino.
+
+
+Hablando más específicamente sobre la aplicación desarrollada en el presente trabajo de tesis, sería ideal probar con una linea de pre-procesamiento más sofisticada que permita una predicción más profunda de las categorías presentes en una imagen a una resolución mayor. Debido a las limitaciones de hardware, resulta muy complicado el entrenamiento de modelos con secuencias de transformaciones muy extensas o complejas debido a que dicha secuencia aplicaría a cada muestra del entrenamiento. 
 
 
 

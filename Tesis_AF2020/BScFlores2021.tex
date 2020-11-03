@@ -25,7 +25,6 @@
 	\newcommand{\cmark}{\ding{51}}%
 	\newcommand{\xmark}{\ding{53}}%
 
-
 %%%%%%%%%%%%%%%%%%%%%
 % Definiendo campos %
 %%%%%%%%%%%%%%%%%%%%%
@@ -54,6 +53,36 @@
 %%%%%%%%%%%%%%%%%%%%%%%
 % Inicia el documento %
 %%%%%%%%%%%%%%%%%%%%%%%
+
+\setstretch{1.80}
+\renewcommand{\lstlistingname}{Código}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codeblue}{rgb}{0.121, 0.203, 0.858}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{pystyle}{
+    basicstyle=\linespread{0.8}\tiny,
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codeblue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+
 \begin{document}
 
 \frontmatter
@@ -91,8 +120,6 @@
 % alguno de los archivos de estilo (mighelbib.bst o mighelnat.bst) incluidos
 % en el paquete, cuyos diseños armonizan con el diseño de tesis provisto por
 % fime.cls. Para muestra, basta un botón:
-
-\printnoidxglossary[sort=word]
 
 \bibliographystyle{mighelnat}
 \bibliography{MiBiblio}

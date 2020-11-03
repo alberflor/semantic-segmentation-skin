@@ -103,7 +103,7 @@
 
 \setlength{\parindent}{10mm}
 \setlength{\parskip}{0.9em}
-\def\baselinestretch{1.8}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 % Algunas definiciones %
