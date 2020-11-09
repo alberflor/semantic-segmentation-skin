@@ -34,7 +34,7 @@
 \usepackage{setspace}
 \usepackage{caption}
 	\captionsetup[table]{font={normalsize,stretch=1.0}}
-
+\usepackage{rotating}
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 %   Comandos útiles    %
