@@ -10,7 +10,7 @@
 \def\matricula{1719126}
 \def\grado{Ingeniero en Mecatrónica}
 
-\def\fecha{05 de Noviembre de 2020}
+\def\fecha{09 de Noviembre de 2020}
 \def\asesor{Dra.\ Satu Elisa Schaeffer}
 \def\revisorA{Dr.\ Romeo Sánchez Nigenda}
 \def\revisorB{Dra.\ Sara Verónica Rodríguez Sánchez}
