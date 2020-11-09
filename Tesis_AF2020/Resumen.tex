@@ -30,6 +30,7 @@ La principal contribución del presente trabajo de tesis es la de establecer los
 
 Para la implementación se propuso el uso de la arquitectura \texttt{FPN}\footnote{Feature Pyramid Network}, la cuál es compatible con el codificador \texttt{ResNet}, ambos consisten en secuencias de convolución y deconvolución que realizarán las tareas de reducir las dimensiones de los datos en un solo dato multi-dimensional y de recrear el mapa probabilístico correspondiente a las computaciones del modelo. Para validar la selección de la arquitectura y codificador se estableció una serie de experimentos dependientes unos de otros en donde se determina la mejor configuración de parámetros para la creación y el entrenamiento del modelo así como la validación de las máscaras obtenidas mediante sobreposición de pixeles de ambas máscaras, mediante el coeficiente de dados y el criterio de Jaccard.
 
+Mediante el experimento del filtro de umbral se obtuvieron datos sobre las características de las imágenes en cuanto la intensidad de los pixeles antes y después de aplicarse, y con los diferentes criterios de evaluación mencionados, se obtuvo un perfil de aprendizaje del modelo en donde se puede visualizar el principal comportamiento durante las épocas iniciales y las finales.
 
 \bigskip\noindent\begin{tabular}{lc}
 \vspace*{-2mm}\hspace*{-2mm}Firma de la asesora: & \\
