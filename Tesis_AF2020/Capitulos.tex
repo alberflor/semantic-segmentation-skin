@@ -487,12 +487,12 @@ Lo primero que se desarrolló fue un asistente de cargado y filtrado de imágene
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
 \lstdefinestyle{pystyle}{
+    basicstyle= \scriptsize\ttfamily\linespread{.8},
     backgroundcolor=\color{backcolour},   
     commentstyle=\color{codegreen},
     keywordstyle=\color{codeblue},
     numberstyle=\tiny\color{codegray},
     stringstyle=\color{codepurple},
-    basicstyle=\ttfamily\footnotesize,
     breakatwhitespace=false,         
     breaklines=true,                 
     captionpos=b,                    
@@ -505,7 +505,7 @@ Lo primero que se desarrolló fue un asistente de cargado y filtrado de imágene
     tabsize=2
 }
 
-\lstset{basicstyle= \linespread{0.8}, style=pystyle}
+\lstset{style=pystyle}
 
 \begin{lstlisting}[language = Python, label = {code:load} ,caption= Código fuente del asistente de cargado de imágenes.]
     # load_dataset.py
@@ -589,7 +589,6 @@ La secuencia de entrenamiento consiste de un búcle en el cuál se condensan las
         print('\n Epoch: {}'.format(i))
         train_logs = train_epoch.run(train_loader)
         valid_logs = valid_epoch.run(valid_loader)
-
         if max_score < valid_logs['iou_score']:
             max_score = valid_logs['iou_score']
             torch.save(model,('Model/'+encoder+'.pth'))
@@ -731,7 +730,7 @@ Los píxeles de las imágenes de entrada tienen una forma de $m \times n$, por l
         \includegraphics[width=4cm]{../Plots/THR/sample_14.png} \\
 
     \end{tabular}        
-    \caption{Curva de la pérdida según el coeficiente de dados en cada época.}
+    \caption{Conjunto de datos entrante.}
     \label{fig:thresh_input}
 \end{figure*}
 
@@ -789,10 +788,9 @@ Los píxeles de las imágenes de entrada tienen una forma de $m \times n$, por l
 
 
     \end{tabular}        
-    \caption{Histogramas de densidad de la intensidad de pixeles de la imagen entrante.}
+    \caption{Conjunto de datos después de aplicar el filtro de umbral.}
     \label{fig:output_1}
 \end{figure*}
-
 
 
 \begin{figure*}[!h]
@@ -819,7 +817,7 @@ Los píxeles de las imágenes de entrada tienen una forma de $m \times n$, por l
         \includegraphics[width=4cm]{../Plots/THR/threshold_output_14.png} \\
 
     \end{tabular}        
-    \caption{Histograma de densidad de la intensidad de pixeles después de aplicar el umbral.}
+    \caption{Histograma de densidad de la intensidad de pixeles después de aplicar el filtro de umbral.}
     \label{fig:thresh_out_1}
 \end{figure*}
 
@@ -891,7 +889,9 @@ Durante el entrenamiento del modelo, se evaluó la perdida o el error mediante e
 
 
 \subsection{Discusión}
-En la sección de resultados muestra en la figura \ref{fig:dice_loss_epochs} la curva del error según el coeficiente de dados, cada gráfica representa una época y sus iteraciones correspondientes. Como se puede observar, en la primera iteración de la primera época el error es mayor, conforme van pasando las épocas la curva se va aplanando y el error disminuye constantemente, de acuerdo a lo que indican las gráficas es posible obtener un modelo con un error mínimo a partir de la iteración numero cinco, ya que ahí es donde el error ya alcanza el mínimo obtenible y el resto de épocas no cambia significativamente.
+En la sección de resultados muestra en la figura \ref{fig:dice_loss_epochs} la curva del error según el coeficiente de dados, cada gráfica representa una época y sus iteraciones correspondientes. Como se puede observar, en la primera iteración de la primera época el error es mayor, conforme van pasando las épocas la curva se va aplanando y el error disminuye constantemente. De acuerdo a lo que indican las gráficas es posible obtener un modelo con un error mínimo a partir de la iteración numero cinco, ya que ahí es donde el error ya alcanza el mínimo obtenible y el resto de épocas no cambia significativamente.
+
+El proceso de reducción del error no es completamente lineal, sino que, fluctúa ligeramente entre iteraciones, sin embargo, tiene un déficit constante por lo que efectivamente mediante el criterio de dados y el optimizador \texttt{Adam} el error se reduce constantemente.
 
 
 
@@ -960,7 +960,7 @@ Al diferencia de la evaluación mediante el coeficiente de dados,la cual se real
 \end{figure*}
 
 \subsection{Discusión}
-Una vez finalizado el experimento del criterio de Jaccard, se obtuvieron las gráficas correspondientes a cada época y sus iteraciones. En la figura \ref{fig:iou_epochs} se puede observar en la curva el nivel de similitud, en un principio la precisión del modelo fluctúa al rededor del 75\% y conforme van avanzando las épocas, la curva se endereza y la precisión alcanza un 96\% en la época numero 6, siendo este número la cantidad ideal de épocas de entrenamiento ya que éste es el límite de la precisión por debajo del sobreajuste. Si las épocas siguen continuando aún cuando se alcanzó la precisión máxima considerada viable (\emph{fit}), se causaría un sobreajuste que impediría la correcta predicción de máscaras en imágenes más distintas del conjunto de datos de entrenamiento, esto sin embargo se puede arreglar mediante la aplicación de filtros aleatorios en el pre-procesado para aumentar la complejidad de la predicción y por consecuencia reducir el sobreajuste. Dichos filtros consisten en recortes aleatorios de la imagen, voltear vertical u horizontalmente imágenes al azar o un ajuste aleatorio de brillo y contraste.
+Una vez finalizado el experimento del criterio de Jaccard, se obtuvieron las gráficas correspondientes a cada época y sus iteraciones. En la figura \ref{fig:iou_epochs} se puede observar en la curva el nivel de similitud, en un principio la precisión del modelo fluctúa al rededor del 75\% y conforme van avanzando las épocas, la curva se endereza y la precisión alcanza un 96\% en la época numero seis, siendo este número la cantidad ideal de épocas de entrenamiento ya que éste es el límite de la precisión por debajo del sobreajuste. Si las épocas siguen continuando aún cuando se alcanzó la precisión máxima considerada viable (\emph{fit}), se causaría un sobreajuste que impediría la correcta predicción de máscaras en imágenes más distintas del conjunto de datos de entrenamiento, esto sin embargo se puede arreglar mediante la aplicación de filtros aleatorios en el pre-procesado para aumentar la complejidad de la predicción y por consecuencia reducir el sobreajuste. Dichos filtros consisten en recortes aleatorios de la imagen, voltear vertical u horizontalmente imágenes al azar o un ajuste aleatorio de brillo y contraste.
 
 
 \section{Resumen de Experimentos}
@@ -976,11 +976,22 @@ En el experimento de \emph{criterio de Jaccard}, se aplicó una metodología sim
 
 En este documento fue descrito el proceso de la implementación de segmentación semántica, mediante el cual es posible clasificar las regiones dentro de una imagen que corresponden a una categoría específica, siendo aquí el caso del melanoma de piel, se implementó una arquitectura de red neuronal profunda que consiste en filtros de convolución asociados a un peso sináptico el cual se ajusta de acuerdo a los criterios de evaluación, creando una linea de procesamiento que transforma la imagen entrante en un mapa probabilístico correspondiente a las regiones que la componen.
 
-La relevancia del presente trabajo de tesis se fundamenta en la naturaleza de la tecnología que fue utilizada para la realización de las tareas de segmentación, aunque es posible realizar la misma tarea mediante una secuencia lineal de transformaciones adecuada al tipo de imágenes dermatolólogicas, la precisión de dicho programa no mejoraría de forma automática a menos que de forma activa se ajusten los parámetros involucrados en la transformación, siendo el número de parámetros involucrados una cantidad masiva. Mediante el uso de redes neuronales el proceso de ajuste de los parámetros se realiza de forma automática mediante los criterios mencionados en el capítulo 5, aún cuando es necesario ajustar manualmente parámetros relacionados con el entrenamiento del modelo y de la evaluación del mismo, la cantidad de ajustes necesarios no varía en función de la complejidad de las imágenes a procesar, sino qué, va en función de la arquitectura seleccionada como recipiente para el modelo. La implementación de la arquitectura de red neuronal convolucional fue llevada a cabo gracias a la librería de \citet{Yakubovskiy:2019}, cual está desarrollada en el lenguaje de \texttt{Python} y contiene las principales arquitecturas de redes neuronales ya adaptadas para la realización de tareas de segmentación semántica, el resto de la implementación consistió principalmente en establecer las lineas de pre-procesamiento de imágenes para cumplir con los requisitos de admisión para ingresar a la arquitectura de pirámide de características, obteniendo de forma satisfactoria la segmentación semántica.
+La relevancia del presente trabajo de tesis se fundamenta en la naturaleza de la tecnología que fue utilizada para la realización de las tareas de segmentación, aunque es posible realizar la misma tarea mediante una secuencia lineal de transformaciones adecuada al tipo de imágenes dermatolólogicas, la precisión de dicho programa no mejoraría de forma automática a menos que de forma activa se ajusten los parámetros involucrados en la transformación, siendo el número de parámetros involucrados una cantidad masiva. Mediante el uso de redes neuronales el proceso de ajuste de los parámetros se realiza de forma automática mediante los criterios mencionados en el capítulo 5, aún cuando es necesario ajustar manualmente parámetros relacionados con el entrenamiento del modelo y de la evaluación del mismo, la cantidad de ajustes necesarios no varía en función de la complejidad de las imágenes a procesar, sino qué, va en función de la arquitectura seleccionada como recipiente para el modelo.
+
+La implementación de la arquitectura de red neuronal convolucional fue llevada a cabo gracias a la librería de \citet{Yakubovskiy:2019}, cual está desarrollada en el lenguaje de \texttt{Python} y contiene las principales arquitecturas de redes neuronales ya adaptadas para la realización de tareas de segmentación semántica, el resto de la implementación consistió principalmente en establecer las lineas de pre-procesamiento de imágenes para cumplir con los requisitos de admisión para ingresar a la arquitectura de pirámide de características, obteniendo de forma satisfactoria la segmentación semántica.
 
 \section{Discusión}
 
-El software desarrollado mostró resultados eficientes en las tareas de segmentación semántica con una precisión máxima del $96\%$. Mediante la definición de la linea de pre-procesamiento fue posible ajustar distintos parámetros de la ejecución, una de las principales dificultades en el entrenamiento del modelo fue la adaptación de las dimensiones de las imágenes a las dimensiones requeridas por la arquitectura, sin embargo, esto fue resuelto mediante la aplicación de una interpolación utilizando la librería de \texttt{OpenCV}. El entrenamiento en sí requiere de grandes recursos de memoria, por lo que la resolución máxima de predicción está directamente limitada por la capacidad del hardware de llevar a cabo el entrenamiento, sin embargo, una vez obtenido el modelo de segmentación semántica, independientemente de su complejidad, utilizarlo no requirió tantos recursos como al entrenarlo, siendo aún viable la utilización de este sofware por una gran cantidad de dispositivos en el post-entrenamiento. Al final se obtuvo un software con la capacidad de tanto generar nuevos modelos y modificar sus parámetros de entrenamiento, como de utilizar dichos modelos para generar máscaras de segmentación semántica en imágenes dermatolólogicas relacionadas al melanoma. Así mismo, el software desarrollado en el presente trabajo de tesis provee las transformaciones requeridas para adaptar las dimensiones de los datos, independientemente de su resolución y de la cantidad de canales de color con los que cuente, dando como resultado una máscara de segmentación semántica con resolución estandarizada.
+El objetivo fué clasificar en las imágenes dermatolólogicas las regiones que corresponden a una de las dos posibles categorías: piel sana, melanoma. Mediante la implementación del \emph{software} y el entrenamiento de modelos con lineas de pre-procesamiento fue posible obtener el resultado esperado con una precisión aceptable de acuerdo al coeficiente de dados y al criterio de Jaccard.
+
+Los experimentos demuestran que la calibración se lleva a cabo conforme se repiten épocas de entrenamiento siento aproximadamente seis épocas el valor ideal de repeticiones para obtener la precisión máxima viable.
+
+El software desarrollado mostró resultados eficientes en las tareas de segmentación semántica con una precisión máxima del $96\%$. Mediante la definición de la linea de pre-procesamiento fue posible ajustar distintos parámetros de la ejecución, una de las principales dificultades en el entrenamiento del modelo fue la adaptación de las dimensiones de las imágenes a las dimensiones requeridas por la arquitectura, sin embargo, esto fue resuelto mediante la aplicación de una interpolación utilizando la librería de \texttt{OpenCV} y las transformación a tensor mediante \texttt{Albumentations}.
+
+El entrenamiento en sí requiere de grandes recursos de memoria, por lo que la resolución máxima de predicción está directamente limitada por la capacidad del hardware de llevar a cabo el entrenamiento, sin embargo, una vez obtenido el modelo de segmentación semántica, independientemente de su complejidad, utilizarlo no requirió tantos recursos como al entrenarlo, siendo aún viable la utilización de este sofware por una gran cantidad de dispositivos en el post-entrenamiento. 
+
+
+Al final se obtuvo un software con la capacidad de tanto generar nuevos modelos y modificar sus parámetros de entrenamiento, como de utilizar dichos modelos para generar máscaras de segmentación semántica en imágenes dermatolólogicas. Así mismo, el software desarrollado en el presente trabajo de tesis provee las transformaciones requeridas para adaptar las dimensiones de los datos, independientemente de su resolución y de la cantidad de canales de color con los que cuente, dando como resultado una máscara de segmentación semántica con resolución estandarizada.
 
 \section{Trabajo a Futuro}
 La principal razón por la que muchos científicos estudian y desarrollan la técnica de segmentación semántica es porque mediante ésta técnica se obtiene información muy relevante sobre el objeto que se está estudiando, por ejemplo, muchos autores enfocan las redes neuronales para obtener información de medio como distinguir mediante una cámara a las personas, a los objetos, a las señales de tráfico. La razón es porque teniendo esta información es posible realizar algo como un vehículo de conducción autónoma, y ahí es donde reside la clave del paso siguiente. Tomando únicamente el concepto de la segmentación semántica, es posible pensar en muchas posibilidades en las que pueda ser aplicada, principalmente en el área médica. Por ejemplo, podría ser aplicado para segmentar partes del cuerpo de forma externa e interna, incluso podría desarrollarse un sistema de visión con un modelo pre-entrenado para asistir a personas con ceguera parcial a detectar obstáculos en el camino.
