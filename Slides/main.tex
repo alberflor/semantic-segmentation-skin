@@ -1,12 +1,33 @@
+
 \documentclass{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage{blindtext}
 \usepackage{ragged2e}
+\usepackage[numbers, sort, compress]{natbib}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{amsmath,amsfonts,amssymb}
+    \allowdisplaybreaks[4]
+\usepackage{subfig}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{fancybox}
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+	\newcommand{\cmark}{\ding{51}}%
+	\newcommand{\xmark}{\ding{53}}%
+\usepackage{tikz}
+    \usetikzlibrary{arrows, matrix, calc,shapes.geometric,positioning}
+\usepackage{setspace}
+\usepackage{caption}
+    \captionsetup[table]{font={normalsize,stretch=1.0}}
+\usepackage{float}
+\usepackage{adjustbox}
 
 \setbeamertemplate{caption}[numbered]
-
-\usetheme{Madrid}
+\defbeamertemplate{description item}{align left}{\insertdescriptionitem\hfill}
+\usetheme{Frankfurt}
 
 %Information to be included in the title page:
 \title{Detección de melanoma mediante segmentación semántica}
@@ -21,12 +42,20 @@
 
 \begin{frame}
     \frametitle{Índice}
-        \tableofcontents
+    \begin{multicols}{2}
+        \tableofcontents	
+    \end{multicols}
 \end{frame}
+
 \section{Introducción}
 \begin{frame}
     \frametitle{Introducción}
     La inteligencia artificial nos permite crear modelos que replican secuencias de transformaciones definidas por los datos entrantes.
+    \begin{figure}
+        \subfloat[Imagen Entrante\label{fig:a}]{\includegraphics[height=4cm, width=4cm]{Figuras/input_1.png}} \qquad
+        \subfloat[Salida Deseada\label{fig:b}]{\includegraphics[height=4cm, width=4cm]{Figuras/mask_1.png}}
+        \caption{Ejemplo de un modelo entrada-salida.}
+    \end{figure}
 \end{frame}
 
 \subsection{Motivación}
@@ -38,7 +67,7 @@
 \subsection{Hipótesis}
 \begin{frame}
     \frametitle{Hipótesis}
-    Mediante la implementación de redes neuronales convolucionales es posible entrenar modelos que reconozcan mediante la técnica de segmentación semántica la presencia y región del melanoma dentro de imágenes dermatológicas.
+    Mediante la implementación de redes neuronales convolucionales es posible entrenar modelos que reconozcan y clasifíquen mediante la técnica de segmentación semántica la presencia y región del melanoma dentro de imágenes dermatológicas.
 \end{frame}
 
 \subsection{Objetivos}
@@ -57,26 +86,144 @@
 \section{Antecedentes}
 
 \begin{frame}
-    \frametitle{Antecedentes}
-    \blindtext[1]
+\frametitle{Antecedentes}
+    \begin{figure}
+        \subfloat[Dummy A\label{fig:a}]{\includegraphics[height=4cm, width=4cm]{example-image-a}} \qquad
+        \subfloat[Dummy B\label{fig:b}]{\includegraphics[height=4cm, width=4cm]{example-image-b}}
+        \caption{Características dimensionales de las imágenes.}
+    \end{figure}
 \end{frame}
 
+\subsection{Funciones}
+\begin{frame}
+\frametitle{Antecedentes}
+    \begin{equation}
+        l(\mathbf{y}, \hat{\mathbf{y}}) = - \sum_{j=1}^q (y_j \log \hat{y}_j),     
+    \end{equation}
+    \begin{equation}
+        \text{error} = \frac{\partial}{\partial m} = \frac{2}{N}\sum_{i=1}^{N}-X_i(y_i-(mX_i+b)),
+    \end{equation}
+    \begin{equation}
+            \frac{\partial}{\partial b} = \frac{2}{N}\sum_{i=1}^{N}(y_i-(mX_i+b)),
+    \end{equation}
+\end{frame}
+
+\subsection{Red Neuronal}
 \begin{frame}
     \frametitle{Antecedentes}
-    \blindtext[1]
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.3]{Figuras/neural_network.eps}
+        \caption{Red Neuronal}    
+    \end{figure}
 \end{frame}
-
 
 \section{Estado del Arte}
+
+\subsection{Características}
 \begin{frame}
     \frametitle{Estado del Arte}
-    \blindtext[1]
+    \setbeamertemplate{description item}[align left]
+    \begin{description}
+        \item[Modelo]{Tipo de arquitectura del modelo.}
+        \item[Clasificación]{El sistema puede clasificar entre distintas categorías.}
+        \item[Segmentación]{El sistema puede segmentar las imágenes.}
+        \item[Supervisado]{ El sistema requiere de datos de datos de entrenamiento.}
+        \item[Pre-entrenamiento]{El sistema puede inicializarse con pesos pre-entrenados como alternativa a la inicialización con pesos aleatorios.}
+        \item[Evaluación]{El sistema cuenta con una función de evaluación y un algoritmo de optimización.}
+        \item[Salida]{Características de los datos obtenidos en la salida del modelo.}
+    \end{description}
+\end{frame}
+
+\subsection{Literatura Revisada}
+\begin{frame}
+    \frametitle{Estado del Arte}
+    \begin{table}[b!]
+        \centering
+        \caption{Similitudes y diferencias entre los trabajos revisados; las características implementadas se representan con \cmark, mientras que las no implementadas con \xmark.}
+        \begin{center}
+        \scalebox{0.65}{
+            \begin{tabular}[t]{|l|l|l|l|l|l|l|l|}
+                \hline
+                \bf{Trabajo} & \bf{Modelo} & \bf{\rotatebox{90}{Clasificación}} & \bf{\rotatebox{90}{Segmentación}} & \bf{\rotatebox{90}{Supervisado}} & \bf{\rotatebox{90}{Pre-entrenamiento\phantom{m}}} & \bf{\rotatebox{90}{Evaluación}} & \bf{Salida}\\
+                \hline
+                \citet{DBLP:journals/corr/BadrinarayananK15} & \texttt{SegNet} & \cmark & \cmark & \cmark & \cmark & \cmark & mapa de etiquetas\\
+                \citet{DBLP:journals/corr/RonnebergerFB15} & \texttt{U-net} & \cmark & \cmark & \cmark & \xmark & \cmark & mapa de etiquetas\\
+                \citet{DBLP:journals/corr/ChenPK0Y16} & \texttt{DeepLab} & \cmark & \cmark & \cmark & \xmark & \cmark & mapa de etiquetas\\   
+                \citet{DBLP:journals/corr/TeichmannWZCU16} & \texttt{MultiNet} & \cmark & \cmark & \cmark & \xmark & \cmark & mapa de etiquetas\\   
+                \citet{KRONER2020261} & \texttt{VGG16} & \cmark & \cmark & \cmark & \cmark & \cmark & mapa de calor\\ 
+                \citet{KADAMPUR2020100282} & \texttt{CNN} & \cmark & \xmark & \cmark & \xmark & \cmark & mapa de etiquetas\\    
+                \citet{zhou2019emerging} & \texttt{ML / SVM} & \cmark & \xmark & \cmark & \xmark & \cmark & etiqueta\\    
+                \citet{DBLP:journals/corr/LucCCV16} & \texttt{CNN/GAN} & \cmark & \cmark & \cmark & \cmark & \cmark & mapa de etiquetas\\         
+                \citet{JAIN2015735} & \texttt{A.B.C.D} & \xmark & \cmark & \xmark & \xmark & \xmark & etiqueta\\
+                \hline
+                Propuesta de tesis & \texttt{FPN} & \cmark & \cmark & \cmark & \cmark & \cmark & mapa de etiquetas\\
+                \hline   
+            \end{tabular}
+            }
+        \end{center}
+        \label{Tab:comp_1}
+    \end{table}
 \end{frame}
 
 \section{Implementación}
+
+\tikzstyle{decision} = [diamond, draw, fill=gray!20, 
+    text width=5.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=gray!20, 
+    text width=8em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+
+\subsection{Resolución Admitida}
 \begin{frame}
     \frametitle{Implementación}
-    \blindtext[1]
+    \begin{figure}[b]
+        \centering    
+        \begin{tikzpicture}[node distance = 4cm, auto]
+            % Nodos.
+            \node [block] (init) {Cargado y Filtrado de Datos};
+            \node [block, right of = init] (train) {Entrenamiento del Modelo};
+            \node [block, right of = train] (pred) {Predicción de Máscaras};
+            % Ejes.
+            \path [line] (init) -- (train); 
+            \path [line] (train) -- (pred); 
+        \end{tikzpicture}
+        \caption{Diagrama de flujo general de la herramienta propuesta.}
+    \end{figure}
+
+    \begin{block}{Resoluciones Admitidas}
+        Las dimensiones de entrada admitidas por la red neuronal convolucional tienen que ser un múltiplo de 32, debído a que
+        \begin{equation}
+            \text{múltiplo} = 2^N
+        \end{equation}
+        donde $N$ es el número de capas del codificador de la red neuronal.
+    \end{block}
+\end{frame}
+
+\subsection{Pre-procesado}
+\begin{frame}
+    \frametitle{Implementación}
+    \begin{figure}[H]
+        \centering
+        \begin{adjustbox}{scale=0.8}
+        \begin{tikzpicture}[node distance = 0.2cm and -1.5cm]
+            \node [block] (input) {Imagen de Entrada \newline($m \times n$)};
+            \node [block, below right=of input] (tr1) {Ajuste de tamaño ($512 \times 512$)};
+            \node [block, below right= of tr1] (tr2) {Interpolación (\texttt{\small INTER$\_$AREA)}};
+            \node [block, below right= of tr2] (tr3) {Transposición (2, 0, 1)};
+            \node [block, below right= of tr3] (out) {Dato de Salida ($N \times (512 \times 512)$)};
+            % Líneas
+            \path [line] (input) -| (tr1);
+            \path [line] (tr1) -| (tr2);
+            \path [line] (tr2) -| (tr3);
+            \path [line] (tr3) -| (out);
+        \end{tikzpicture}
+        \end{adjustbox}
+        \caption{Línea de pre-procesamiento.}
+        \label{fig: pipeline}
+    \end{figure}
 \end{frame}
 
 \section{Experimentos}
@@ -89,13 +236,28 @@
 
 \begin{frame}
     \frametitle{Experimentos}
-    \includegraphics[width=\textwidth]{example-image-a}
+    \begin{figure}
+        \centering
+        \includegraphics[width=5cm]{example-image-a}
+        \caption{Dummy Image}    
+    \end{figure}
+    
 \end{frame}
 
 \section{Conclusión}
 \begin{frame}
     \frametitle{Conclusión}
     \blindtext[1]
+\end{frame}
+
+\section{Referencias}
+\begin{frame}[allowframebreaks]
+    \footnotesize
+    \frametitle{Referencias}
+    \bibliographystyle{mighelnat}
+    \bibliography{MiBiblio}
+    
+    
 \end{frame}
 
 \end{document}
