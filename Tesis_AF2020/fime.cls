@@ -26,7 +26,6 @@
 	\floatstyle{plaintop}
 	\restylefloat{table}
 \usepackage[vlined, spanish, onelanguage]{algorithm2e}
-\usepackage[font=small, skip=0pt]{caption}
 \usepackage{tikz}
 	\usetikzlibrary{arrows, matrix, calc,shapes.geometric,positioning}
 \usepackage{forest}
