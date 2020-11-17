@@ -24,6 +24,7 @@
     \captionsetup[table]{font={normalsize,stretch=1.0}}
 \usepackage{float}
 \usepackage{adjustbox}
+\usepackage{listings}
 
 \setbeamertemplate{caption}[numbered]
 \defbeamertemplate{description item}{align left}{\insertdescriptionitem\hfill}
@@ -42,8 +43,9 @@
 
 \begin{frame}
     \frametitle{Índice}
+    \vspace{-2cm}
     \begin{multicols}{2}
-        \tableofcontents	
+        \footnotesize{\tableofcontents}	
     \end{multicols}
 \end{frame}
 
@@ -61,13 +63,13 @@
 \subsection{Motivación}
 \begin{frame}
     \frametitle{Motivacion}
-    El melanoma de piel es un padecimiento que puede ser tratado cuando es detectado a tiempo, mediante la implementación de tecnologías de reconocimiento automático podrían aumentar las posibilidades de tratarse a tiempo.
+    Contribuir a la detección temprana del melanoma de piel para reducir la tasa de mortalidad por dicho padecimiento.
 \end{frame}
 
 \subsection{Hipótesis}
 \begin{frame}
     \frametitle{Hipótesis}
-    Mediante la implementación de redes neuronales convolucionales es posible entrenar modelos que reconozcan y clasifíquen mediante la técnica de segmentación semántica la presencia y región del melanoma dentro de imágenes dermatológicas.
+    Mediante la implementación de redes neuronales convolucionales e imágenes dermatológicas es posible entrenar modelos que repliquen la técnica de segmentación semántica, clasificando así las regiones dentro de la imagen. 
 \end{frame}
 
 \subsection{Objetivos}
@@ -94,7 +96,7 @@
     \end{figure}
 \end{frame}
 
-\subsection{Funciones}
+\subsection{Función de Costo y Gradiente}
 \begin{frame}
 \frametitle{Antecedentes}
     \begin{equation}
@@ -125,7 +127,6 @@
     \frametitle{Estado del Arte}
     \setbeamertemplate{description item}[align left]
     \begin{description}
-        \item[Modelo]{Tipo de arquitectura del modelo.}
         \item[Clasificación]{El sistema puede clasificar entre distintas categorías.}
         \item[Segmentación]{El sistema puede segmentar las imágenes.}
         \item[Supervisado]{ El sistema requiere de datos de datos de entrenamiento.}
@@ -138,6 +139,9 @@
 \subsection{Literatura Revisada}
 \begin{frame}
     \frametitle{Estado del Arte}
+
+    \vspace{-0.5cm}
+
     \begin{table}[b!]
         \centering
         \caption{Similitudes y diferencias entre los trabajos revisados; las características implementadas se representan con \cmark, mientras que las no implementadas con \xmark.}
@@ -226,27 +230,104 @@
     \end{figure}
 \end{frame}
 
-\section{Experimentos}
-\begin{frame}
+\renewcommand{\lstlistingname}{Código}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codeblue}{rgb}{0.121, 0.203, 0.858}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
-    \frametitle{Experimentos}
-    \blindtext[1]
+\lstdefinestyle{pystyle}{
+    basicstyle= \scriptsize\ttfamily\linespread{1},
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codeblue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
 
+\lstset{style=pystyle}
+
+\subsection{Entrenamiento}
+
+\begin{frame}[fragile]
+    \frametitle{Implementación}
+    \begin{lstlisting}[language = Python, label = {code:train} ,caption= Búcle de entrenamiento. ]
+        # train_model.py
+        max_score = 0 
+        for i in range(0,40):
+            print('\n Epoch: {}'.format(i))
+            train_logs = train_epoch.run(train_loader)
+            valid_logs = valid_epoch.run(valid_loader)
+            if max_score < valid_logs['iou_score']:
+                max_score = valid_logs['iou_score']
+                torch.save(model,('Model/'+encoder+'.pth'))
+                print('Highest Score Model Saved: {}'.format(max_score))
+    \end{lstlisting}
 \end{frame}
 
+\section{Experimentos}
+
+\subsection{Filtrado de Umbral}
 \begin{frame}
     \frametitle{Experimentos}
     \begin{figure}
-        \centering
-        \includegraphics[width=5cm]{example-image-a}
-        \caption{Dummy Image}    
+        \subfloat[Dummy A\label{fig:a}]{\includegraphics[height=2cm, width=2cm]{example-image-a}} \qquad
+        \subfloat[Dummy B\label{fig:b}]{\includegraphics[height=2cm, width=2cm]{example-image-b}} \\
+        \subfloat[Dummy C\label{fig:c}]{\includegraphics[height=2cm, width=2cm]{example-image-a}} \qquad
+        \subfloat[Dummy D\label{fig:c}]{\includegraphics[height=2cm, width=2cm]{example-image-b}}
+        \caption{Filtrado de umbral antes y después.}
     \end{figure}
-    
+\end{frame}
+
+\subsection{Coeficiente de Dados}
+\begin{frame}
+    \frametitle{Experimentos}
+    \begin{figure}
+        \subfloat[Dummy A\label{fig:a}]{\includegraphics[height=2cm, width=2cm]{example-image-a}} \qquad
+        \subfloat[Dummy B\label{fig:b}]{\includegraphics[height=2cm, width=2cm]{example-image-b}} \qquad
+        \subfloat[Dummy C\label{fig:c}]{\includegraphics[height=2cm, width=2cm]{example-image-c}} \\
+        \subfloat[Dummy D\label{fig:a}]{\includegraphics[height=2cm, width=2cm]{example-image-a}} \qquad
+        \subfloat[Dummy E\label{fig:b}]{\includegraphics[height=2cm, width=2cm]{example-image-b}} \qquad
+        \subfloat[Dummy F\label{fig:c}]{\includegraphics[height=2cm, width=2cm]{example-image-c}} \\
+        \caption{Filtrado de umbral antes y después.}
+    \end{figure}
+\end{frame}
+
+\subsection{Criterio de Jaccard}
+\begin{frame}
+    \frametitle{Experimentos}
+    \begin{figure}
+        \subfloat[Dummy A\label{fig:a}]{\includegraphics[height=2cm, width=2cm]{example-image-a}} \qquad
+        \subfloat[Dummy B\label{fig:b}]{\includegraphics[height=2cm, width=2cm]{example-image-b}} \qquad
+        \subfloat[Dummy C\label{fig:c}]{\includegraphics[height=2cm, width=2cm]{example-image-c}} \\
+        \subfloat[Dummy D\label{fig:a}]{\includegraphics[height=2cm, width=2cm]{example-image-a}} \qquad
+        \subfloat[Dummy E\label{fig:b}]{\includegraphics[height=2cm, width=2cm]{example-image-b}} \qquad
+        \subfloat[Dummy F\label{fig:c}]{\includegraphics[height=2cm, width=2cm]{example-image-c}} \\
+        \caption{Filtrado de umbral antes y después.}
+    \end{figure}
 \end{frame}
 
 \section{Conclusión}
+\subsection{Discusión}
 \begin{frame}
     \frametitle{Conclusión}
+    \blindtext[1]
+\end{frame}
+
+\subsection{Trabajo a Futuro}
+\begin{frame}
+    \frametitle{Trabajo a Futuro}
     \blindtext[1]
 \end{frame}
 

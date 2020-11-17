@@ -1,0 +1,13 @@
+\frametitle{Implementación}
+    \begin{lstlisting}[language = Python, label = {code:train} ,caption= Búcle de entrenamiento. ]
+        # train_model.py
+        max_score = 0
+        for i in range(0,40):
+            print('\n Epoch: {}'.format(i))
+            train_logs = train_epoch.run(train_loader)
+            valid_logs = valid_epoch.run(valid_loader)
+            if max_score < valid_logs['iou_score']:
+                max_score = valid_logs['iou_score']
+                torch.save(model,('Model/'+encoder+'.pth'))
+                print('Highest Score Model Saved: {}'.format(max_score))
+    \end{lstlisting}
