@@ -27,6 +27,7 @@
 \usepackage{listings}
 
 \setbeamertemplate{caption}[numbered]
+\setbeamersize{description width=3.5cm}
 \defbeamertemplate{description item}{align left}{\insertdescriptionitem\hfill}
 \usetheme{Frankfurt}
 
@@ -87,11 +88,27 @@
 
 \section{Antecedentes}
 
+\definecolor{red_matrix}{rgb}{0.6, 0, 0}
+\definecolor{green_matrix}{rgb}{0, 0.8, 0}
+\definecolor{blue_matrix}{rgb}{0, 0.25, 1}
+
+
 \begin{frame}
 \frametitle{Antecedentes}
     \begin{figure}
-        \subfloat[Dummy A\label{fig:a}]{\includegraphics[height=4cm, width=4cm]{example-image-a}} \qquad
-        \subfloat[Dummy B\label{fig:b}]{\includegraphics[height=4cm, width=4cm]{example-image-b}}
+        \centering
+        \subfloat[Blanco y Negro\label{fig:a}]{
+            \begin{tikzpicture}
+                \draw[step=5mm, black, line width=0.30mm] (-2,-2) grid (2,2);
+            \end{tikzpicture}
+        } \qquad
+        \subfloat[Color\label{fig:b}]{
+            \begin{tikzpicture}
+                \draw[step=5mm, red_matrix, line width=0.30mm] (-2.5,-2.5) grid (1.5,1.5);
+                \draw[step=5mm, green_matrix, line width=0.30mm] (-2,-2) grid (2,2);
+                \draw[step=5mm, blue, line width=0.30mm] (-1.5,-1.5) grid (2.5,2.5);
+            \end{tikzpicture}
+        }
         \caption{Características dimensionales de las imágenes.}
     \end{figure}
 \end{frame}
@@ -103,7 +120,7 @@
         l(\mathbf{y}, \hat{\mathbf{y}}) = - \sum_{j=1}^q (y_j \log \hat{y}_j),     
     \end{equation}
     \begin{equation}
-        \text{error} = \frac{\partial}{\partial m} = \frac{2}{N}\sum_{i=1}^{N}-X_i(y_i-(mX_i+b)),
+        \frac{\partial}{\partial m} = \frac{2}{N}\sum_{i=1}^{N}-X_i(y_i-(mX_i+b)),
     \end{equation}
     \begin{equation}
             \frac{\partial}{\partial b} = \frac{2}{N}\sum_{i=1}^{N}(y_i-(mX_i+b)),
@@ -116,7 +133,7 @@
     \begin{figure}
         \centering
         \includegraphics[scale=0.3]{Figuras/neural_network.eps}
-        \caption{Red Neuronal}    
+        \caption{Red Neuronal.}    
     \end{figure}
 \end{frame}
 
@@ -261,31 +278,43 @@
 \subsection{Entrenamiento}
 
 \begin{frame}[fragile]
-    \frametitle{Implementación}
-    \begin{lstlisting}[language = Python, label = {code:train} ,caption= Búcle de entrenamiento. ]
-        # train_model.py
-        max_score = 0 
-        for i in range(0,40):
-            print('\n Epoch: {}'.format(i))
-            train_logs = train_epoch.run(train_loader)
-            valid_logs = valid_epoch.run(valid_loader)
-            if max_score < valid_logs['iou_score']:
-                max_score = valid_logs['iou_score']
-                torch.save(model,('Model/'+encoder+'.pth'))
-                print('Highest Score Model Saved: {}'.format(max_score))
-    \end{lstlisting}
+\frametitle{Implementación}
+\begin{lstlisting}[language = Python, label = {code:train} ,caption= Búcle de entrenamiento. ]
+# train_model.py
+max_score = 0 
+for i in range(0,40):
+    print('\n Epoch: {}'.format(i))
+    train_logs = train_epoch.run(train_loader)
+    valid_logs = valid_epoch.run(valid_loader)
+    if max_score < valid_logs['iou_score']:
+        max_score = valid_logs['iou_score']
+        torch.save(model,('Model/'+encoder+'.pth'))
+        print('Highest Score Model Saved: {}'.format(max_score))
+\end{lstlisting}
 \end{frame}
 
 \section{Experimentos}
+
+\begin{frame}
+    \frametitle{Experimentos}
+    \setbeamertemplate{description item}[align left]
+    \begin{description}
+        \item[Filtro de Umbral] El objetivo de este experimento es obtener el perfil de la intensidad de los pixeles.
+        \item[Coeficiente de dados] El objetivo de este experimento es determinar el error durante las iteraciones para comprobar su reducción.
+        \item[Criterio de Jaccard] El objetivo de este experimento es evaluar la similitud de la máscara real con la máscara predicha.   
+    \end{description}
+\end{frame}
+
 
 \subsection{Filtrado de Umbral}
 \begin{frame}
     \frametitle{Experimentos}
     \begin{figure}
-        \subfloat[Dummy A\label{fig:a}]{\includegraphics[height=2cm, width=2cm]{example-image-a}} \qquad
-        \subfloat[Dummy B\label{fig:b}]{\includegraphics[height=2cm, width=2cm]{example-image-b}} \\
-        \subfloat[Dummy C\label{fig:c}]{\includegraphics[height=2cm, width=2cm]{example-image-a}} \qquad
-        \subfloat[Dummy D\label{fig:c}]{\includegraphics[height=2cm, width=2cm]{example-image-b}}
+        \centering
+        \subfloat[Imagen Entrante\label{fig:a}]{\includegraphics[scale=0.5]{../Plots/THR/sample_0.png}} \qquad
+        \subfloat[Imagen Filtrada\label{fig:b}]{\hspace{0.35cm}\includegraphics[scale=0.5]{../Plots/THR/filtered_0.png}} \\
+        \subfloat[Histograma Original\label{fig:c}]{\hspace{-0.40cm}\includegraphics[scale=0.5]{../Plots/THR/threshold_input_0.png}} \qquad
+        \subfloat[Histograma Resultante\label{fig:c}]{\hspace{.25cm}\includegraphics[scale=0.5]{../Plots/THR/threshold_output_0.png}}
         \caption{Filtrado de umbral antes y después.}
     \end{figure}
 \end{frame}
@@ -294,13 +323,14 @@
 \begin{frame}
     \frametitle{Experimentos}
     \begin{figure}
-        \subfloat[Dummy A\label{fig:a}]{\includegraphics[height=2cm, width=2cm]{example-image-a}} \qquad
-        \subfloat[Dummy B\label{fig:b}]{\includegraphics[height=2cm, width=2cm]{example-image-b}} \qquad
-        \subfloat[Dummy C\label{fig:c}]{\includegraphics[height=2cm, width=2cm]{example-image-c}} \\
-        \subfloat[Dummy D\label{fig:a}]{\includegraphics[height=2cm, width=2cm]{example-image-a}} \qquad
-        \subfloat[Dummy E\label{fig:b}]{\includegraphics[height=2cm, width=2cm]{example-image-b}} \qquad
-        \subfloat[Dummy F\label{fig:c}]{\includegraphics[height=2cm, width=2cm]{example-image-c}} \\
-        \caption{Filtrado de umbral antes y después.}
+        \centering
+        \subfloat[Época 1\label{fig:a}]{\includegraphics[height=2.5cm, width=2.5cm]{../Plots/dl_epoch_0.png}} \qquad
+        \subfloat[Época 2\label{fig:b}]{\includegraphics[height=2.5cm, width=2.5cm]{../Plots/dl_epoch_1.png}} \qquad
+        \subfloat[Época 3\label{fig:c}]{\includegraphics[height=2.5cm, width=2.5cm]{../Plots/dl_epoch_2.png}} \\
+        \subfloat[Época 4\label{fig:a}]{\includegraphics[height=2.5cm, width=2.5cm]{../Plots/dl_epoch_3.png}} \qquad
+        \subfloat[Época 5\label{fig:b}]{\includegraphics[height=2.5cm, width=2.5cm]{../Plots/dl_epoch_4.png}} \qquad
+        \subfloat[Época 6\label{fig:c}]{\includegraphics[height=2.5cm, width=2.5cm]{../Plots/dl_epoch_5.png}} \\
+        \caption{Error según el coeficiente de dados.}
     \end{figure}
 \end{frame}
 
@@ -308,13 +338,14 @@
 \begin{frame}
     \frametitle{Experimentos}
     \begin{figure}
-        \subfloat[Dummy A\label{fig:a}]{\includegraphics[height=2cm, width=2cm]{example-image-a}} \qquad
-        \subfloat[Dummy B\label{fig:b}]{\includegraphics[height=2cm, width=2cm]{example-image-b}} \qquad
-        \subfloat[Dummy C\label{fig:c}]{\includegraphics[height=2cm, width=2cm]{example-image-c}} \\
-        \subfloat[Dummy D\label{fig:a}]{\includegraphics[height=2cm, width=2cm]{example-image-a}} \qquad
-        \subfloat[Dummy E\label{fig:b}]{\includegraphics[height=2cm, width=2cm]{example-image-b}} \qquad
-        \subfloat[Dummy F\label{fig:c}]{\includegraphics[height=2cm, width=2cm]{example-image-c}} \\
-        \caption{Filtrado de umbral antes y después.}
+        \centering
+        \subfloat[Época 1\label{fig:a}]{\includegraphics[height=2.5cm, width=2.5cm]{../Plots/score_epoch_0.png}} \qquad
+        \subfloat[Época 2\label{fig:b}]{\includegraphics[height=2.5cm, width=2.5cm]{../Plots/score_epoch_1.png}} \qquad
+        \subfloat[Época 3\label{fig:c}]{\includegraphics[height=2.5cm, width=2.5cm]{../Plots/score_epoch_2.png}} \\
+        \subfloat[Época 4\label{fig:a}]{\includegraphics[height=2.5cm, width=2.5cm]{../Plots/score_epoch_3.png}} \qquad
+        \subfloat[Época 5\label{fig:b}]{\includegraphics[height=2.5cm, width=2.5cm]{../Plots/score_epoch_4.png}} \qquad
+        \subfloat[Época 5\label{fig:c}]{\includegraphics[height=2.5cm, width=2.5cm]{../Plots/score_epoch_5.png}} \\
+        \caption{Similitud según el criterio de Jaccard.}
     \end{figure}
 \end{frame}
 
@@ -322,13 +353,13 @@
 \subsection{Discusión}
 \begin{frame}
     \frametitle{Conclusión}
-    \blindtext[1]
+    La implementación de la red neuronal convolucional y el entrenamiento del modelo cumplieron satisfactoriamente con la hipótesis establecida al estimar con un 96\% de precisión las máscaras en el conjunto de datos de pruebas.
 \end{frame}
 
 \subsection{Trabajo a Futuro}
 \begin{frame}
     \frametitle{Trabajo a Futuro}
-    \blindtext[1]
+    Implementar redes neuronales convolucionales para la segmentación multicategórica de imágenes médicas.
 \end{frame}
 
 \section{Referencias}

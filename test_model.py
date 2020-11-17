@@ -11,7 +11,7 @@ file_name = 'best_model.pth'
 
 model_path = model_dir + file_name
 test_dir = 'Data/Test_images/'
-save_path = 'Data/Predicted_masks/'
+save_path = 'Plots/Masks'
 
 ENCODER = 'se_resnext50_32x4d'
 ENCODER_WEIGHTS = 'imagenet'
@@ -46,8 +46,8 @@ def test_model(m):
     x_tensor = torch.from_numpy(test_image).to(m.device).unsqueeze(0)
     pred_mask = model.predict(x_tensor)
     pred_mask = (pred_mask.squeeze().cpu().numpy().round())
-    #cv2.imwrite(s_path)
+    cv2.imwrite(save_path, pred_mask)
 
     #Visualize prediction
-    #ds.visualize(image=vis, predicted=pred_mask)
+    ds.visualize(image=vis, predicted=pred_mask)
 
