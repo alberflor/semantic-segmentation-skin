@@ -1,4 +1,5 @@
 import torch
+import data
 import transformation as tfm
 import load_dataset as ld
 from torch.utils.data.sampler import SubsetRandomSampler
@@ -53,48 +54,53 @@ def train_new_model(m, batch, val_size, shuffle, seed_num):
     )
 
     max_score = 0
+    train_epoch_logs = []
+    valid_epoch_logs = []
+
     for i in range(0,20):
         print('\n Epoch: {}'.format(i))
         train_logs, loss_t, metric_t = train_epoch.run(train_loader)
         
         loss_array = np.asarray(loss_t)
         loss_values = [k['dice_loss'] for k in loss_array]
-        print(loss_values)
         m.loss_logs = loss_values
 
         #Plot dice loss
-        fig_1 = plt.figure(figsize=(1.5,1.5))
-        plt.ylim(0,0.8)
-        plt.ylabel('Coeficiente de dados', fontsize=11)
-        plt.xlabel('Iteración', fontsize=11)
+        data.plot_log(loss_values, 0.8, "Coeficiente de dados", "Iteración", False, False)
 
-        plt.plot(loss_values)
-        
-        plt.savefig('Plots/'+'dl_epoch_'+str(i), bbox_inches='tight')
-        
+        # Save iteration logs
+        data.save_df(loss_values, "train_it_ep_"+str(i), True)
+
+        #Append epoch logs.
+        train_epoch_logs.append(train_logs)
         
         valid_logs, loss_v, metric_v = valid_epoch.run(valid_loader)
         
         metric_array = np.asarray(metric_v)
         metric_values = [k['iou_score'] for k in metric_array]
-        print(metric_values)
-
         m.score_logs = metric_values
 
         #Plot IoU score
-        fig_2 = plt.figure(figsize=(1.5,1.5))
-        plt.ylim(0,1)
-        plt.ylabel('Índice de Jaccard', fontsize=11)
-        plt.xlabel('Iteración', fontsize=11)
-        plt.plot(metric_values)
-        
-        plt.savefig('Plots/'+'score_epoch_'+str(i), bbox_inches='tight')
-        
+        data.plot_log(metric_values, 1, "Criterio de Jaccard", "Iteración", False, False)
+
+        # Save iteration logs.
+        data.save_df(metric_values, "valid_it_ep_"+str(i), True)
+
+        #Append epoch logs.
+        valid_epoch_logs.append(metric_v)
+
         if max_score < valid_logs['iou_score']:
             max_score = valid_logs['iou_score']
             torch.save(m.model,('Model/'+ m.encoder + '.pth'))
             print('Highest Score Model Saved: {}'.format(max_score))
+
         if i == 10:
             m.optimizer.param_groups[0]['lr'] = 1e-5
             print('decreased decoder learning rate to 1e-5')
+
+    # Save data logs / epochs.
+    
+    data.save_df(train_epoch_logs, "train_resumed", True)
+    data.save_df(valid_epoch_logs, "validation_resumed", True)
+    
  

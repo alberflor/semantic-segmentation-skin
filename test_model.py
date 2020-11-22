@@ -1,4 +1,5 @@
 import torch
+import data
 import load_dataset as ds
 import transformation as tfm
 import segmentation_models_pytorch as smp
@@ -49,5 +50,5 @@ def test_model(m):
     cv2.imwrite(save_path, pred_mask)
 
     #Visualize prediction
-    ds.visualize(image=vis, predicted=pred_mask)
+    data.visualize(image=vis, predicted=pred_mask)
 

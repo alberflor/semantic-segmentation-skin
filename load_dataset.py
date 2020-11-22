@@ -8,17 +8,6 @@ DATA_DIR = "Data/"
 train_img = os.path.join(DATA_DIR,"Training_input")
 train_mask = os.path.join(DATA_DIR,"Training_annot")
 
-def visualize(**images):
-    """Plot images in one row."""
-    n = len(images)
-    plt.figure(figsize=(10, 4))
-    for i, (name, image) in enumerate(images.items()):
-        plt.subplot(1, n, i + 1)
-        plt.xticks([])
-        plt.yticks([])
-        plt.imshow(image)
-    plt.show()
-
 from torch.utils.data import DataLoader
 from torch.utils.data import Dataset as BaseDataset
 

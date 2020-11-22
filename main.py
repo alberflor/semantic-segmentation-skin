@@ -19,8 +19,8 @@ from torch.utils.tensorboard import SummaryWriter
 model_class = mp.model_params()
 
 # Run parameters
-train_model = False
-test_sample = True
+train_model = True
+test_sample = False
 
 print('semantic segmentation V1.0')
 
