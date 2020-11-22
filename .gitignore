@@ -1,6 +1,5 @@
 venv
 .vscode
-Data/Csv/*
 Data/Test_images/*
 Data/Training_annot/*
 Data/Training_input/*
