@@ -4,6 +4,7 @@ import cv2
 def get_training_augmentation():
     train_transform = [
         albu.Resize(320,320,interpolation=cv2.INTER_AREA),
+        albu.PadIfNeeded(min_height=320, min_width=320, always_apply=True, border_mode=0),
         albu.RandomCrop(height=320, width=320, always_apply=False, p=0.3),
         albu.HorizontalFlip(p=0.5),
         albu.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2, brightness_by_max=True, always_apply=False, p=0.4),
@@ -15,7 +16,7 @@ def get_training_augmentation():
 def get_validation_augmentation():
 
     test_transform= [
-
+        albu.PadIfNeeded(min_height=320, min_width=320, always_apply=True, border_mode=0),
         albu.Resize(320,320,interpolation=cv2.INTER_AREA),
 
     ]
