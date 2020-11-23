@@ -16,6 +16,85 @@
 \usepackage{amsfonts, amsmath, amsthm, amssymb} % For math fonts, symbols and environments
 \usepackage{wrapfig} % Allows wrapping text around tables and figures
 \usepackage{blindtext}
+\usepackage[numbers, sort, compress]{natbib}
+\usepackage{float}
+\usepackage{adjustbox}
+\usepackage{tikz}
+    \usetikzlibrary{arrows, matrix, calc,shapes.geometric,positioning}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{url}
+
+%------------------------HEADER-------------------------%
+
 \begin{document}
-    \blindtext
+\begin{minipage}[b]{0.75\linewidth}
+    \veryHuge \color{NavyBlue} \textbf{Detección de melanoma de piel mediante \\ segmentación semántica} \color{Black} \\[0.5cm]
+    \Huge \textit{Redes Neuronales Convolucionales}\\[2cm]
+    \huge \textbf{Mario Alberto Flores Hernández}\\[0.5cm]
+    \huge UANL - FIME \\[0.4cm]
+    \Large \texttt{1719126floreshernández@gmail.com} --- 8110194249
+\end{minipage}
+%
+\begin{minipage}[b]{0.25\linewidth}
+    \includegraphics[width=20cm]{uanl.eps}\\
+\end{minipage}
+\vspace{1cm}
+
+%------------------------BODY---------------------------%
+\begin{multicols}{2}
+\begin{abstract}
+    \blindtext[1]        
+\end{abstract}
+
+\section*{Introducción}
+\blindtext[1]
+
+\section*{Objetivos}
+\blindtext[1]
+
+\section*{Antecedentes}
+\blindtext[1]
+
+\section*{Implementación}
+\blindtext[1]
+
+\section*{Experimentos}
+\blindtext[1]
+%
+
+\begin{center}\vspace{1cm}
+    \begin{tabular}{l l l l}
+    \toprule
+    \textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2} \\
+    \midrule
+    Treatment 1 & 0.0003262 & 0.562 \\
+    Treatment 2 & 0.0015681 & 0.910 \\
+    Treatment 3 & 0.0009271 & 0.296 \\
+    \bottomrule
+    \end{tabular}
+    \captionof{table}{Table caption}
+\end{center}\vspace{1cm}
+
+\begin{center}\vspace{1cm}
+    \includegraphics[width=.3\textwidth]{example-image-a}
+\end{center}
+
+
+\section*{Conclusión}
+\blindtext[1]
+
+
+\section*{Referencias}
+
+\nocite{beijing2020Suggested,boni2002epidemiology}
+
+\renewcommand\refname{\vskip -1cm}
+\bibliographystyle{mighelnat}
+\bibliography{MiBiblio}
+
+
+\end{multicols}
 \end{document}
