@@ -6,8 +6,9 @@
 
 \usepackage[svgnames]{xcolor} % Specify colors by their 'svgnames', for a full list of all colors available see here: http://www.latextemplates.com/svgnames-colors
 
-\usepackage{times} % Use the times font
+%\usepackage{times} % Use the times font
 %\usepackage{palatino} % Uncomment to use the Palatino font
+\usepackage{helvet}
 
 \usepackage{graphicx} % Required for including images
 \graphicspath{{figures/}} % Location of the graphics files
@@ -30,25 +31,35 @@
 %------------------------HEADER-------------------------%
 
 \begin{document}
-\begin{minipage}[b]{0.75\linewidth}
-    \veryHuge \color{NavyBlue} \textbf{Detección de melanoma de piel mediante \\ segmentación semántica} \color{Black} \\[0.5cm]
-    \Huge \textit{Redes Neuronales Convolucionales}\\[2cm]
-    \huge \textbf{Mario Alberto Flores Hernández}\\[0.5cm]
-    \huge UANL - FIME \\[0.4cm]
-    \Large \texttt{1719126floreshernández@gmail.com} --- 8110194249
+\begin{minipage}[b]{0.20\linewidth}
+    \begin{center}
+        \includegraphics[width=15cm]{uanl.eps}\\
+        \vspace{5cm}
+    \end{center}
 \end{minipage}
 %
-\begin{minipage}[b]{0.25\linewidth}
-    \includegraphics[width=20cm]{uanl.eps}\\
+\begin{minipage}[b]{0.60\linewidth}
+    \begin{center}
+        \veryHuge \color{Black} \textbf{Detección de melanoma de piel mediante segmentación semántica} \color{Black} \\[0.5cm]
+        \Huge \textit{Redes Neuronales Convolucionales}\\[2cm]
+        \huge \textbf{Mario Alberto Flores Hernández}\\[0.5cm]
+        \huge UANL - FIME \\[0.4cm]
+        \Large \texttt{1719126floreshernández@gmail.com} --- 8110194249
+    \end{center}
 \end{minipage}
+%
+\begin{minipage}[b]{0.20\linewidth}
+    \begin{center}
+        \includegraphics[width=9.5cm]{fime.eps}\\
+        \vspace{5cm}    
+    \end{center}
+\end{minipage}
+
 \vspace{1cm}
 
 %------------------------BODY---------------------------%
 \begin{multicols}{2}
-\begin{abstract}
-    \blindtext[1]        
-\end{abstract}
-
+\Large
 \section*{Introducción}
 \blindtext[1]
 
@@ -89,7 +100,7 @@
 
 \section*{Referencias}
 
-\nocite{beijing2020Suggested,boni2002epidemiology}
+\nocite{adam_opt}
 
 \renewcommand\refname{\vskip -1cm}
 \bibliographystyle{mighelnat}
