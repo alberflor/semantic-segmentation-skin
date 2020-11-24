@@ -118,14 +118,27 @@
 
 \subsection{Función de Costo y Gradiente}
 \begin{frame}
-\frametitle{Antecedentes}
-    \blindtext
-\end{frame}
-
-\subsection{Red Neuronal}
-\begin{frame}
     \frametitle{Antecedentes}
-    \blindtext
+    \begin{equation}
+        M_t = \beta_1 M_{t-1}+(1-\beta_1)\nabla L_t(W_{t-1})   % Primer momento
+    \end{equation}
+
+    \begin{equation}
+        R_t = \beta_2 R_{t-1}+(1-\beta_2)\nabla L_t(W_{t-1})^2   % Segundo momento
+    \end{equation}
+
+    \begin{equation}
+        \hat{M}_t = M_t/\left(1-(\beta_1)^t\right)   % Correción del sesgo del primer momento
+    \end{equation}
+    
+    \begin{equation}
+        \hat{R}_t = R_t/\left(1-(\beta_2)^t\right)   % Corección del sesgo del segundo momento
+    \end{equation}
+
+    \begin{equation}
+        W_t = W_{t-1}-\alpha\frac{\hat{M_t}}{\sqrt{\hat{R_t}+\epsilon}}   % Actualización
+    \end{equation}
+    
 \end{frame}
 
 \section{Estado del Arte}
@@ -351,9 +364,16 @@ for i in range(0,40):
     Implementar redes neuronales convolucionales para la segmentación multicategórica de imágenes médicas.
 \end{frame}
 
+\subsection{Agradecimientos}
+\begin{frame}
+    \frametitle{Agradecimientos}
+    Agradecimientos a la Dra. Satu Elisa Schaeffer por su asesoría, al comité de revisores formado por la Dra. Sara Elena Garza Villarreal y el Dr. Romeo Sánchez Nigenda por el tiempo y la dedicación que me otorgaron mediante sus observaciones.
+\end{frame}
+
 \section{Referencias}
 \begin{frame}[allowframebreaks]
     \footnotesize
+    \nocite{adam_opt}
     \frametitle{Referencias}
     \bibliographystyle{mighelnat}
     \bibliography{MiBiblio}
