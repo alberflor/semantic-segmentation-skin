@@ -26,7 +26,6 @@ bash.env
 *.fdb_latexmk
 *.bcf
 *.run.xml
-*.csv
 *.synctex.gz
 *.ipynb_checkpoints
 
