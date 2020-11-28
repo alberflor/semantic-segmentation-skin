@@ -42,12 +42,17 @@ grestore
 %\documentclass{svjour3}                     % onecolumn (standard format)
 %\documentclass[smallcondensed]{svjour3}     % onecolumn (ditto)
 %\documentclass[smallextended]{svjour3}       % onecolumn (second format)
-\documentclass[twocolumn]{svjour3}          % twocolumn
+\documentclass[twocolumn, draft]{svjour3}          % twocolumn
 %
 \smartqed  % flush right qed marks, e.g. at end of proof
 %
 \usepackage{graphicx}
-%
+\usepackage{blindtext}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+
+
+
 % \usepackage{mathptmx}      % use Times fonts if available on your TeX system
 %
 % insert here the call for the packages your document requires
@@ -74,17 +79,6 @@ grestore
 
 %\authorrunning{Short form of author list} % if too long for running head
 
-\institute{F. Author \at
-              first address \\
-              Tel.: +123-45-678910\\
-              Fax: +123-45-678910\\
-              \email{fauthor@example.com}           %  \\
-%             \emph{Present address:} of F. Author  %  if needed
-           \and
-           S. Author \at
-              second address
-}
-
 \date{Received: date / Accepted: date}
 % The correct dates will be entered by the editor
 
@@ -92,64 +86,36 @@ grestore
 \maketitle
 
 \begin{abstract}
-Insert your abstract here. Include keywords, PACS and mathematical
-subject classification numbers as needed.
-\keywords{First keyword \and Second keyword \and More}
+  The approach described in this paper for the analysis of the skin cancer melanoma and also for any biomedical purpose in general is known as semantic segmentation. The semantic segmentation is a computer vision tasks where the specific regions of an image are classified according to a specific category. 
+
+\keywords{Neural Network \and Convolution \and Semantic Segmentation}
 % \PACS{PACS code1 \and PACS code2 \and more}
 % \subclass{MSC code1 \and MSC code2 \and more}
 \end{abstract}
 
 \section{Introduction}
-\label{intro}
-Your text comes here. Separate text sections with
-\section{Section title}
-\label{sec:1}
-Text with citations \cite{RefB} and \cite{RefJ}.
-\subsection{Subsection title}
-\label{sec:2}
-as required. Don't forget to give each section
-and subsection a unique label (see Sect.~\ref{sec:1}).
-\paragraph{Paragraph headings} Use paragraph headings as needed.
-\begin{equation}
-a^2+b^2=c^2
-\end{equation}
+\blindtext
+\section{Background}
+\blindtext
+\section{Related Work}
+\blindtext
+\section{Proposed Solution}
+\blindtext
+\section{Experiments}
+\blindtext
 
-% For one-column wide figures use
-\begin{figure}
-% Use the relevant command to insert your figure file.
-% For example, with the graphicx package use
-  \includegraphics{example.eps}
-% figure caption is below the figure
-\caption{Please write your figure caption here}
-\label{fig:1}       % Give a unique label
-\end{figure}
-%
-% For two-column wide figures use
-\begin{figure*}
-% Use the relevant command to insert your figure file.
-% For example, with the graphicx package use
-  \includegraphics[width=0.75\textwidth]{example.eps}
-% figure caption is below the figure
-\caption{Please write your figure caption here}
-\label{fig:2}       % Give a unique label
-\end{figure*}
-%
-% For tables use
-\begin{table}
-% table caption is above the table
-\caption{Please write your table caption here}
-\label{tab:1}       % Give a unique label
-% For LaTeX tables use
-\begin{tabular}{lll}
-\hline\noalign{\smallskip}
-first & second & third  \\
-\noalign{\smallskip}\hline\noalign{\smallskip}
-number & number & number \\
-number & number & number \\
-\noalign{\smallskip}\hline
-\end{tabular}
+\begin{table}[h]
+  \centering
+  \begin{tabular}{c c c}
+    \toprule
+    \textbf{Epoch} & \textbf{DL} & \textbf{IoU} \\
+    \midrule
+    1 & 2 & 3\\
+    
+  \end{tabular}
 \end{table}
-
+\section{Conclusion}
+\section{References}
 
 %\begin{acknowledgements}
 %If you'd like to thank anyone, place your comments here
