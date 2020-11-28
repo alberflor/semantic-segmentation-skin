@@ -28,6 +28,8 @@
 \usepackage[spanish]{babel}
 \usepackage{url}
 \usepackage{listings}
+\usepackage{subcaption}
+\usepackage{hyperref}
 
 \usepackage[explicit]{titlesec}
 \usepackage{tikz}
@@ -52,8 +54,8 @@
         \veryHuge \color{Black} \textbf{Detección de melanoma de piel mediante segmentación semántica} \color{Black} \\[0.5cm]
         \Huge \textit{Redes Neuronales Convolucionales}\\[2cm]
         \LARGE \textbf{Mario Alberto Flores Hernández}\\[0.5cm]
-        \huge UANL - FIME \\[0.4cm]
-        \Large \texttt{1719126floreshernández@gmail.com} --- 8110194249
+        \huge UANL - FIME \\[0.5cm]
+        \Large \texttt{mario.floreshe@uanl.edu.mx}
     \end{center}
 \end{minipage}
 %
@@ -105,16 +107,19 @@ Las imágenes a escala de grises y a color no comparten las mismas característi
 \section*{Imágenes Dermatológicas}
 Para entrenar un modelo de red neuronal convolucional de segmentación semántica es necesaria una base de datos que contenga dos subconjuntos: (a) imagen entrante, (b) salida deseada. La base de datos utilizada en esta implementación fue obtenida de la recopilación de imágenes dermatológicas internacional para la detección del melanoma \citep{isic_skin}.
 
-\vspace{2cm}
 \begin{center}
-    \includegraphics[scale=0.5]{input_1.png}
-    \captionof{figure}{Imagen a escala de grises.}   
+    \begin{tabular}{c c}
+    \includegraphics{input_1.png} &
+    \includegraphics{mask_1.png} \\         
+    \end{tabular}
 \end{center}
 
-\begin{center}
-    \includegraphics[scale=0.5]{mask_1.png}
-    \captionof{figure}{Imagen a escala de grises.}        
-\end{center}
+\vspace{2cm}
+
+%\begin{center}
+%    \includegraphics[scale=0.5]{mask_1.png}
+%    \captionof{figure}{Imagen a escala de grises.}        
+%\end{center}
 
 \section*{Implementación}
 
@@ -217,13 +222,18 @@ Mediante los resultados obtenidos de los criterios de evaluación se puede obser
 \end{itemize}
 
 \section*{Repositorio de GitHub}
-;ediante el siguiente \textbf{código QR} puedes acceder a la implementación del proyecto y los datos generados de los experimentos.
+Mediante el siguiente \textbf{código QR} puedes acceder a la implementación del proyecto y los datos generados de los experimentos.
 \vspace{2cm}
 \begin{center}
     \includegraphics[scale=0.4]{repoqr.eps}
 \end{center}
+\normalsize{
+\url{https://github.com/Btrox148/semantic-segmentation-skin}
+}
 
 \section*{Referencias}
+
+\small
 
 \nocite{adam_opt}
 
