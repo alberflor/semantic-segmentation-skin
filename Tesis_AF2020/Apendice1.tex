@@ -1,14 +1,17 @@
-\chapter{Este es un apéndice}
+\chapter{Repositorio de GitHub}
 
-\section{Citas bibliográficas}
+En este apéndice se anexa la liga para acceder al código fuente completo y a los datos obtenidos como resultado de los experimentos. Para acceder al repositorio escanea el siguiente \texttt{código QR} o da clic directamente en la liga. Las librerías requeridas para la ejecución del código están descritas en el documento \texttt{requirements.txt}.
 
-En princicpio tienes total libertad de incluir tu bibliografía con el entorno {\tt thebibliography} nativo de \LaTeX{} o mediante la herramienta \textsc{Bib}\TeX. En caso de que optes por esto último (recomendado), puedes usar alguno de los archivos {\tt mighelbib.bst} o {\tt mighelnat.bst} incluidos en el paquete {\tt Tesis-FIME}, pues sus diseños están basados en el estilo bibliográfico estándar del español, además de que armoniza con el estilo de tesis provisto por {\tt fime.cls}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\textwidth]{repoqr.eps}
+\end{figure}
 
-El estilo bibliográfico {\tt mighelbib} es numérico, es decir cita con un número entre corchetes, por ejemplo una cita \verb+\cite{Dan82}+ genera una etiqueta del tipo [13], mientras que el estilo {\tt mighelnat} es tipo autor-año y requiere que el paquete {\tt natbib} sea cargado (sin opciones) para su correcto funcionamiento, cita con el apellido del autor y el año, por ejemplo una cita \verb+\citet{Dan82}+ genera una etiqueta del tipo Dantzig (1982), mientras que una cita \verb+\citep{Dan82}+ genera una etiqueta del tipo (Dantzig, 1982).
+\url{https://github.com/Btrox148/semantic-segmentation-skin}
 
-Como muestra del estilo, unas citas: un libro clásico de programación lineal \citep{Baz04} y un documento histórico \citep{Dan82}. Para saber un poco más del uso de \textsc{Bib}\TeX, se puede leer \citep{Mat11}.
+\bibliographystyle{mighelnat}
+\bibliography{MiBiblio}
+\addcontentsline{toc}{chapter}{Bibliografía}
 
-\section{Comillas}
 
-El objetivo de esta sección era provocar otra página para que se vea el encabezado. Pero aprovechamos para decir que la clase {\tt fime.cls} carga el paquete {\tt babel} con la opción {\tt spanish}, por lo que cambiará automáticamente los dobles signos $<<$ y $>>$ por << y >>. Estas comillas angulares son las correctas en el idioma español, y son las que se usan en la clase {\tt fime.cls}, por lo que se sugiere sean las usadas en el texto cada que quieras <<entrecomillar>> algo.
 

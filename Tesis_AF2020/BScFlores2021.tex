@@ -20,10 +20,16 @@
 \usepackage{subfig}
 \usepackage[numbers, sort&compress]{natbib}
 \usepackage{adjustbox}
+
+
+\definecolor{red_matrix}{rgb}{0.6, 0, 0}
+\definecolor{green_matrix}{rgb}{0, 0.8, 0}
+\definecolor{blue_matrix}{rgb}{0, 0.25, 1}
+
 \usepackage{amssymb}% http://ctan.org/pkg/amssymb
 \usepackage{pifont}% http://ctan.org/pkg/pifont
-	\newcommand{\cmark}{\ding{51}}%
-	\newcommand{\xmark}{\ding{53}}%
+	\newcommand{\cmark}{\color{green_matrix}\ding{51}}%
+	\newcommand{\xmark}{\color{red}\ding{53}}%
 
 %%%%%%%%%%%%%%%%%%%%%
 % Definiendo campos %
@@ -82,6 +88,7 @@
 \include{Capitulos}
 
 \appendix
+\include{Apendice1}
 %%% Haz un documento para cada apéndice, si es que tienes
 
 \backmatter
@@ -92,11 +99,6 @@
 % alguno de los archivos de estilo (mighelbib.bst o mighelnat.bst) incluidos
 % en el paquete, cuyos diseños armonizan con el diseño de tesis provisto por
 % fime.cls. Para muestra, basta un botón:
-
-\bibliographystyle{mighelnat}
-\bibliography{MiBiblio}
-\addcontentsline{toc}{chapter}{Bibliografía}
-
 \label{lastpage}
 \include{Autobiografia}
 

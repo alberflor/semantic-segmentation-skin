@@ -19,16 +19,19 @@ Sin embargo, debido a la exposición continua a la radiación solar o artificial
 
 En los últimos años se han logrado muchos avances en cuanto al desarrollo de \emph{software} inteligente, una de las tecnologías que han adquirido mayor importancia es la \emph{\gls{rn}}, la cual se trata de un modelo matemático que tiene la capacidad de \emph{aprender} mediante el uso de bases de datos y mediante funciones de optimización que permite la configuración de dicho modelo y le otorga la capacidad de predecir, clasificar o construir datos ya sean futuros o desconocidos. Algunos de los sectores que se han beneficiado más de esta tecnología son: el sector automotriz (pilotos automáticos), el sector de manufactura (optimización de procesos), el sector de entretenimiento (recomendaciones personalizadas), el sector médico (diagnóstico de imágenes). 
 
-\begin{figure}[b!]
-    \includegraphics[width=60mm]{Figuras/ISIC_0012591.jpg}
+\begin{figure}[b]
     \centering
-    \caption{Ejemplo de melanoma extraída de la base de datos de ISIC \citep{isic_skin}.}
-    \label{fig:can_jpg}
-\end{figure}
+    \hspace{-0.4cm}
+    \subfloat{\includegraphics[width=0.3\columnwidth]{Figuras/mela_1.jpg}}
+    \subfloat{\includegraphics[width=0.3\columnwidth]{Figuras/mela_2.jpg}}
+    \subfloat{\includegraphics[width=0.3\columnwidth]{Figuras/mela_3.jpg}}
+    \caption{Ejemplos de melanoma extraído de la base de datos de ISIC \citep{isic_skin}.}
+    
+  \end{figure}
 
 
 \section{Hipótesis}
-El presente trabajo de tesis tiene como hipótesis el uso de la inteligencia artificial para la detección y clasificación del melanoma de piel; mediante la implementación de un modelo basado en el aprendizaje profundo, es posible crear una aplicación de \emph{software} que entrene y optimice un modelo para realizar la tarea de la \emph{segmentación semántica}, la cual se trata de la transformación y predicción de pixeles para obtener la clasificación de las diferentes regiones que representa una imágen dermatológica. Y de esta manera obtener una aplicación de reconocimiento visual cuya robustez pueda ser verificada a partir de una serie de experimentos.
+El presente trabajo de tesis tiene como hipótesis el uso de la inteligencia artificial para la detección y clasificación del melanoma de piel; mediante la implementación de un modelo basado en el aprendizaje profundo es posible crear una aplicación de \emph{software} que entrene y optimice un modelo para realizar la tarea de la \emph{segmentación semántica}, la cual se trata de la transformación y predicción de pixeles para obtener la clasificación de las diferentes regiones que representa una imagen dermatológica. Y de esta manera obtener una aplicación de reconocimiento visual cuya robustez pueda ser verificada a partir de una serie de experimentos.
 
 
 %Es posible clasificar los píxeles en distintas categorías dentro de una %imagen gracias a las avances actuales de inteligencia artificial y la técnica %de segmentación. Mediante la técnica de \emph{\gls{seg}} es posible crear un %reconocedor visual que no solo detecte la presencia y ubicación del elemento %a reconocer, sino que, también obtenga otros datos descriptivos del elemento %como el tamaño, forma y región que abarca dentro de la imagen.
@@ -49,7 +52,7 @@ El \emph{objetivo específico}, es el de implementar un modelo de red neuronal c
 
 \begin{figure}[!htp]
     \centering
-    \subfloat[imágen entrante]{\label{a_1}\includegraphics[width=50mm]{Figuras/input_1.png}}
+    \subfloat[imagen entrante]{\label{a_1}\includegraphics[width=50mm]{Figuras/input_1.png}}
     \qquad
     \subfloat[máscara de salida]{\label{b_1}\includegraphics[width=50mm]{Figuras/mask_1.png}}
     \caption{Ejemplo de segmentación: entrada y salida.}
@@ -73,7 +76,7 @@ El capítulo 5 describe a profundidad la implementación de la propuesta, desde 
 Finalmente, en el capítulo 6 se exponen los resultados obtenidos de la implementación del producto científico en el capítulo anterior, así como un análisis y conclusión final sobre los valores obtenidos en precision y tiempo de entrenamiento. 
 
 \chapter{Antecedentes}
-En este capítulo se introducen de forma teórica los conceptos relacionados con el trabajo propuesto, primero se define que es el \emph{cáncer de piel}, cuales son los factores que influyen en el desarollo de este padecimiento, los tipos de cáncer y las diferencias entre estos. Después algunos conceptos relacionados con las redes neuronales necesarios para un entendimiento sólido del \emph{aprendizaje profundo}, tales como los elementos clave que conforman a la red neuronal, la manera en la que esta evalúa su precisión, y el algoritmo de optimización.
+En este capítulo se introducen de forma teórica los conceptos relacionados con el trabajo propuesto, primero se define que es el \emph{cáncer de piel}, cuales son los factores que influyen en el desarrollo de este padecimiento, los tipos de cáncer y las diferencias entre estos. Después algunos conceptos relacionados con las redes neuronales necesarios para un entendimiento sólido del \emph{aprendizaje profundo}, tales como los elementos clave que conforman a la red neuronal, la manera en la que esta evalúa su precisión, y el algoritmo de optimización.
 
 \section{Cáncer de Piel}
 El \emph{cáncer de piel} es una enfermedad que suele relacionarse con la aparición de lunares o manchas que no se encontraban previamente, se pueden manifestar como manchas oscuras o rojizas, bultos y/o escamas en la superficie de la piel y afecta a todos los tonos de piel por igual. Esta enfermedad se suele desarrollar principalmente en partes del cuerpo expuestas al sol, sin embargo, también se puede desarrollar en partes que no suelen exponerse. Algunos factores como la exposición a los rayos ultravioletas (rayos UV), el uso de sustancias como el tabaco o el envejecimiento son factores correlacionados con la aparición del \emph{cáncer de piel}, existen dos tipos de factores: \emph{intrínsecos} y \emph{extrínsecos}.
@@ -81,16 +84,16 @@ El \emph{cáncer de piel} es una enfermedad que suele relacionarse con la aparic
 Los factores \emph{intrínsecos} son aquellos que suceden de forma interna en la piel, un ejemplo de esto es el envejecimiento cronológico, el cual es un proceso natural que consiste en degradación del colágeno, la elastina y el adelgazamiento de la epidermis debido al envejecimiento celular al paso de los años y de el efecto de algunas hormonas.
 \bigskip
 
-Los factores \emph{extrínsecos} son aquellos que suceden de forma agena al organismo, como es el caso del \emph{foto-envejecimiento} el cual sucede cuando nos encontramos expuestos a los rayos ultravioletas (UV). Este factor de envejecimiento genera lesiones en las cadenas de ácido desoxirribonucleico (ADN) debido a la oxidación y afecta la regeneración de celulas, al sistema inmune y a la forma en la que se regula la pigmentación \citep{skin_aging}.
+Los factores \emph{extrínsecos} son aquellos que suceden de forma ajena al organismo, como es el caso del \emph{foto-envejecimiento} el cual sucede cuando nos encontramos expuestos a los rayos ultravioletas (UV). Este factor de envejecimiento genera lesiones en las cadenas de ácido desoxirribonucleico (ADN) debido a la oxidación y afecta la regeneración de células, al sistema inmune y a la forma en la que se regula la pigmentación \citep{skin_aging}.
 
 \subsection{Tipos de Cáncer de Piel}
-El cáncer de piel es un padecimiento que se puede manifestar en una gran variedad de formas distintas, algúnas de estas formas pueden representar un enorme riesgo para la salud de quien la padece mientras que otras pueden permanecer mucho tiempo sin afectar la calidad de vida del paciente; se clasifican principalmente en dos tipos: \emph{benigno} y \emph{maligno}.
+El cáncer de piel es un padecimiento que se puede manifestar en una gran variedad de formas distintas, algunas de estas formas pueden representar un enorme riesgo para la salud de quien la padece mientras que otras pueden permanecer mucho tiempo sin afectar la calidad de vida del paciente; se clasifican principalmente en dos tipos: \emph{benigno} y \emph{maligno}.
 
 Los tumores del tipo \emph{benignos} no suelen ser considerados cáncer como tal, ya que tienen un crecimiento lento y no suelen extenderse a otras partes del cuerpo, por otro lado los tumores \emph{malignos}, si representan un riesgo mayor ya que crecen rápidamente y suelen hacer \emph{metástasis}, lo cual significa que migra a otras partes del cuerpo.
 
 \section{Redes Neuronales}
 
-Hasta hace algunos años el desarrollo de aplicaciones de software solía realizarse de forma robústa, por ejemplo, si deseáramos desarrollar una aplicación de reconocimiento de imágenes faciales de la forma tradicional, sería necesario un grupo de expertos en dicho rubro para que definan una secuencia de transformaciones específicas para lograr esa función, donde la variabilidad de las imágenes que dicho sistema permitiría depende únicamente de la complejidad del mismo, sin embargo mediante las redes neuronales es posible resolver el mismo problema con la ventaja de que la variabilidad de imágenes que pueden ser reconocidas por el sistema, depende de los datos utilizados para el entrenamiento, el model de una red neuronal \emph{aprende} de los datos proporcionados y crea un modelo capaz de clasificar, predecir o reconstruir datos conocidos y desconocidos. Algunos de los puntos clave que conforman un sistema basado en redes neuronales son:
+Hasta hace algunos años el desarrollo de aplicaciones de software solía realizarse de forma robusta, por ejemplo, si deseáramos desarrollar una aplicación de reconocimiento de imágenes faciales de la forma tradicional, sería necesario un grupo de expertos en dicho rubro para que definan una secuencia de transformaciones específicas para lograr esa función, donde la variabilidad de las imágenes que dicho sistema permitiría depende únicamente de la complejidad del mismo, sin embargo mediante las redes neuronales es posible resolver el mismo problema con la ventaja de que la variabilidad de imágenes que pueden ser reconocidas por el sistema, depende de los datos utilizados para el entrenamiento, el modelo de una red neuronal \emph{aprende} de los datos proporcionados y crea un modelo capaz de clasificar, predecir o reconstruir datos conocidos y desconocidos. Algunos de los puntos clave que conforman un sistema basado en redes neuronales son:
 
 \begin{description}
     \item[Datos]{Se debe determinar la naturaleza y la dimensión de los datos que entrarán al modelo.}
@@ -102,9 +105,6 @@ Hasta hace algunos años el desarrollo de aplicaciones de software solía realiz
 \subsection{Imágenes como Datos}
 Las imágenes se pueden definir como una matriz de $m \times n \times 1$ pixeles en el caso de las imágenes de un solo canal (blanco y negro) y en el caso de imágenes a color es de $m \times n \times k$, donde $k$ es igual al número de canales de color que tenga la imagen, siendo tres en el caso de imágenes RGB\footnote{RGB: Se refiere a los tres canales de color rojo, verde y azul, por sus siglas en inglés (\emph{red, green, blue}).}, es importante definir si las imágenes ingresarán al modelo a color o en blanco y negro debido a que esto define el número de nodos de entrada de este, ya que para cada pixel debe corresponder un nodo de entrada y en el caso de imágenes a color también deberá tener un número de capas de nodos de entrada igual al número de canales que tenga la imagen.
 
-\definecolor{red_matrix}{rgb}{0.6, 0, 0}
-\definecolor{green_matrix}{rgb}{0, 0.8, 0}
-\definecolor{blue_matrix}{rgb}{0, 0.25, 1}
 
 \begin{figure*}[htp]
     \centering
@@ -112,6 +112,7 @@ Las imágenes se pueden definir como una matriz de $m \times n \times 1$ pixeles
         \label{mtr_1}
         \begin{tikzpicture}
             \draw[step=5mm, black, line width=0.30mm] (-2,-2) grid (2,2);
+            \node at (0,-2.5) {\large$\text{dim} = m \times n$};
         \end{tikzpicture}
     }
     \qquad
@@ -121,6 +122,7 @@ Las imágenes se pueden definir como una matriz de $m \times n \times 1$ pixeles
             \draw[step=5mm, red_matrix, line width=0.30mm] (-2.5,-2.5) grid (1.5,1.5);
             \draw[step=5mm, green_matrix, line width=0.30mm] (-2,-2) grid (2,2);
             \draw[step=5mm, blue, line width=0.30mm] (-1.5,-1.5) grid (2.5,2.5);
+            \node at (0, -3) {\large$\text{dim} = m \times n \times k$};
         \end{tikzpicture}
     }
     \caption{Comparación de las dimensiones entre los distintos canales de color.}
@@ -204,11 +206,11 @@ A continuación se mencionan los trabajos revisados en los que se puede obtener 
 
 \citet{KADAMPUR2020100282} proponen el uso de los servicios de nube en conjunto con las redes neuronales profundas y el diseño de modelos utilizando modelos pre-entrenados. Para esto utilizan la herramienta de \texttt{Deep Learning Studio}, la cual es un software que permite el uso de tarjetas gráficas (\emph{GPU}) localizadas en la nube o localmente, y también permite el uso de múltiples tarjetas de forma simultanea (\emph{multi-GPU}), la arquitectura usada para la detección de cáncer de piel en este trabajo es de una red neuronal profunda de clasificación, por lo que el modelo se codifica mediante convoluciones y se decodifica mediante capas de aplanamiento (\emph{flatten layer}) para posteriormente entrar a una capa de nodos completamente conectada (\emph{fully-connected-layer}) y obtener dos posibles resultados: es cáncer o no es cáncer.
 
-\citet{zhou2019emerging} hablan sobre el aprendizaje de máquina \texttt{Machine Learning} y las redes neuronales para la predicción teórica de nano-materiales. Primero determinaron el número de capas y la heterogeneidad del material para posteriormente entender los fenómenos visuales como el parpadeo y la emisión cuántica, concluyendo que las intensidades RGB están correlacionadas al número de capas en el material del grafeno. 
+\citet{zhou2019emerging} hablan sobre el aprendizaje de máquina \texttt{Machine Learning} y las redes neuronales para la predicción teórica de nano-materiales. Primero determinaron el número de capas y la heterogeneidad del material para posteriormente entender los fenómenos visuales como el parpadeo y la emisión cuántica, concluyendo que las intensidades RGB están correlacionados al número de capas en el material del grafeno. 
 
 \citet{DBLP:journals/corr/LucCCV16} proponen una alternativa al proceso de decodificación. Normalmente en las tareas de segmentación es necesaria la parte de codificación para realizar las predicciones a grado pixel y la decodificación para reconstruir la imagen con las categorías segmentadas. Este trabajo propone el uso de una red generativa adversaria \texttt{GAN}, para utilizarse como decodificador, de esta manera se obtiene un mapa de etiquetas (\emph{map layer}) con una mayor resolución.
 
-\citet{JAIN2015735} desarrollan una herramienta de procesamiento de imágenes médicas relacionadas al melanoma, basándose en sus características físicas como: asimetría, color, bordes y diámetro. Se basa en la técnica de segmentación de imágenes mediante el uso de filtros de contraste, detección de ejes, etc. A diferencia de los otros trabajos mencionados, este no consiste del uso de redes neuronales sino de filtrados de imágen mediante distintos kernels de convoluciones para obtener la máscara.
+\citet{JAIN2015735} desarrollan una herramienta de procesamiento de imágenes médicas relacionadas al melanoma, basándose en sus características físicas como: asimetría, color, bordes y diámetro. Se basa en la técnica de segmentación de imágenes mediante el uso de filtros de contraste, detección de ejes, etc. A diferencia de los otros trabajos mencionados, este no consiste del uso de redes neuronales sino de filtrados de imagen mediante distintos kernels de convoluciones para obtener la máscara.
 
 \section{Análisis Comparativo}
 En esta sección se evalúan los trabajos revisados con el trabajo propuesto en este trabajo de tesis, para esto se define una serie de características que servirán como puntos de referencia entre el trabajo propuesto y los trabajos relacionados, dichas características son las siguientes:
@@ -225,7 +227,7 @@ En esta sección se evalúan los trabajos revisados con el trabajo propuesto en 
 
 \begin{table}[b!]
     \centering
-    \caption{Similitudes y diferencias entre los trabajos revisados; las características implementadas se representan con \cmark, mientras que las no implementadas con \xmark.}
+    \caption{Similitudes y diferencias entre los trabajos revisados; las características implementadas se representan con {\cmark}, mientras que las no implementadas con {\xmark}.}
     \begin{center}
     \scalebox{0.80}{
         \begin{tabular}[t]{|l|l|l|l|l|l|l|l|}
@@ -258,12 +260,12 @@ En esta sección se señalan las características de los trabajos mencionados en
 Para las tareas de segmentación es fundamental contar con un codificador y un decodificador eficientes, sin embargo aún más importante es tener la capacidad de evaluarse así mismo y optimizarse, a diferencia de algunas técnicas más robustas de diseño, las redes neuronales convolucionales permiten esas funcionalidades. Otro aspecto importante a considerar es la capacidad del uso de modelos pre-entrenados y re-entrenarlos utilizando datos similares, ya que incluso cuando los pesos pre-entrenados fueron obtenidos mediante bases de datos no necesariamente relacionadas con el o los objetos que nosotros queremos detectar, pero con similitudes físicas, en teoría ofrece un mejor desempeño y reduce el tiempo de entrenamiento ya que de lo contrario, se tendría que inicializar el modelo con pesos distribuidos de forma aleatoria, por lo que la precisión inicial del modelo sería cercana al cero por ciento. En este trabajo de tesis, el modelo propuesto cuenta con la capacidad de utilizar pesos pre-entrenados, el reto está en seleccionar un conjunto de pesos que mejoren la precisión en el caso de imágenes médicas, ya que si los pesos utilizados fueron obtenidos con imágenes que difieren mucho de las imágenes que se utilizadas en el presente trabajo, podría verse comprometida la precisión o el tiempo de entrenamiento.
 
 \chapter{Solución Propuesta}
-El objetivo de este trabajo de tesis es implementar una técnica para la clasificación y segmentación de regiones de tumores del tipo melanoma en imágenes dermatolólogicas mediante el uso del aprendizaje profundo (\emph{deep learning}). Para comprobar la hipótesis se desarrolló una aplicación de software cuya función es la de funcionar como entorno de trabajo mediante el cuál se puedan procesar datos para el entrenamiento de modelos, trabajar con distintas arquitecturas de redes, así como modificar los parámetros del entrenamiento para hacer el ajuste fino del modelo.
+El objetivo de este trabajo de tesis es implementar una técnica para la clasificación y segmentación de regiones de tumores del tipo melanoma en imágenes dermatológicas mediante el uso del aprendizaje profundo (\emph{deep learning}). Para comprobar la hipótesis se desarrolló una aplicación de software cuya función es la de funcionar como entorno de trabajo mediante el cuál se puedan procesar datos para el entrenamiento de modelos, trabajar con distintas arquitecturas de redes, así como modificar los parámetros del entrenamiento para hacer el ajuste fino del modelo.
 
-En este capítulo se describe la estructura de la implementación propuesta, comenzando con la \emph{metodología}, en donde se describe el conjunto de procedimientos por los cuales debe atravesar los datos desde su entrada como una imagen ya sea de un canal o triple canal, hasta su salida como máscara de segmentación con sus respectivas regiones clasificadas a su categoría correspondiente. Posteriormente en \emph{implentación de la solución} se describe el lenguaje utilizado para la implementación, las librerías utilizadas; así como el análisis llevado a cabo para determinar cuál configuración de parámetros ofrece el mejor resultado y una comparativa o \emph{benchmarking}.
+En este capítulo se describe la estructura de la implementación propuesta, comenzando con la \emph{metodología}, en donde se describe el conjunto de procedimientos por los cuales debe atravesar los datos desde su entrada como una imagen ya sea de un canal o triple canal, hasta su salida como máscara de segmentación con sus respectivas regiones clasificadas a su categoría correspondiente. Posteriormente en \emph{implementación de la solución} se describe el lenguaje utilizado para la implementación, las librerías utilizadas; así como el análisis llevado a cabo para determinar cuál configuración de parámetros ofrece el mejor resultado y una comparativa o \emph{benchmarking}.
 
 \section{Metodología}
-La herramienta propuesta cuenta con tres fases principales:cargado y filtrado de datos, entrenamiento y predicción, la fase de \emph{cargado de datos} consiste en adquirir y corregir las imágenes que serán usadas en las fases siguientes, el \emph{entrenamiento} trata de la obtención de un modelo a partir de dos datos: la imagen real (entrada) y la máscara conocida (salida deseada) que corresponde a la región a clasificar, el proceso de entrenamiento consta de un número determinado de ciclos también denominados épocas (\emph{epochs}) en dónde se prueban distintas configuraciones y se conserva la configuración con el mayor porcentaje de precisión. Al finalizar el entrenamiento se obtiene un modelo mediante el cuál se realiza la segunda fase, \emph{predicción}, ahora únicamente se requiere un dato de entrada el cuál es la imágen de la cual se desconoce la clasficación de sus regiones, y como resultado se obtiene una estimación de la máscara de segmentación desconocida con sus regiones correctamente clasificadas.
+La herramienta propuesta cuenta con tres fases principales:cargado y filtrado de datos, entrenamiento y predicción, la fase de \emph{cargado de datos} consiste en adquirir y corregir las imágenes que serán usadas en las fases siguientes, el \emph{entrenamiento} trata de la obtención de un modelo a partir de dos datos: la imagen real (entrada) y la máscara conocida (salida deseada) que corresponde a la región a clasificar, el proceso de entrenamiento consta de un número determinado de ciclos también denominados épocas (\emph{epochs}) en dónde se prueban distintas configuraciones y se conserva la configuración con el mayor porcentaje de precisión. Al finalizar el entrenamiento se obtiene un modelo mediante el cuál se realiza la segunda fase, \emph{predicción}, ahora únicamente se requiere un dato de entrada el cuál es la imagen de la cual se desconoce la clasificación de sus regiones, y como resultado se obtiene una estimación de la máscara de segmentación desconocida con sus regiones correctamente clasificadas.
 
 \tikzstyle{decision} = [diamond, draw, fill=gray!20, 
     text width=5.5em, text badly centered, node distance=3cm, inner sep=0pt]
@@ -290,10 +292,10 @@ La herramienta propuesta cuenta con tres fases principales:cargado y filtrado de
 
 \subsection{Características de los Datos de Entrada}
 Para poder llevar a cabo la creación del modelo primero es necesario tener un conjunto de datos (\emph{dataset}) que será utilizado para el entrenamiento y la validación de la configuración de pesos sinápticos en la época presente.
-A partir de éste momento se referirá como \emph{muestra} al conjunto de datos de entrada del entrenamiento del modelo; como se mencionó al comienzo del capítulo, para llevar a cabo el entrenamiento es necesario otorgar al sistema dos entradas: la imagen real y la máscara conocida de las regiones ya clasificadas. Por lo tanto una muestra es el equivalente a la concatenación de una imágen dermatolólogica y la máscara conocida correspondiente. Con una sola muestra se puede generar un modelo sin embargo la precisión sería muy baja, generalmente entre mayor sea la cantidad de muestras se puede obtener una mejor precisión. No obstante depende mucho de la variabilidad de las imágenes, ya que si se tratara de entrenar un modelo de muchas categorías, la variabilidad haría mas complejo el modelo y por ende requiriría de un mayor número de épocas para alcanzar una precisión viable (\emph{underfit}); así como el uso de un \emph{dataset} muy extenso de pocas categorías y con imágenes muy similares podría causar justamente lo contrario (\emph{overfit}), lo cuál no permitiría realizar predicciones correctamente en imágenes no tan parecidas a las usadas en el entrenamiento.
+A partir de éste momento se referirá como \emph{muestra} al conjunto de datos de entrada del entrenamiento del modelo; como se mencionó al comienzo del capítulo, para llevar a cabo el entrenamiento es necesario otorgar al sistema dos entradas: la imagen real y la máscara conocida de las regiones ya clasificadas. Por lo tanto una muestra es el equivalente a la concatenación de una imagen dermatológica y la máscara conocida correspondiente. Con una sola muestra se puede generar un modelo sin embargo la precisión sería muy baja, generalmente entre mayor sea la cantidad de muestras se puede obtener una mejor precisión. No obstante depende mucho de la variabilidad de las imágenes, ya que si se tratara de entrenar un modelo de muchas categorías, la variabilidad haría mas complejo el modelo y por ende requeriría de un mayor número de épocas para alcanzar una precisión viable (\emph{underfit}); así como el uso de un \emph{dataset} muy extenso de pocas categorías y con imágenes muy similares podría causar justamente lo contrario (\emph{overfit}), lo cuál no permitiría realizar predicciones correctamente en imágenes no tan parecidas a las usadas en el entrenamiento.
 
 \subsection{Codificación de Características}
-Para poder realizar una predicción de la máscara segmentada, primero es necesario reducir las dimensiones de las imágenes sin afectar la información que estas representan. Para conseguir esto se utiliza un filtro de \emph{convolución de matríces}. Una imágen es una función bidimensional $ z = f(x,y)$, donde $x$ y $y$ son coordenadas espaciales y $z$ es el valor de la intensidad de la imágen en el punto $(x , y)$, en el caso de las imágenes a color se tienen tres funciones donde cada una representa la intensidad del pixel del canal correspondiente (rojo, verde o azul) \citep[~p. 100]{conv_1}. La convolución de matríces se define como la obtención de una matríz $C$ a partir de dos matríces $A$ y $B$. La matríz $A_{m \times n}$ es el mapa de intensidad de pixeles de la imágen mientras que la matríz $B_{(2N+1) \times (2N+1)}$ es el kernel de la convolución, mediante la ecuación \ref{eq:conv_1} se obtiene la matríz $C = A * B$
+Para poder realizar una predicción de la máscara segmentada, primero es necesario reducir las dimensiones de las imágenes sin afectar la información que estas representan. Para conseguir esto se utiliza un filtro de \emph{convolución de matrices}. Una imagen es una función bidimensional $ z = f(x,y)$, donde $x$ y $y$ son coordenadas espaciales y $z$ es el valor de la intensidad de la imagen en el punto $(x , y)$, en el caso de las imágenes a color se tienen tres funciones donde cada una representa la intensidad del pixel del canal correspondiente (rojo, verde o azul) \citep[~p. 100]{conv_1}. La convolución de matrices se define como la obtención de una matriz $C$ a partir de dos matrices $A$ y $B$. La matriz $A_{m \times n}$ es el mapa de intensidad de pixeles de la imagen mientras que la matriz $B_{(2N+1) \times (2N+1)}$ es el kernel de la convolución, mediante la ecuación \ref{eq:conv_1} se obtiene la matriz $C = A * B$
 \begin{equation}
 c_{ij} = \frac{1}{b} \sum_{r=1}^{2N+1}\sum_{s=1}^{2N+1}(a_i-N+r-1, i-N+r-1),
 \label{eq:conv_1}
@@ -329,7 +331,7 @@ donde $b = \sum_{i,j=1}^{2N+1} b_{i,j}$, si $b=0$ se toma $b=1$.
 El filtro de convolución es la base del proceso de codificado de la imagen, la codificación se refiere a la transformación de una imagen a un vector de características de alta dimensión (\emph{downsampling}), una vez que se tiene el mapa de características sigue con el proceso de \emph{upsampling}.
 
 \subsection{Modelo FPN}
-La arquitectura de red neuronal tipo red piramidal de características, por sus siglas en inglés FPN\footnote{FPN: Feature Pyramid Network}, se trata de una estructura que funciona en conjunto con el codificador \texttt{ResNet}, mientras el codificador tiene la tarea de realizar el \emph{downsampling} de las dimensiones espaciales de la imágen de entrada y convertirlas a un mapa de característica , el decodificador hace justamente lo opuesto (\emph{up-sampling}), a partir del mapa de características producto de la codificación, realiza una secuencia de deconvoluciones que construyen la máscara de segmentación estimada.
+La arquitectura de red neuronal tipo red piramidal de características, por sus siglas en inglés FPN\footnote{FPN: Feature Pyramid Network}, se trata de una estructura que funciona en conjunto con el codificador \texttt{ResNet}, mientras el codificador tiene la tarea de realizar el \emph{downsampling} de las dimensiones espaciales de la imagen de entrada y convertirlas a un mapa de característica , el decodificador hace justamente lo opuesto (\emph{up-sampling}), a partir del mapa de características producto de la codificación, realiza una secuencia de deconvoluciones que construyen la máscara de segmentación estimada.
 
 \begin{figure}[h]
     \centering
@@ -338,14 +340,14 @@ La arquitectura de red neuronal tipo red piramidal de características, por sus 
     \label{fig:fpn_map}
 \end{figure}
 
-En la figura \ref{fig:fpn_map} se puede apreciar la arquitectura y la transformación de las dimensiones de los datos, el número a lado izquiero de las capas de convolución representa la resolución en proporción a la entrada y el número de lado derecho representa el número de canales. El número de canales aumenta mientras que la resolución disminuye.
+En la figura \ref{fig:fpn_map} se puede apreciar la arquitectura y la transformación de las dimensiones de los datos, el número a lado izquierdo de las capas de convolución representa la resolución en proporción a la entrada y el número de lado derecho representa el número de canales. El número de canales aumenta mientras que la resolución disminuye.
 
 \section{Implementación de la Solución}
 Para la implementación de la herramienta propuesta, se utilizó \texttt{Python} como lenguaje principal. \texttt{Python} es un lenguaje de alto nivel con un extenso repositorio de paquetes desarrollados por la comunidad, también es un lenguaje ligero ideal para el procesamiento de datos y de operaciones con datos de altas dimensiones (\emph{high-dimensional data}), debído a esto último, se consideró \texttt{Python} la mejor opción para la implementación de la red neuronal profunda.
 
 Si bien otros lenguajes tienen una mayor velocidad en la ejecución de cálculos complejos, es la facilidad con la que se pueden desplegar implementaciones complejas en relativamente pocas líneas de código lo que llevo a la conclusión de que \texttt{Python} es la opción ideal para la implementación propuesta, como el hecho de que existen muchas documentaciones e implementaciones similares en este lenguaje.
 
-A continuación se especifican las librerías claves utilizadas para llevar a cabo la implementación, así mismo se da una breve descripción general sobre la misma y su importancia durante el desarollo de la propuesta.
+A continuación se especifican las librerías claves utilizadas para llevar a cabo la implementación, así mismo se da una breve descripción general sobre la misma y su importancia durante el desarrollo de la propuesta.
 
 \begin{table}[H]
     \centering
@@ -355,26 +357,26 @@ A continuación se especifican las librerías claves utilizadas para llevar a ca
         \hline
         \bf{Librería} & \bf{Descripción} \\
         \hline
-        \texttt{Torch.vision} & Este paquete es una colección de módulos relacionados con las operaciones de tensores y la aceleración de cálculos mediante hardware. Se usa en conjunto con \texttt{NumPY} y cuenta con las arquitecturas de redes neuronales típicas, así como herramientas para el cargado de datos y la configuración de parametros de los modelos.\\
+        \texttt{Torch.vision} & Este paquete es una colección de módulos relacionados con las operaciones de tensores y la aceleración de cálculos mediante hardware. Se usa en conjunto con \texttt{NumPY} y cuenta con las arquitecturas de redes neuronales típicas, así como herramientas para el cargado de datos y la configuración de parámetros de los modelos.\\
         
         \hline
         \texttt{Quvel Segmentation Models} & Este paquete cuenta las arquitecturas de las redes neuronales de segmentación semántica típicas, se trata del marco de trabajo mediante el cuál podemos crear y configurar la arquitectura de la red para después realizar el entrenamiento.\\
         
         \hline
-        \texttt{Numpy} & Esta librería fue desarrollada para habilitar el uso de vectores y matríces de grandes dimensiones y para la computación numérica en general, ya que \texttt{Python} originalmente no cuenta con el soporte para esto.\\
+        \texttt{Numpy} & Esta librería fue desarrollada para habilitar el uso de vectores y matrices de grandes dimensiones y para la computación numérica en general, ya que \texttt{Python} originalmente no cuenta con el soporte para esto.\\
         
         \hline
-        \texttt{OpenCV} & Es una librería dedicada al procesamiento de imágenes y a la visión computacional, cuenta con funciones que permiten cargar imágenes y obtener su matríz de pixeles así como aplicar efectos y transformaciones en estas.\\
+        \texttt{OpenCV} & Es una librería dedicada al procesamiento de imágenes y a la visión computacional, cuenta con funciones que permiten cargar imágenes y obtener su matriz de pixeles así como aplicar efectos y transformaciones en estas.\\
 
         \hline
-        \texttt{Albumentations} & Esta librería es principalmente útil para el pre-procesado de las imágenes al momento de realizar el entrenamiento, cuenta con funciones que permiten crear secuencias de transformaciones específicas para distíntos subconjuntos de datos así como la capacidad de transformar imágenes a tensores.\\
+        \texttt{Albumentations} & Esta librería es principalmente útil para el pre-procesado de las imágenes al momento de realizar el entrenamiento, cuenta con funciones que permiten crear secuencias de transformaciones específicas para distintos subconjuntos de datos así como la capacidad de transformar imágenes a tensores.\\
 
         \hline
     \end{tabular}}
     \label{tab:libs}
 \end{table}
 
-En el cuadro \ref{tab:specs} se especifícan las características del equipo en el cuál fue realizado el experimento.
+En el cuadro \ref{tab:specs} se especifican las características del equipo en el cuál fue realizado el experimento.
 
 \begin{table}[H]
     \centering
@@ -398,10 +400,10 @@ En el cuadro \ref{tab:specs} se especifícan las características del equipo en 
 \end{table}
 
 \subsection{Computación Asistída por Hardware}
-Los cálculos llevados en el proceso de entrenamiento involucran realizar operaciones con datos de altas dimensiones (\emph{high-dimensional data}) los cuales requieren una gran cantidad de recursos de procesamiento, estas operaciones al estar relacionadas con vectores y matríces pueden ser ejecutadas rapidamente por la unidad GPU\footnote{GPU: Graphics Processor Unit}, entre mayor sea la velocidad de procesamiento de la GPU más rápido es el entrenamiento de nuevos modelos y con mayor resolución.
+Los cálculos llevados en el proceso de entrenamiento involucran realizar operaciones con datos de altas dimensiones (\emph{high-dimensional data}) los cuales requieren una gran cantidad de recursos de procesamiento, estas operaciones al estar relacionadas con vectores y matrices pueden ser ejecutadas rápidamente por la unidad GPU\footnote{GPU: Graphics Processor Unit}, entre mayor sea la velocidad de procesamiento de la GPU más rápido es el entrenamiento de nuevos modelos y con mayor resolución.
 
 \subsection{Módulos de la Implementación}
-La herramienta desarrollada en el presente trabajo de tesis se divide en cuatro módulos funcionales y un módulo central encargado de controlar la ejecución de los mismos. En la figura \ref{fig: modules} se puede observar la estrúctura modular del software desarrollad, dentro de dichos módulos se encuentran las funciones específicas de esa categoría y en el módulo principal se encuentran los parámetros del modelo.
+La herramienta desarrollada en el presente trabajo de tesis se divide en cuatro módulos funcionales y un módulo central encargado de controlar la ejecución de los mismos. En la figura \ref{fig: modules} se puede observar la estructura modular del software desarrollad, dentro de dichos módulos se encuentran las funciones específicas de esa categoría y en el módulo principal se encuentran los parámetros del modelo.
 
 \tikzstyle{block} = [rectangle, draw, fill=gray!20, 
     text width=7em, text centered, minimum height=4em]
@@ -426,7 +428,7 @@ La herramienta desarrollada en el presente trabajo de tesis se divide en cuatro 
 \end{figure}
 
 \subsection{Lectura de Entrada}
-El proceso de cargado de datos y filtrado es un proceso muy importante para la ejecución correcta en las siguientes transformaciones, para el entrenamiento del modelo se utilizará una base de datos obtenida de la Asociación de Recolección de Imágenes dermatolólogicas, por sus siglas en inglés (\emph{ISIC}\footnote{ISIC: International Skin Imaging Collaboration.}). La base de datos de ISIC cuenta con diez mil imágenes de entrenamiento con resoluciones distintas, con diferentes tonos de iluminación y rotación, así como su máscara de segmentación conocida y dos mil imágenes para realizar pruebas, también con resoluciones no estandarizadas y sin máscara de segmentación.
+El proceso de cargado de datos y filtrado es un proceso muy importante para la ejecución correcta en las siguientes transformaciones, para el entrenamiento del modelo se utilizará una base de datos obtenida de la Asociación de Recolección de Imágenes dermatológicas, por sus siglas en inglés (\emph{ISIC}\footnote{ISIC: International Skin Imaging Collaboration.}). La base de datos de ISIC cuenta con diez mil imágenes de entrenamiento con resoluciones distintas, con diferentes tonos de iluminación y rotación, así como su máscara de segmentación conocida y dos mil imágenes para realizar pruebas, también con resoluciones no estandarizadas y sin máscara de segmentación.
 
 \definecolor{folderbg}{RGB}{124,166,198}
 \definecolor{folderborder}{RGB}{110,144,169}
@@ -476,7 +478,7 @@ El proceso de cargado de datos y filtrado es un proceso muy importante para la e
 \end{figure}
 
 
-Lo primero que se desarrolló fue un asistente de cargado y filtrado de imágenes, en el código \ref{code:load} se puede apreciar el código fuente y las funciones utilizadas para tal motivo. Al ser utilizado el objeto \emph{dataset} y alimentar los argumentos con los directorios de las imágenes se obtiene como resultado un objeto de dimensión $N \times 2 \times (m \times n)$ donde $N$ es el número de muestras cargadas y el primer elemento de la fila es la matríz de la imágen real, y el segúndo la matríz de la máscara conocída.
+Lo primero que se desarrolló fue un asistente de cargado y filtrado de imágenes, en el código \ref{code:load} se puede apreciar el código fuente y las funciones utilizadas para tal motivo. Al ser utilizado el objeto \emph{dataset} y alimentar los argumentos con los directorios de las imágenes se obtiene como resultado un objeto de dimensión $N \times 2 \times (m \times n)$ donde $N$ es el número de muestras cargadas y el primer elemento de la fila es la matriz de la imagen real, y el segundo la matriz de la máscara conocida.
 
 
 \renewcommand{\lstlistingname}{Código}
@@ -544,7 +546,7 @@ En el código \ref{code:load_2} se invoca la función \texttt{dataset}, la cuál
 El \emph{pre-procesamiento} se define como una secuencia de transformaciones que se aplican al momento previo del entrenamiento y afecta a un subconjunto específico de los datos. Para el diseño de la secuencia de transformaciones tanto para el subconjunto de entrenamiento como el subconjunto fueron consideradas las siguientes características.
 
 \begin{description}
-    \item[Resolución]{ El codifícador admite resoluciones específicas, debído a las dimensiones admitidas para el filtrado de convolución de matríces.}
+    \item[Resolución]{ El codifícador admite resoluciones específicas, debído a las dimensiones admitidas para el filtrado de convolución de matrices.}
     \item[Número de muestras]{La cantidad de datos disponibles para el entrenamiento afecta la precisión final, si el conjunto de datos es limitado se pueden realizar transformaciones de las imágenes presentes para obtener más datos de entrenamiento. Así como tener un conjunto muy extenso y con poca variabilidad afectaría también la capacidad de predecir imágenes generalizadas, se puede ajustar mediante el pre-procesamiento.}
     \item[] 
 \end{description}
@@ -577,7 +579,7 @@ El \emph{pre-procesamiento} se define como una secuencia de transformaciones que
 \end{figure}
 
 
-Debido a que el conjunto de datos es extenso y solo clasifíca entre dos categorías, no es necesario realizar demasiadas trasnformaciones, no obstante es importante trasponer la matríz de entrada para convertir la matríz a tensor.
+Debido a que el conjunto de datos es extenso y solo clasifíca entre dos categorías, no es necesario realizar demasiadas trasnformaciones, no obstante es importante trasponer la matriz de entrada para convertir la matriz a tensor.
 
 \subsection{Entrenamiento y Validación}
 La secuencia de entrenamiento consiste de un búcle en el cuál se condensan las imágenes en un grupo (\emph{batch}), para ser procesadas por el codificador de forma simultanea, esto para acelerar la velocidad de entrenamiento. Sin embargo, a mayor tamaño de batch también se requiere mayor memoria disponible por la unidad procesadora de gráficos y también la precisión del entrenamiento se ve influenciado. Posteriormente se evalúa mediante el \emph{índice de Jaccard}, como se muestra en la ecuación \ref{eq:jacc}.
@@ -622,7 +624,7 @@ El optimizador, utilizando como referencia el valor de pérdida, determina si es
 \end{lstlisting}
 
 \subsection{Predicción de Máscaras} 
-Una vez obtenido un modelo con precisión buena (\emph{good fit}), el objetivo es generar máscaras desconocidas a partír de las imágenes del set de pruebas. Para esto es necesario popular de nuevo un \emph{dataset} de dimensión $N \times (m \times n)$, básicamente es un vector de matríces donde $N$ es el número de imágenes para realizar la prueba, y $m \times n$ es la resolución de imágen de la cuál se desea obtener la máscara de segmentación.
+Una vez obtenido un modelo con precisión buena (\emph{good fit}), el objetivo es generar máscaras desconocidas a partír de las imágenes del set de pruebas. Para esto es necesario popular de nuevo un \emph{dataset} de dimensión $N \times (m \times n)$, básicamente es un vector de matrices donde $N$ es el número de imágenes para realizar la prueba, y $m \times n$ es la resolución de imagen de la cuál se desea obtener la máscara de segmentación.
 
 \begin{lstlisting}[language = Python, label = {code:test} ,caption= Código fuente del modulo de pruebas. ]
     # test_model.py
@@ -654,7 +656,7 @@ Una vez obtenido un modelo con precisión buena (\emph{good fit}), el objetivo e
     tsm.test_model(model_path, test_dir, ENCODER, ENCODER_WEIGHTS, CLASSES, DEVICE)
 \end{lstlisting}
 
-En el código \ref{code:test}, se define la función que se encarga de cargar el modelo y cargar el subconjunto de datos para pruebas mientras que en el código \ref{code:test_2} se da un ejemplo del uso de dicha función. Dando como resultado una gráfica con la imágen de entrada y la máscara estimada para tal.
+En el código \ref{code:test}, se define la función que se encarga de cargar el modelo y cargar el subconjunto de datos para pruebas mientras que en el código \ref{code:test_2} se da un ejemplo del uso de dicha función. Dando como resultado una gráfica con la imagen de entrada y la máscara estimada para tal.
 
 Con esto finalizarían los procesos de cargado, entrenamiento y predicción de la herramienta propuesta, la línea de transformaciones se diseña en base a la cantidad de datos y las características que estas contienen. A sí mismo dichas transformaciones se llevan a cabo para adaptar las dimensiones de la imagen de entrada con el codificador, posteriormente y durante el entrenamiento se evalúa la configuración de los pesos sinapticos mediante el coeficiente de dados y se optimizan dichos pesos mediante el optimizador \emph{adam}, el cual es una alternativa al método de gradiente descendiente y está diseñado para actualizar los pesos sinápticos en elementos de naturaleza iterativa como es el caso de las imágenes. 
 
@@ -672,7 +674,7 @@ En \emph{resultados}, se reporta e interpreta todos los resultados obtenidos med
 Este experimento tiene como objetivo determinar el codificador ideal para la arquitectura implementada basándose en la información estadística del conjunto de datos de las imágenes, también determinar las transformaciones necesarias para coincidir con las dimensiones requeridas por la arquitectura y las ofrecidas por la imagen.
 
 \subsection{Diseño Experimental}
-Las imágenes representan un mapa de características o de valores numéricos en forma de matríz, dichas características pueden ser analizadas para determinar la secuencia correcta de transformaciones en la línea de pre-procesado para acoplar correctamente las dimesiones de entrada de la imagen con las entradas disponibles del codificador.
+Las imágenes representan un mapa de características o de valores numéricos en forma de matriz, dichas características pueden ser analizadas para determinar la secuencia correcta de transformaciones en la línea de pre-procesado para acoplar correctamente las dimesiones de entrada de la imagen con las entradas disponibles del codificador.
 \begin{description}
     \item[Muestras] El número de muestras del conjunto de datos puede determinar las transformaciones posteriores tanto para reducir \emph{sobreajuste}, como para mejorar el \emph{subajuste}.
     \item[Clases] La cantidad de clases entre las que el modelo tiene que clasificar determina la complejidad computacional de éste, por lo tanto también determina transformaciones requeridas.
@@ -976,13 +978,13 @@ En el experimento de \emph{criterio de Jaccard}, se aplicó una metodología sim
 
 En este documento fue descrito el proceso de la implementación de segmentación semántica, mediante el cual es posible clasificar las regiones dentro de una imagen que corresponden a una categoría específica, siendo aquí el caso del melanoma de piel, se implementó una arquitectura de red neuronal profunda que consiste en filtros de convolución asociados a un peso sináptico el cual se ajusta de acuerdo a los criterios de evaluación, creando una linea de procesamiento que transforma la imagen entrante en un mapa probabilístico correspondiente a las regiones que la componen.
 
-La relevancia del presente trabajo de tesis se fundamenta en la naturaleza de la tecnología que fue utilizada para la realización de las tareas de segmentación, aunque es posible realizar la misma tarea mediante una secuencia lineal de transformaciones adecuada al tipo de imágenes dermatolólogicas, la precisión de dicho programa no mejoraría de forma automática a menos que de forma activa se ajusten los parámetros involucrados en la transformación, siendo el número de parámetros involucrados una cantidad masiva. Mediante el uso de redes neuronales el proceso de ajuste de los parámetros se realiza de forma automática mediante los criterios mencionados en el capítulo 5, aún cuando es necesario ajustar manualmente parámetros relacionados con el entrenamiento del modelo y de la evaluación del mismo, la cantidad de ajustes necesarios no varía en función de la complejidad de las imágenes a procesar, sino qué, va en función de la arquitectura seleccionada como recipiente para el modelo.
+La relevancia del presente trabajo de tesis se fundamenta en la naturaleza de la tecnología que fue utilizada para la realización de las tareas de segmentación, aunque es posible realizar la misma tarea mediante una secuencia lineal de transformaciones adecuada al tipo de imágenes dermatológicas, la precisión de dicho programa no mejoraría de forma automática a menos que de forma activa se ajusten los parámetros involucrados en la transformación, siendo el número de parámetros involucrados una cantidad masiva. Mediante el uso de redes neuronales el proceso de ajuste de los parámetros se realiza de forma automática mediante los criterios mencionados en el capítulo 5, aún cuando es necesario ajustar manualmente parámetros relacionados con el entrenamiento del modelo y de la evaluación del mismo, la cantidad de ajustes necesarios no varía en función de la complejidad de las imágenes a procesar, sino qué, va en función de la arquitectura seleccionada como recipiente para el modelo.
 
 La implementación de la arquitectura de red neuronal convolucional fue llevada a cabo gracias a la librería de \citet{Yakubovskiy:2019}, cual está desarrollada en el lenguaje de \texttt{Python} y contiene las principales arquitecturas de redes neuronales ya adaptadas para la realización de tareas de segmentación semántica, el resto de la implementación consistió principalmente en establecer las lineas de pre-procesamiento de imágenes para cumplir con los requisitos de admisión para ingresar a la arquitectura de pirámide de características, obteniendo de forma satisfactoria la segmentación semántica.
 
 \section{Discusión}
 
-El objetivo fué clasificar en las imágenes dermatolólogicas las regiones que corresponden a una de las dos posibles categorías: piel sana, melanoma. Mediante la implementación del \emph{software} y el entrenamiento de modelos con lineas de pre-procesamiento fue posible obtener el resultado esperado con una precisión aceptable de acuerdo al coeficiente de dados y al criterio de Jaccard.
+El objetivo fué clasificar en las imágenes dermatológicas las regiones que corresponden a una de las dos posibles categorías: piel sana, melanoma. Mediante la implementación del \emph{software} y el entrenamiento de modelos con lineas de pre-procesamiento fue posible obtener el resultado esperado con una precisión aceptable de acuerdo al coeficiente de dados y al criterio de Jaccard.
 
 Los experimentos demuestran que la calibración se lleva a cabo conforme se repiten épocas de entrenamiento siento aproximadamente seis épocas el valor ideal de repeticiones para obtener la precisión máxima viable.
 
@@ -991,7 +993,7 @@ El software desarrollado mostró resultados eficientes en las tareas de segmenta
 El entrenamiento en sí requiere de grandes recursos de memoria, por lo que la resolución máxima de predicción está directamente limitada por la capacidad del hardware de llevar a cabo el entrenamiento, sin embargo, una vez obtenido el modelo de segmentación semántica, independientemente de su complejidad, utilizarlo no requirió tantos recursos como al entrenarlo, siendo aún viable la utilización de este sofware por una gran cantidad de dispositivos en el post-entrenamiento. 
 
 
-Al final se obtuvo un software con la capacidad de tanto generar nuevos modelos y modificar sus parámetros de entrenamiento, como de utilizar dichos modelos para generar máscaras de segmentación semántica en imágenes dermatolólogicas. Así mismo, el software desarrollado en el presente trabajo de tesis provee las transformaciones requeridas para adaptar las dimensiones de los datos, independientemente de su resolución y de la cantidad de canales de color con los que cuente, dando como resultado una máscara de segmentación semántica con resolución estandarizada.
+Al final se obtuvo un software con la capacidad de tanto generar nuevos modelos y modificar sus parámetros de entrenamiento, como de utilizar dichos modelos para generar máscaras de segmentación semántica en imágenes dermatológicas. Así mismo, el software desarrollado en el presente trabajo de tesis provee las transformaciones requeridas para adaptar las dimensiones de los datos, independientemente de su resolución y de la cantidad de canales de color con los que cuente, dando como resultado una máscara de segmentación semántica con resolución estandarizada.
 
 \section{Trabajo a Futuro}
 La principal razón por la que muchos científicos estudian y desarrollan la técnica de segmentación semántica es porque mediante ésta técnica se obtiene información muy relevante sobre el objeto que se está estudiando, por ejemplo, muchos autores enfocan las redes neuronales para obtener información de medio como distinguir mediante una cámara a las personas, a los objetos, a las señales de tráfico. La razón es porque teniendo esta información es posible realizar algo como un vehículo de conducción autónoma, y ahí es donde reside la clave del paso siguiente. Tomando únicamente el concepto de la segmentación semántica, es posible pensar en muchas posibilidades en las que pueda ser aplicada, principalmente en el área médica. Por ejemplo, podría ser aplicado para segmentar partes del cuerpo de forma externa e interna, incluso podría desarrollarse un sistema de visión con un modelo pre-entrenado para asistir a personas con ceguera parcial a detectar obstáculos en el camino.
