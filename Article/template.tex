@@ -42,7 +42,7 @@ grestore
 %\documentclass{svjour3}                     % onecolumn (standard format)
 %\documentclass[smallcondensed]{svjour3}     % onecolumn (ditto)
 %\documentclass[smallextended]{svjour3}       % onecolumn (second format)
-\documentclass[twocolumn, draft]{svjour3}          % twocolumn
+\documentclass[twocolumn]{svjour3}          % twocolumn
 %
 \smartqed  % flush right qed marks, e.g. at end of proof
 %
@@ -60,6 +60,7 @@ grestore
 \usepackage{tikz}
     \usetikzlibrary{arrows, matrix, calc, shapes.geometric, shapes.misc,positioning}
 \usepackage{adjustbox}
+\usepackage{caption}
 \usepackage{subfig}
 \usepackage{xcolor}
 
@@ -68,6 +69,7 @@ grestore
 
 \usepackage{amsfonts, amsmath, amsthm, amssymb}
 \usepackage[utf8]{inputenc}
+\usepackage{graphicx}
 \usepackage[numbers, sort, compress]{natbib}
 \usepackage{pifont}% http://ctan.org/pkg/pifont
 	\newcommand{\cmark}{\ding{51}}%
@@ -109,68 +111,178 @@ grestore
 \end{abstract}
 
 \section{Introduction}
-Skin is considered one of the largest organs in the human body, its function is to protect the internal organs and structures from the harsh environmental conditions such as temperature, radiation and bacteria. The skin also functions as a large sensorial interface that let us feel the environment conditions such as the temperature in the ambience and feel the texture of the objects.
-The skin cancer known as melanoma is one of the deadliest types of cancer if not detected in its early stages, because of the quick spread to other organs caused by the metastasis effect. One way to reduce its mortality rate is by using automatic detection with computer vision technologies, such as the deep learning technology. With deep learning is possible to train models that recognize the presence of the melanoma tissue using a configuration of parameters fine-tuned during a process known as \emph{training} which compares the input of the model and the known output to that input, and then update the parameters to get the computed output closer to the known output.
+Skin is considered one of the largest organs in the human body, its function is to protect the internal organs and structures from the harsh environmental conditions such as temperature, radiation and bacteria. The skin also functions as a large sensorial interface that let us feel the environment conditions such as the temperature in the ambience and the texture of the objects.
+The skin cancer known as melanoma is one of the deadliest types of cancer if not detected in its early stages, because of the quick spread to other organs caused by the metastasis effect. One way to reduce its mortality rate is by using automatic detection with computer vision technologies, such as the deep learning technology. With deep learning is possible to train models that recognize the presence of the melanoma tissue using a configuration of fine-tuned parameters during a process known as \emph{training} which compares the input of the model and the known output to that input, and then update the parameters to get the computed output closer to the known output.
+
+\subsection{General Objective}
+The \emph{general objective} is to implement a convolutional neural network technology with the purpose of creating a dermoscopic computer vision tool to help medical staff to detect skin melanoma tissue in a automated or assisted way, and to contribute the cause of reducing skin cancer mortality rates.
+
+\subsection{Specific Objective}
+The \emph{specific objective} is determine the process involved to implement said technology, the requirements and considerations implicit in the deployment of a convolutional neural network architecture and the required transformations of the data to make that possible.
+
+\begin{figure}[h]
+  \centering
+  \subfloat[Input]{\includegraphics[width=0.4\columnwidth]{Figuras/input_1.png}}\qquad
+  \subfloat[Ground Truth]{\includegraphics[width=0.4\columnwidth]{Figuras/mask_1.png}}
+  \caption{Example of data input/output.}
+\end{figure}
 
 
 \section{Background}
 In this section are introduced the basic concepts an theories required to understand the following proposals. Starting with some basic background aspects about the melanoma cancer, then continuing with the loss functions and the optimizer functions.
 
+\subsection{Melanoma}
+The skin cancer is a type of cell mutation that usually is related to the spontaneous appearance of asymmetric moles or patches of dark/red skin, bulges or scales on the skin surface. This mutation of the melanocytes (the cells responsible for the skin pigmentation) can affect any skin tone, mostly exposed parts of the body to ultra-violet light like the arms and the neck, but not exclusively.
+
+\begin{figure}[h]
+  \centering
+  \hspace{-0.4cm}
+  \subfloat[]{\includegraphics[width=0.3\columnwidth]{Figuras/mela_1.jpg}}
+  \subfloat[]{\includegraphics[width=0.3\columnwidth]{Figuras/mela_2.jpg}}
+  \subfloat[]{\includegraphics[width=0.3\columnwidth]{Figuras/mela_3.jpg}}
+  \caption{Examples of skin melanoma obtained from the ISIC \citep{isic_skin} database.}
+\end{figure}
+
+There are two main factors involved in the mutation of the melanocytes cells: intrinsic aging and extrinsic factors. The \emph{intrinsic} aging occurs inevitably as a consequence of the time, while the \emph{extrinsic} factors are rather external like the sunlight, nicotine abuse unhealthy lifestyles \citep{farage2008intrinsic}.
+
+\subsection{Image Dimensions}
+An important aspect to consider is the dimension of the images before introducing them to the neural network architecture. Images in a gray-scale configuration do not share the same dimensions of an image of the same resolution in a \emph{rgb} configuration. A gray-scale or mono-channel image resolution can be described as $m \times n$, where $m$ and $n$ are the width and height respectively. This however is not the case for the rgb configuration which dimensions are described as $m \times n \times k$, where $k$ is the number of color channels. That means that in color images there are a specific number of layers where each has an independent set of pixel intensity values, as described in figure \ref{fig:img_dims}.
+
 \definecolor{red_matrix}{rgb}{0.6, 0, 0}
 \definecolor{green_matrix}{rgb}{0, 0.8, 0}
 \definecolor{blue_matrix}{rgb}{0, 0.25, 1}
 
-\begin{figure*}[htp]
+\begin{figure}[h]
   \centering
+  \resizebox{0.4\columnwidth}{!}{%
   \subfloat[Grayscale.]{
       \label{mtr_1}
       \begin{tikzpicture}
           \draw[step=5mm, black, line width=0.30mm] (-2,-2) grid (2,2);
-          \node at (0,-2.5) {$\text{dim} = m \times n$};
-      \end{tikzpicture}
+          \node at (0,-2.5) {\Large$\text{dim} = m \times n$};
+      \end{tikzpicture}%
+  }
   }
   \qquad
   \subfloat[Color.]{
-      \label{mtr_2} 
+      \label{mtr_2}
+      \resizebox{0.45\columnwidth}{!}{% 
       \begin{tikzpicture}
           \draw[step=5mm, red_matrix, line width=0.30mm] (-2.5,-2.5) grid (1.5,1.5);
           \draw[step=5mm, green_matrix, line width=0.30mm] (-2,-2) grid (2,2);
           \draw[step=5mm, blue, line width=0.30mm] (-1.5,-1.5) grid (2.5,2.5);
-          \node at (0, -3) {$\text{dim} = m \times n \times k$};
-      \end{tikzpicture}
+          \node at (0, -3) {\Large$\text{dim} = m \times n \times k$};
+      \end{tikzpicture}%
+      }
   }
   \caption{Dimensional comparison between images.}
-\end{figure*}
+  \label{fig:img_dims}
+\end{figure}
+
+\subsection{Convolutional Neural Networks}
+A convolutional neural network is a configuration of layers of \emph{convolution}.
 
 
+\begin{figure}[h]
+  \centering
+  \resizebox{\columnwidth}{!}{%
+  \begin{tikzpicture}
+		\node at (0.5,-1){\begin{tabular}{c}input image\\layer $l = 0$\end{tabular}};
+		
+		\draw (0,0) -- (1,0) -- (1,1) -- (0,1) -- (0,0);
+		
+		\node at (3,3.5){\begin{tabular}{c}convolutional layer\\with non-linearities\\layer $l = 1$\end{tabular}};
+		
+		\draw[fill=black,opacity=0.2,draw=black] (2.75,1.25) -- (3.75,1.25) -- (3.75,2.25) -- (2.75,2.25) -- (2.75,1.25);
+		\draw[fill=black,opacity=0.2,draw=black] (2.5,1) -- (3.5,1) -- (3.5,2) -- (2.5,2) -- (2.5,1);
+		\draw[fill=black,opacity=0.2,draw=black] (2.25,0.75) -- (3.25,0.75) -- (3.25,1.75) -- (2.25,1.75) -- (2.25,0.75);
+		\draw[fill=black,opacity=0.2,draw=black] (2,0.5) -- (3,0.5) -- (3,1.5) -- (2,1.5) -- (2,0.5);
+		\draw[fill=black,opacity=0.2,draw=black] (1.75,0.25) -- (2.75,0.25) -- (2.75,1.25) -- (1.75,1.25) -- (1.75,0.25);
+		\draw[fill=black,opacity=0.2,draw=black] (1.5,0) -- (2.5,0) -- (2.5,1) -- (1.5,1) -- (1.5,0);
+		
+		\node at (4.5,-1){\begin{tabular}{c}subsampling layer\\layer $l = 3$\end{tabular}};
+		
+		\draw[fill=black,opacity=0.2,draw=black] (5,1.25) -- (5.75,1.25) -- (5.75,2) -- (5,2) -- (5,1.25);
+		\draw[fill=black,opacity=0.2,draw=black] (4.75,1) -- (5.5,1) -- (5.5,1.75) -- (4.75,1.75) -- (4.75,1);
+		\draw[fill=black,opacity=0.2,draw=black] (4.5,0.75) -- (5.25,0.75) -- (5.25,1.5) -- (4.5,1.5) -- (4.5,0.75);
+		\draw[fill=black,opacity=0.2,draw=black] (4.25,0.5) -- (5,0.5) -- (5,1.25) -- (4.25,1.25) -- (4.25,0.5);
+		\draw[fill=black,opacity=0.2,draw=black] (4,0.25) -- (4.75,0.25) -- (4.75,1) -- (4,1) -- (4,0.25);
+		\draw[fill=black,opacity=0.2,draw=black] (3.75,0) -- (4.5,0) -- (4.5,0.75) -- (3.75,0.75) -- (3.75,0);
+		
+		\node at (7,3.5){\begin{tabular}{c}convolutional layer\\with non-linearities\\layer $l = 4$\end{tabular}};
+		
+		\draw[fill=black,opacity=0.2,draw=black] (7.5,1.75) -- (8.25,1.75) -- (8.25,2.5) -- (7.5,2.5) -- (7.5,1.75);
+		\draw[fill=black,opacity=0.2,draw=black] (7.25,1.5) -- (8,1.5) -- (8,2.25) -- (7.25,2.25) -- (7.25,1.5);
+		\draw[fill=black,opacity=0.2,draw=black] (7,1.25) -- (7.75,1.25) -- (7.75,2) -- (7,2) -- (7,1.25);
+		\draw[fill=black,opacity=0.2,draw=black] (6.75,1) -- (7.5,1) -- (7.5,1.75) -- (6.75,1.75) -- (6.75,1);
+		\draw[fill=black,opacity=0.2,draw=black] (6.5,0.75) -- (7.25,0.75) -- (7.25,1.5) -- (6.5,1.5) -- (6.5,0.75);
+		\draw[fill=black,opacity=0.2,draw=black] (6.25,0.5) -- (7,0.5) -- (7,1.25) -- (6.25,1.25) -- (6.25,0.5);
+		\draw[fill=black,opacity=0.2,draw=black] (6,0.25) -- (6.75,0.25) -- (6.75,1) -- (6,1) -- (6,0.25);
+		\draw[fill=black,opacity=0.2,draw=black] (5.75,0) -- (6.5,0) -- (6.5,0.75) -- (5.75,0.75) -- (5.75,0);
+		
+		\node at (9.5,-1){\begin{tabular}{c}subsampling layer\\layer $l = 6$\end{tabular}};
+		
+		\draw[fill=black,opacity=0.2,draw=black] (10,1.75) -- (10.5,1.75) -- (10.5,2.25) -- (10,2.25) -- (10,1.75);
+		\draw[fill=black,opacity=0.2,draw=black] (9.75,1.5) -- (10.25,1.5) -- (10.25,2) -- (9.75,2) -- (9.75,1.5);
+		\draw[fill=black,opacity=0.2,draw=black] (9.5,1.25) -- (10,1.25) -- (10,1.75) -- (9.5,1.75) -- (9.5,1.25);
+		\draw[fill=black,opacity=0.2,draw=black] (9.25,1) -- (9.75,1) -- (9.75,1.5) -- (9.25,1.5) -- (9.25,1);
+		\draw[fill=black,opacity=0.2,draw=black] (9,0.75) -- (9.5,0.75) -- (9.5,1.25) -- (9,1.25) -- (9,0.75);
+		\draw[fill=black,opacity=0.2,draw=black] (8.75,0.5) -- (9.25,0.5) -- (9.25,1) -- (8.75,1) -- (8.75,0.5);
+		\draw[fill=black,opacity=0.2,draw=black] (8.5,0.25) -- (9,0.25) -- (9,0.75) -- (8.5,0.75) -- (8.5,0.25);
+		\draw[fill=black,opacity=0.2,draw=black] (8.25,0) -- (8.75,0) -- (8.75,0.5) -- (8.25,0.5) -- (8.25,0);
+		
+		\node at (12,3.5){\begin{tabular}{c}fully connected layer\\layer $l = 7$\end{tabular}};
+		
+		\draw[fill=black,draw=black,opacity=0.5] (10.5,0) -- (11,0) -- (12.5,1.75) -- (12,1.75) -- (10.5,0);
+		
+		\node at (13,-1){\begin{tabular}{c}fully connected layer\\output layer $l = 8$\end{tabular}};
+		
+		\draw[fill=black,draw=black,opacity=0.5] (12.5,0.5) -- (13,0.5) -- (13.65,1.25) -- (13.15,1.25) -- (12.5,0.5);
+  \end{tikzpicture}%
+  }
+  \caption{Convolutional neural network for Classification, example obtained from David Stutz \citep{Stutz:2017}.}
+
+\end{figure}
 
 \section{Related Work}
-In this section the related works were summarized to make a comparison between different methods to approach the melanoma detection problem and same approaches for the solution of different problems and get an idea of the opportunity areas and the advantages and disadvantages of the proposed solution.
+In this section the reviewed literature was summarized to make a comparison between different methods to approach the melanoma detection problem and same approaches for the solution of different problems and get an idea of the opportunity areas and the advantages and disadvantages of the proposed solution.
 
-\begin{table}[h!]
+\subsection{Comparative Analysis}
+
+These are the characteristics used to compare the implementation in this paper with the work from the other authors.
+\begin{description}
+  \item[\textbf{Classification.}] Has the capacity of classify between two or more categories.
+  \item[\textbf{Segmentation.}] Can recognize the pixel-wise region of the different categories.
+  \item[\textbf{Supervised.}] Requires a curated database to perform the training process.
+  \item[\textbf{Pre-trained.}] Can initialize the model with pre-trained weights.
+  \item[\textbf{Evaluation.}] Can determine the precision of the computed output in comparison with the ground truth.     
+\end{description}
+
+
+\begin{table*}[h]
   \begin{center}
-  \scalebox{0.5}{
+  \scalebox{1}{
       \begin{tabular}[t]{|l|l|l|l|l|l|l|l|}
           \hline
-          \bf{Work} & \bf{Model} & \bf{\rotatebox{90}{Classification}} & \bf{\rotatebox{90}{Segmentation}} & \bf{\rotatebox{90}{Supervised}} & \bf{\rotatebox{90}{Pre-train\phantom{m}}} & \bf{\rotatebox{90}{Evaluation}} & \bf{Output}\\
+          \bf{Work} & \bf{Model} & \bf{\rotatebox{90}{Classification}} & \bf{\rotatebox{90}{Segmentation\phantom{m}}} & \bf{\rotatebox{90}{Supervised}} & \bf{\rotatebox{90}{Pre-trained\phantom{m}}} & \bf{\rotatebox{90}{Evaluation}} & \bf{Output}\\
           \hline
-          \citet{DBLP:journals/corr/BadrinarayananK15} & \texttt{SegNet} & \cmark & \cmark & \cmark & \cmark & \cmark & mapa de etiquetas\\
-          \citet{DBLP:journals/corr/RonnebergerFB15} & \texttt{U-net} & \cmark & \cmark & \cmark & \xmark & \cmark & mapa de etiquetas\\
-          \citet{DBLP:journals/corr/ChenPK0Y16} & \texttt{DeepLab} & \cmark & \cmark & \cmark & \xmark & \cmark & mapa de etiquetas\\   
-          \citet{DBLP:journals/corr/TeichmannWZCU16} & \texttt{MultiNet} & \cmark & \cmark & \cmark & \xmark & \cmark & mapa de etiquetas\\   
-          \citet{KRONER2020261} & \texttt{VGG16} & \cmark & \cmark & \cmark & \cmark & \cmark & mapa de calor\\ 
-          \citet{KADAMPUR2020100282} & \texttt{CNN} & \cmark & \xmark & \cmark & \xmark & \cmark & mapa de etiquetas\\    
-          \citet{zhou2019emerging} & \texttt{ML / SVM} & \cmark & \xmark & \cmark & \xmark & \cmark & etiqueta\\    
-          \citet{DBLP:journals/corr/LucCCV16} & \texttt{CNN/GAN} & \cmark & \cmark & \cmark & \cmark & \cmark & mapa de etiquetas\\         
-          \citet{JAIN2015735} & \texttt{A.B.C.D} & \xmark & \cmark & \xmark & \xmark & \xmark & etiqueta\\
+          \citet{DBLP:journals/corr/BadrinarayananK15} & \texttt{SegNet} & \cmark & \cmark & \cmark & \cmark & \cmark & label\\
+          \citet{DBLP:journals/corr/RonnebergerFB15} & \texttt{U-net} & \cmark & \cmark & \cmark & \xmark & \cmark &label map\\
+          \citet{DBLP:journals/corr/ChenPK0Y16} & \texttt{DeepLab} & \cmark & \cmark & \cmark & \xmark & \cmark &label map\\   
+          \citet{DBLP:journals/corr/TeichmannWZCU16} & \texttt{MultiNet} & \cmark & \cmark & \cmark & \xmark & \cmark &label map\\   
+          \citet{KRONER2020261} & \texttt{VGG16} & \cmark & \cmark & \cmark & \cmark & \cmark & heat map\\ 
+          \citet{KADAMPUR2020100282} & \texttt{CNN} & \cmark & \xmark & \cmark & \xmark & \cmark &label map\\    
+          \citet{zhou2019emerging} & \texttt{ML / SVM} & \cmark & \xmark & \cmark & \xmark & \cmark & label\\    
+          \citet{DBLP:journals/corr/LucCCV16} & \texttt{CNN/GAN} & \cmark & \cmark & \cmark & \cmark & \cmark &label map\\         
+          \citet{JAIN2015735} & \texttt{A.B.C.D} & \xmark & \cmark & \xmark & \xmark & \xmark & label\\
           \hline
-          Propuesta de tesis & \texttt{FPN} & \cmark & \cmark & \cmark & \cmark & \cmark & mapa de etiquetas\\
+          Propuesta de tesis & \texttt{FPN} & \cmark & \cmark & \cmark & \cmark & \cmark &label map\\
           \hline   
       \end{tabular}
       }
   \end{center}
   \label{Tab:comp_1}
-\end{table}
+\end{table*}
 
 \section{Proposed Solution}
 The approach proposed in this paper for the automated detection of the skin melanoma is the training of a model using a \texttt{FPN} convolutional neural network architecture, which output would be the probabilistic map of the regions inside of the dermoscopic input image. The language selected for the implementation of said neural network architecture was \texttt{Python}, because is a powerful, dynamic and quick to deploy language which also contains the \texttt{Torch} library which is the core tool of the implementation.
@@ -178,17 +290,21 @@ The approach proposed in this paper for the automated detection of the skin mela
 \section{Experiments}
 The methods used to evaluate the performance of the training process and also gauge the probabilistic map predictions are described in this section. Also the analysis of the threshold is included here.
 
+\subsection{Threshold Analysis}
+
+\subsection{Dice Loss}
 \begin{center}
   \begin{equation}\label{eq:dice_loss}
-      \text{CD} = \frac{2|A \cap B |}{|A| + |B|}
+      \text{DL} = \frac{2|A \cap B |}{|A| + |B|}
   \end{equation}        
 \end{center}
 
+\subsection{Intersection Over Union}
 \begin{equation}\label{eq:jacc}
-  \text{CJ} = \frac{|A \cap B|}{| A \cup B |} = \frac{|A \cap B|}{|A| + |B| - |A \cap B|} \text{,}
+  \text{IoU} = \frac{|A \cap B|}{| A \cup B |} = \frac{|A \cap B|}{|A| + |B| - |A \cap B|} \text{,}
 \end{equation}
 
-\begin{table}[h]
+\begin{table}[ht]
   \centering
   \begin{tabular}{c c c}
     \toprule
@@ -208,7 +324,10 @@ The methods used to evaluate the performance of the training process and also ga
     
   \end{tabular}
 \end{table}
+
 \section{Conclusion}
+\subsection{Discussion}
+\subsection{Future Work}
 
 %\begin{acknowledgements}
 %If you'd like to thank anyone, place your comments here
@@ -229,6 +348,8 @@ The methods used to evaluate the performance of the training process and also ga
 %\bibliographystyle{spbasic}      % basic style, author-year citations
 %\bibliographystyle{spmpsci}      % mathematics and physical sciences
 %\bibliographystyle{spphys}       % APS-like style for physics
+
+\renewcommand\refname{\vskip -1cm}
 \bibliographystyle{mighelnat}    % FIME - Custom Style.
 
 \footnotesize
