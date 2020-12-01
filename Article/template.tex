@@ -382,6 +382,17 @@ The main objective of this implementation was to obtain a tool able to perform p
 \subsection{Future Work}
 This implementation of the semantic segmentation task has one major limitation, which is that it can distinguish between different categories inside the regions of the dermoscopic images, but it cannot distinguish between two objects of the same category which means that for example this same two objects are considered one single object inside the same category. This limitation in particular doesn't affect the purpose of this implementation because in this case the melanoma will always represent one single instance in the person. There are a lot of papers which talk about instanced segmentation where this is not the case, and the different instances of the different objects under the same category are recognized as different instances. I would like to experiment with instanciation and multi-class segmentation in the future. 
 
+\section{GitHub Repository}
+
+The full source code and the data obtained from the experiments can be consulted by scanning the following \texttt{QR code}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.65\columnwidth]{repoqr.eps}
+\end{figure}
+\hspace{-1cm}
+\url{https://github.com/Btrox148/semantic-segmentation-skin}
+
 %\begin{acknowledgements}
 %If you'd like to thank anyone, place your comments here
 %and remove the percent signs.
