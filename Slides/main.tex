@@ -14,9 +14,14 @@
 \usepackage{multirow}
 \usepackage{array}
 \usepackage{fancybox}
+
+\definecolor{red_matrix}{rgb}{0.6, 0, 0}
+\definecolor{green_matrix}{rgb}{0, 0.8, 0}
+\definecolor{blue_matrix}{rgb}{0, 0.25, 1}
+
 \usepackage{pifont}% http://ctan.org/pkg/pifont
-	\newcommand{\cmark}{\ding{51}}%
-	\newcommand{\xmark}{\ding{53}}%
+	\newcommand{\cmark}{\color{green_matrix}\ding{51}}%
+	\newcommand{\xmark}{\color{red}\ding{53}}%
 \usepackage{tikz}
     \usetikzlibrary{arrows, matrix, calc,shapes.geometric,positioning}
 \usepackage{setspace}
@@ -63,7 +68,7 @@
 
 \subsection{Motivación}
 \begin{frame}
-    \frametitle{Motivacion}
+    \frametitle{Motivación}
     Contribuir a la detección temprana del melanoma de piel para reducir la tasa de mortalidad.
 \end{frame}
 
@@ -87,10 +92,6 @@
 \end{frame}
 
 \section{Antecedentes}
-
-\definecolor{red_matrix}{rgb}{0.6, 0, 0}
-\definecolor{green_matrix}{rgb}{0, 0.8, 0}
-\definecolor{blue_matrix}{rgb}{0, 0.25, 1}
 
 
 \begin{frame}
@@ -119,25 +120,14 @@
 \subsection{Función de Costo y Gradiente}
 \begin{frame}
     \frametitle{Antecedentes}
-    \begin{equation}
-        M_t = \beta_1 M_{t-1}+(1-\beta_1)\nabla L_t(W_{t-1})   % Primer momento
-    \end{equation}
-
-    \begin{equation}
-        R_t = \beta_2 R_{t-1}+(1-\beta_2)\nabla L_t(W_{t-1})^2   % Segundo momento
-    \end{equation}
-
-    \begin{equation}
-        \hat{M}_t = M_t/\left(1-(\beta_1)^t\right)   % Correción del sesgo del primer momento
-    \end{equation}
+    \begin{equation}\label{eq:dice_loss}
+        \text{DL} = \frac{2|A \cap B |}{|A| + |B|}
+    \end{equation}        
     
-    \begin{equation}
-        \hat{R}_t = R_t/\left(1-(\beta_2)^t\right)   % Corección del sesgo del segundo momento
-    \end{equation}
-
-    \begin{equation}
-        W_t = W_{t-1}-\alpha\frac{\hat{M_t}}{\sqrt{\hat{R_t}+\epsilon}}   % Actualización
-    \end{equation}
+    \begin{equation}\label{eq:jacc}
+        \text{IoU} = \frac{|A \cap B|}{| A \cup B |} = \frac{|A \cap B|}{|A| + |B| - |A \cap B|} \text{,}
+      \end{equation}
+      
     
 \end{frame}
 
@@ -301,9 +291,9 @@ for i in range(0,40):
     \frametitle{Experimentos}
     \setbeamertemplate{description item}[align left]
     \begin{description}
-        \item[Filtro de umbral] El objetivo de este experimento es obtener el perfil de la intensidad de los pixeles.
-        \item[Coeficiente de dados] El objetivo de este experimento es determinar el error durante las iteraciones para comprobar su reducción.
-        \item[Criterio de jaccard] El objetivo de este experimento es evaluar la similitud de la máscara real con la máscara predicha.   
+        \item[Filtro de umbral] Obtener el perfil de la intensidad de los pixeles antes y después del filtro.
+        \item[Coeficiente de dados] Determinar el perfil del error durante la fase de entrenamiento.
+        \item[Criterio de Jaccard] Determinar la similitud con mayor penalización del error en la fase de validación.   
     \end{description}
 \end{frame}
 
@@ -361,7 +351,7 @@ for i in range(0,40):
 \subsection{Trabajo a Futuro}
 \begin{frame}
     \frametitle{Trabajo a Futuro}
-    Implementar redes neuronales convolucionales para la segmentación multicategórica de imágenes médicas.
+    Trabajar con redes neuronales de segmentación semántica instanciada para la detección de múltiples instancias de los objetos dentro de la misma categoría. 
 \end{frame}
 
 \subsection{Agradecimientos}

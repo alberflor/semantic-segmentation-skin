@@ -2,6 +2,8 @@
 \beamer@slide {fig:b}{3}
 \beamer@slide {fig:a}{7}
 \beamer@slide {fig:b}{7}
+\beamer@slide {eq:dice_loss}{8}
+\beamer@slide {eq:jacc}{8}
 \beamer@slide {Tab:comp_1}{10}
 \beamer@slide {fig: pipeline}{12}
 \beamer@slide {code:train}{13}
