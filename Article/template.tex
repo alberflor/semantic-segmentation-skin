@@ -61,8 +61,11 @@ grestore
     \usetikzlibrary{arrows, matrix, calc, shapes.geometric, shapes.misc,positioning}
 \usepackage{adjustbox}
 \usepackage{caption}
+%  \captionsetup{width=.75\textwidth}
 \usepackage{subfig}
 \usepackage{xcolor}
+\usepackage{url}
+\usepackage{hyperref}
 
 \let\proof\relax
 \let\endproof\relax
@@ -71,9 +74,14 @@ grestore
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage[numbers, sort, compress]{natbib}
+
+\definecolor{red_matrix}{rgb}{0.6, 0, 0}
+\definecolor{green_matrix}{rgb}{0, 0.8, 0}
+\definecolor{blue_matrix}{rgb}{0, 0.25, 1}
+
 \usepackage{pifont}% http://ctan.org/pkg/pifont
-	\newcommand{\cmark}{\ding{51}}%
-  \newcommand{\xmark}{\ding{53}}%
+	\newcommand{\cmark}{\color{green_matrix}\ding{51}}%
+  \newcommand{\xmark}{\color{red}\ding{53}}%
 
 
 % please place your own definitions here and don't use \def but
@@ -112,7 +120,7 @@ grestore
 
 \section{Introduction}
 Skin is considered one of the largest organs in the human body, its function is to protect the internal organs and structures from the harsh environmental conditions such as temperature, radiation and bacteria. The skin also functions as a large sensorial interface that let us feel the environment conditions such as the temperature in the ambience and the texture of the objects.
-The skin cancer known as melanoma is one of the deadliest types of cancer if not detected in its early stages, because of the quick spread to other organs caused by the metastasis effect. One way to reduce its mortality rate is by using automatic detection with computer vision technologies, such as the deep learning technology. With deep learning is possible to train models that recognize the presence of the melanoma tissue using a configuration of fine-tuned parameters during a process known as \emph{training} which compares the input of the model and the known output to that input, and then update the parameters to get the computed output closer to the known output.
+The skin cancer known as melanoma is one of the deadliest types of cancer if not detected in its early stages, because of the quick spread to other organs caused by the metastasis effect. One way to reduce its mortality rate is by using automatic detection with computer vision technologies, such as the deep learning technology. With deep learning is possible to train models that recognize the presence of the melanoma tissue using a configuration of fine-tuned parameters during a process known as \emph{training} which compares the input of the model and the known output to that input, and then update the parameters to get the computed output closer to the known output for a later use in unknown truth data.
 
 \subsection{General Objective}
 The \emph{general objective} is to implement a convolutional neural network technology with the purpose of creating a dermoscopic computer vision tool to help medical staff to detect skin melanoma tissue in a automated or assisted way, and to contribute the cause of reducing skin cancer mortality rates.
@@ -148,9 +156,6 @@ There are two main factors involved in the mutation of the melanocytes cells: in
 \subsection{Image Dimensions}
 An important aspect to consider is the dimension of the images before introducing them to the neural network architecture. Images in a gray-scale configuration do not share the same dimensions of an image of the same resolution in a \emph{rgb} configuration. A gray-scale or mono-channel image resolution can be described as $m \times n$, where $m$ and $n$ are the width and height respectively. This however is not the case for the rgb configuration which dimensions are described as $m \times n \times k$, where $k$ is the number of color channels. That means that in color images there are a specific number of layers where each has an independent set of pixel intensity values, as described in figure \ref{fig:img_dims}.
 
-\definecolor{red_matrix}{rgb}{0.6, 0, 0}
-\definecolor{green_matrix}{rgb}{0, 0.8, 0}
-\definecolor{blue_matrix}{rgb}{0, 0.25, 1}
 
 \begin{figure}[h]
   \centering
@@ -240,12 +245,11 @@ A convolutional neural network is a configuration of layers of \emph{convolution
 		\draw[fill=black,draw=black,opacity=0.5] (12.5,0.5) -- (13,0.5) -- (13.65,1.25) -- (13.15,1.25) -- (12.5,0.5);
   \end{tikzpicture}%
   }
-  \caption{Convolutional neural network for Classification, example obtained from David Stutz \citep{Stutz:2017}.}
-
+  \caption{Convolutional neural network for classification, figure from David Stutz \citep{Stutz:2017}.}
 \end{figure}
 
 \section{Related Work}
-In this section the reviewed literature was summarized to make a comparison between different methods to approach the melanoma detection problem and same approaches for the solution of different problems and get an idea of the opportunity areas and the advantages and disadvantages of the proposed solution.
+In this section the reviewed literature was summarized to make a comparison between different methods to approach the melanoma detection problem and same approaches for the solution of different problems to get a scope of the opportunity areas, the advantages and disadvantages of the proposed solution.
 
 \subsection{Comparative Analysis}
 
@@ -258,10 +262,11 @@ These are the characteristics used to compare the implementation in this paper w
   \item[\textbf{Evaluation.}] Can determine the precision of the computed output in comparison with the ground truth.     
 \end{description}
 
-
-\begin{table*}[h]
+\begin{table}[h]
   \begin{center}
-  \scalebox{1}{
+  \caption{Similitude and difference in the literature reviewed; the available features are shown as {\cmark}, and the not available are represented with {\xmark}.}
+  \hspace{-0.5cm}
+  \scalebox{0.75}{
       \begin{tabular}[t]{|l|l|l|l|l|l|l|l|}
           \hline
           \bf{Work} & \bf{Model} & \bf{\rotatebox{90}{Classification}} & \bf{\rotatebox{90}{Segmentation\phantom{m}}} & \bf{\rotatebox{90}{Supervised}} & \bf{\rotatebox{90}{Pre-trained\phantom{m}}} & \bf{\rotatebox{90}{Evaluation}} & \bf{Output}\\
@@ -276,13 +281,16 @@ These are the characteristics used to compare the implementation in this paper w
           \citet{DBLP:journals/corr/LucCCV16} & \texttt{CNN/GAN} & \cmark & \cmark & \cmark & \cmark & \cmark &label map\\         
           \citet{JAIN2015735} & \texttt{A.B.C.D} & \xmark & \cmark & \xmark & \xmark & \xmark & label\\
           \hline
-          Propuesta de tesis & \texttt{FPN} & \cmark & \cmark & \cmark & \cmark & \cmark &label map\\
+          Proposal & \texttt{FPN} & \cmark & \cmark & \cmark & \cmark & \cmark &label map\\
           \hline   
       \end{tabular}
       }
   \end{center}
   \label{Tab:comp_1}
-\end{table*}
+\end{table}
+
+\subsection{Opportunity Area}
+For the semantic segmentation task is indispensable to count with a coder and decoder which dimensions and output coincide with the requirements of the input data and the desired output. The neural networks in contrast with other technologies offer that versatility, they can adjust the parameters during the transformation process to obtain the desired output in the dimensional aspect.  
 
 \section{Proposed Solution}
 The approach proposed in this paper for the automated detection of the skin melanoma is the training of a model using a \texttt{FPN} convolutional neural network architecture, which output would be the probabilistic map of the regions inside of the dermoscopic input image. The language selected for the implementation of said neural network architecture was \texttt{Python}, because is a powerful, dynamic and quick to deploy language which also contains the \texttt{Torch} library which is the core tool of the implementation.
@@ -291,21 +299,60 @@ The approach proposed in this paper for the automated detection of the skin mela
 The methods used to evaluate the performance of the training process and also gauge the probabilistic map predictions are described in this section. Also the analysis of the threshold is included here.
 
 \subsection{Threshold Analysis}
+The threshold analysis consists of the visualization of the intensity bands where the pixels tend to cluster and that can affect the complexity level of the computation in the model.
+
 
 \subsection{Dice Loss}
-\begin{center}
+To determine the probability that two pixel intensity maps are similar is required to use an evaluation function which determines that similitude. The dice loss function compares the margin of equal values along two matrices and then divides it by the number of total pixels between both maps. The result obtained is a coefficient between zero and one, which represents the error.
+
   \begin{equation}\label{eq:dice_loss}
       \text{DL} = \frac{2|A \cap B |}{|A| + |B|}
   \end{equation}        
-\end{center}
+
+
+\subsection{Results}
+
+\begin{figure}[h]
+  \centering
+  \subfloat[Epoch 1]{\includegraphics[width=0.3\columnwidth]{../Plots/Eng/dl_epoch_0.png}}
+  \subfloat[Epoch 2]{\includegraphics[width=0.3\columnwidth]{../Plots/Eng/dl_epoch_1.png}}
+  \subfloat[Epoch 3]{\includegraphics[width=0.3\columnwidth]{../Plots/Eng/dl_epoch_2.png}} \\
+  \subfloat[Epoch 4]{\includegraphics[width=0.3\columnwidth]{../Plots/Eng/dl_epoch_3.png}}
+  \subfloat[Epoch 5]{\includegraphics[width=0.3\columnwidth]{../Plots/Eng/dl_epoch_4.png}}
+  \subfloat[Epoch 6]{\includegraphics[width=0.3\columnwidth]{../Plots/Eng/dl_epoch_5.png}}
+  \caption{Error reduction in the training process by iteration.}
+  \label{fig:DL_plots}
+\end{figure}
+
 
 \subsection{Intersection Over Union}
+Similar to the \emph{dice loss} function, the \emph{intersection over union} or \emph{Jaccard equation} compares the similar pixel intensities between two binary maps with the difference that the error has more penalization, which means that the result obtained is more robust. This is useful in the \emph{validation} process where the error has more significance.
+
 \begin{equation}\label{eq:jacc}
   \text{IoU} = \frac{|A \cap B|}{| A \cup B |} = \frac{|A \cap B|}{|A| + |B| - |A \cap B|} \text{,}
 \end{equation}
 
-\begin{table}[ht]
+\subsection{Results}
+
+\begin{figure}[h]
   \centering
+  \subfloat[Epoch 1]{\includegraphics[width=0.3\columnwidth]{../Plots/Eng/iou_epoch_0.png}}
+  \subfloat[Epoch 2]{\includegraphics[width=0.3\columnwidth]{../Plots/Eng/iou_epoch_1.png}}
+  \subfloat[Epoch 3]{\includegraphics[width=0.3\columnwidth]{../Plots/Eng/iou_epoch_2.png}} \\
+  \subfloat[Epoch 4]{\includegraphics[width=0.3\columnwidth]{../Plots/Eng/iou_epoch_3.png}}
+  \subfloat[Epoch 5]{\includegraphics[width=0.3\columnwidth]{../Plots/Eng/iou_epoch_4.png}}
+  \subfloat[Epoch 6]{\includegraphics[width=0.3\columnwidth]{../Plots/Eng/iou_epoch_5.png}}
+  \caption{Similitude between ground truth and computed output according to the IoU score by iteration.}
+  \label{fig:IoU_plots}
+\end{figure}
+
+\subsection{Discussion}
+
+The process of error reduction is not linear, the figures \ref{fig:DL_plots} and \ref{fig:IoU_plots} show that exists some fluctuation between iterations, this however does not represent a problem because the code automatically saves the highest score model on each epoch. In the table \ref{table:summary}, the highest score by epoch was registered.
+
+\begin{table}[b]
+  \centering
+  \caption{Summarized results by epoch.}
   \begin{tabular}{c c c}
     \toprule
     \textbf{Epoch} & \textbf{DL} & \textbf{IoU} \\
@@ -323,11 +370,17 @@ The methods used to evaluate the performance of the training process and also ga
     \bottomrule
     
   \end{tabular}
+  \label{table:summary}
 \end{table}
 
 \section{Conclusion}
+In this document was described the process of the implementation of a convolutional neural network for the semantic segmentation task, by which is possible to classify between the health and melanoma tissue regions inside the dermoscopic images. A feature pyramid network was implemented and as a result of the convolutional layers and the associated weights(parameters) were adjust in relationship with the evaluation criteria from the dice loss and Jaccard functions. The result was a probabilistic map of the different categories inside the image.
+
 \subsection{Discussion}
+The main objective of this implementation was to obtain a tool able to perform perform the segmentation task in the dermoscopic images that hopefully contributes to the cause of the early detection of the melanoma disease. Thanks to the pre-build architectures of convolutional neural networks from the library provided by \citet{Yakubovskiy:2019}, it was possible to quickly deploy the FPN architecture and configure the network for the pre-processing and the training.
+
 \subsection{Future Work}
+This implementation of the semantic segmentation task has one major limitation, which is that it can distinguish between different categories inside the regions of the dermoscopic images, but it cannot distinguish between two objects of the same category which means that for example this same two objects are considered one single object inside the same category. This limitation in particular doesn't affect the purpose of this implementation because in this case the melanoma will always represent one single instance in the person. There are a lot of papers which talk about instanced segmentation where this is not the case, and the different instances of the different objects under the same category are recognized as different instances. I would like to experiment with instanciation and multi-class segmentation in the future. 
 
 %\begin{acknowledgements}
 %If you'd like to thank anyone, place your comments here
