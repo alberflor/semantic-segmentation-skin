@@ -37,9 +37,9 @@ El presente trabajo de tesis tiene como hipótesis el uso de la inteligencia art
 %Es posible clasificar los píxeles en distintas categorías dentro de una %imagen gracias a las avances actuales de inteligencia artificial y la técnica %de segmentación. Mediante la técnica de \emph{\gls{seg}} es posible crear un %reconocedor visual que no solo detecte la presencia y ubicación del elemento %a reconocer, sino que, también obtenga otros datos descriptivos del elemento %como el tamaño, forma y región que abarca dentro de la imagen.
 
 \section{Objetivos}
-Primero en \emph{objetivo general}, se habla de manera conceptual la problemática a resolver tales como cuales son las situaciones en las que podemos optimizar la solución de un problema mediante el uso de la red neuronal, posteriormente en los \emph{objetivos específicos} se describe de forma puntual los pasos a realizar en el presente trabajo de tésis para llegar al resultado deseado.
+Primero en \emph{objetivo general}, se habla de manera conceptual la problemática a resolver tales como cuales son las situaciones en las que podemos optimizar la solución de un problema mediante el uso de la red neuronal, posteriormente en los \emph{objetivos específicos} se describe de forma puntual los pasos a realizar en el presente trabajo de tesis para llegar al resultado deseado.
 
-El \emph{objetivo general} de este trabajo de tesis es la creación de una aplicación con la capacidad de reconocer y segmentar melanoma en la piel de forma automatizada, esto con el motivo de asistir a los médicos dedicados a esta labor a optimizar y extender la detección temprana, consiguiendo así reducir la tasa de mortalidad de este padicimiento.
+El \emph{objetivo general} de este trabajo de tesis es la creación de una aplicación con la capacidad de reconocer y segmentar melanoma en la piel de forma automatizada, esto con el motivo de asistir a los médicos dedicados a esta labor a optimizar y extender la detección temprana, consiguiendo así reducir la tasa de mortalidad de este padecimiento.
 
 El \emph{objetivo específico}, es el de implementar un modelo de red neuronal cuya entrada sean imágenes que pueden o no contener la presencia de alguno de los tipos de cáncer de piel comunes, y como salida del modelo se obtenga un mapa de características donde de haber presencia del cáncer, éste se distinga mediante una región colorada en el espacio que abarca. El modelo debe cumplir con las siguientes características:
 
@@ -64,16 +64,16 @@ En la figura \ref{a_1} se observa como la imagen entrante presenta un caso de me
 \section{Estructura de la Tesis}
 A continuación se da una breve explicación sobre el orden en el que se presentan los capítulos de este trabajo de tesis, así como una breve descripción de su contenido.
 
-En el capítulo 2 se habla sobre los antecedentes relacionados al presente trabajo de tesis, primero se empieza definiendo la naturaleza del problema con el que se pretende tratar, después algúnos conceptos clave que serán necesarios para la comprensión de la implementación propuesta tales como las dimensiones de los datos y los algoritmos de evaluación y optimización.
+En el capítulo 2 se habla sobre los antecedentes relacionados al presente trabajo de tesis, primero se empieza definiendo la naturaleza del problema con el que se pretende tratar, después algunos conceptos clave que serán necesarios para la comprensión de la implementación propuesta tales como las dimensiones de los datos y los algoritmos de evaluación y optimización.
 
-En el capítulo 3 se recopilan trabajos relacionados al método o problemática en cuestión, se estudia las características de dichos trabajos y se busca un punto de convergencia entre estos y el presente trabajo de tésis con el fin de comparar las áreas de oportunidad.
+En el capítulo 3 se recopilan trabajos relacionados al método o problemática en cuestión, se estudia las características de dichos trabajos y se busca un punto de convergencia entre estos y el presente trabajo de tesis con el fin de comparar las áreas de oportunidad.
 
 En el capítulo 4 se define el proceso de transformación de los datos del sistema propuesto en este trabajo de tesis, desde las características de los datos a la entrada.
 
 El capítulo 5 describe a profundidad la implementación de la propuesta, desde la descripción de los datos utilizados para el entrenamiento del modelo y la verificación de este, la arquitectura específica utilizada 
 
 
-Finalmente, en el capítulo 6 se exponen los resultados obtenidos de la implementación del producto científico en el capítulo anterior, así como un análisis y conclusión final sobre los valores obtenidos en precision y tiempo de entrenamiento. 
+Finalmente, en el capítulo 6 se exponen los resultados obtenidos de la implementación del producto científico en el capítulo anterior, así como un análisis y conclusión final sobre los valores obtenidos en precisión y tiempo de entrenamiento. 
 
 \chapter{Antecedentes}
 En este capítulo se introducen de forma teórica los conceptos relacionados con el trabajo propuesto, primero se define que es el \emph{cáncer de piel}, cuales son los factores que influyen en el desarrollo de este padecimiento, los tipos de cáncer y las diferencias entre estos. Después algunos conceptos relacionados con las redes neuronales necesarios para un entendimiento sólido del \emph{aprendizaje profundo}, tales como los elementos clave que conforman a la red neuronal, la manera en la que esta evalúa su precisión, y el algoritmo de optimización.
@@ -295,7 +295,7 @@ Para poder llevar a cabo la creación del modelo primero es necesario tener un c
 A partir de éste momento se referirá como \emph{muestra} al conjunto de datos de entrada del entrenamiento del modelo; como se mencionó al comienzo del capítulo, para llevar a cabo el entrenamiento es necesario otorgar al sistema dos entradas: la imagen real y la máscara conocida de las regiones ya clasificadas. Por lo tanto una muestra es el equivalente a la concatenación de una imagen dermatológica y la máscara conocida correspondiente. Con una sola muestra se puede generar un modelo sin embargo la precisión sería muy baja, generalmente entre mayor sea la cantidad de muestras se puede obtener una mejor precisión. No obstante depende mucho de la variabilidad de las imágenes, ya que si se tratara de entrenar un modelo de muchas categorías, la variabilidad haría mas complejo el modelo y por ende requeriría de un mayor número de épocas para alcanzar una precisión viable (\emph{underfit}); así como el uso de un \emph{dataset} muy extenso de pocas categorías y con imágenes muy similares podría causar justamente lo contrario (\emph{overfit}), lo cuál no permitiría realizar predicciones correctamente en imágenes no tan parecidas a las usadas en el entrenamiento.
 
 \subsection{Codificación de Características}
-Para poder realizar una predicción de la máscara segmentada, primero es necesario reducir las dimensiones de las imágenes sin afectar la información que estas representan. Para conseguir esto se utiliza un filtro de \emph{convolución de matrices}. Una imagen es una función bidimensional $ z = f(x,y)$, donde $x$ y $y$ son coordenadas espaciales y $z$ es el valor de la intensidad de la imagen en el punto $(x , y)$, en el caso de las imágenes a color se tienen tres funciones donde cada una representa la intensidad del pixel del canal correspondiente (rojo, verde o azul) \citep[~p. 100]{conv_1}. La convolución de matrices se define como la obtención de una matriz $C$ a partir de dos matrices $A$ y $B$. La matriz $A_{m \times n}$ es el mapa de intensidad de pixeles de la imagen mientras que la matriz $B_{(2N+1) \times (2N+1)}$ es el kernel de la convolución, mediante la ecuación \ref{eq:conv_1} se obtiene la matriz $C = A * B$
+Para poder realizar una predicción de la máscara segmentada, primero es necesario reducir las dimensiones de las imágenes sin afectar la información que estas representan. Para conseguir esto se utiliza un filtro de \emph{convolución de matrices}. Una imagen es una función bidimensional $ z = f(x,y)$, donde $x$ y $y$ son coordenadas espaciales y $z$ es el valor de la intensidad de la imagen en el punto $(x , y)$, en el caso de las imágenes a color se tienen tres funciones donde cada una representa la intensidad del pixel del canal correspondiente (rojo, verde o azul) \citep[~p. 100]{conv_1}. La convolución de matrices se define como la obtención de una matriz $C$ a partir de dos matrices $A$ y $B$. La matriz $A_{m \times n}$ es el mapa de intensidad de pixeles de la imagen mientras que la matriz $B_{(2N+1) \times (2N+1)}$ es el núcleo de la convolución, mediante la ecuación \ref{eq:conv_1} se obtiene la matriz $C = A * B$
 \begin{equation}
 c_{ij} = \frac{1}{b} \sum_{r=1}^{2N+1}\sum_{s=1}^{2N+1}(a_i-N+r-1, i-N+r-1),
 \label{eq:conv_1}
@@ -399,7 +399,7 @@ En el cuadro \ref{tab:specs} se especifican las características del equipo en e
     \label{tab:specs}
 \end{table}
 
-\subsection{Computación Asistída por Hardware}
+\subsection{Computación Asistida por Hardware}
 Los cálculos llevados en el proceso de entrenamiento involucran realizar operaciones con datos de altas dimensiones (\emph{high-dimensional data}) los cuales requieren una gran cantidad de recursos de procesamiento, estas operaciones al estar relacionadas con vectores y matrices pueden ser ejecutadas rápidamente por la unidad GPU\footnote{GPU: Graphics Processor Unit}, entre mayor sea la velocidad de procesamiento de la GPU más rápido es el entrenamiento de nuevos modelos y con mayor resolución.
 
 \subsection{Módulos de la Implementación}
@@ -546,7 +546,7 @@ En el código \ref{code:load_2} se invoca la función \texttt{dataset}, la cuál
 El \emph{pre-procesamiento} se define como una secuencia de transformaciones que se aplican al momento previo del entrenamiento y afecta a un subconjunto específico de los datos. Para el diseño de la secuencia de transformaciones tanto para el subconjunto de entrenamiento como el subconjunto fueron consideradas las siguientes características.
 
 \begin{description}
-    \item[Resolución]{ El codifícador admite resoluciones específicas, debído a las dimensiones admitidas para el filtrado de convolución de matrices.}
+    \item[Resolución]{ El codificador admite resoluciones específicas, debido a las dimensiones admitidas para el filtrado de convolución de matrices.}
     \item[Número de muestras]{La cantidad de datos disponibles para el entrenamiento afecta la precisión final, si el conjunto de datos es limitado se pueden realizar transformaciones de las imágenes presentes para obtener más datos de entrenamiento. Así como tener un conjunto muy extenso y con poca variabilidad afectaría también la capacidad de predecir imágenes generalizadas, se puede ajustar mediante el pre-procesamiento.}
     \item[] 
 \end{description}
@@ -579,10 +579,10 @@ El \emph{pre-procesamiento} se define como una secuencia de transformaciones que
 \end{figure}
 
 
-Debido a que el conjunto de datos es extenso y solo clasifíca entre dos categorías, no es necesario realizar demasiadas trasnformaciones, no obstante es importante trasponer la matriz de entrada para convertir la matriz a tensor.
+Debido a que el conjunto de datos es extenso y solo clasifica entre dos categorías, no es necesario realizar demasiadas transformaciones, no obstante es importante trasponer la matriz de entrada para convertir la matriz a tensor.
 
 \subsection{Entrenamiento y Validación}
-La secuencia de entrenamiento consiste de un búcle en el cuál se condensan las imágenes en un grupo (\emph{batch}), para ser procesadas por el codificador de forma simultanea, esto para acelerar la velocidad de entrenamiento. Sin embargo, a mayor tamaño de batch también se requiere mayor memoria disponible por la unidad procesadora de gráficos y también la precisión del entrenamiento se ve influenciado. Posteriormente se evalúa mediante el \emph{índice de Jaccard}, como se muestra en la ecuación \ref{eq:jacc}.
+La secuencia de entrenamiento consiste de un bucle en el cuál se condensan las imágenes en un grupo (\emph{batch}), para ser procesadas por el codificador de forma simultanea, esto para acelerar la velocidad de entrenamiento. Sin embargo, a mayor tamaño de bache también se requiere mayor memoria disponible por la unidad procesadora de gráficos y también la precisión del entrenamiento se ve influenciado. Posteriormente se evalúa mediante el \emph{índice de Jaccard}, como se muestra en la ecuación \ref{eq:jacc}.
 
 \begin{lstlisting}[language = Python, label = {code:train} ,caption= Búcle de entrenamiento. ]
     # train_model.py
@@ -1000,7 +1000,5 @@ La principal razón por la que muchos científicos estudian y desarrollan la té
 
 
 Hablando más específicamente sobre la aplicación desarrollada en el presente trabajo de tesis, sería ideal probar con una linea de pre-procesamiento más sofisticada que permita una predicción más profunda de las categorías presentes en una imagen a una resolución mayor. Debido a las limitaciones de hardware, resulta muy complicado el entrenamiento de modelos con secuencias de transformaciones muy extensas o complejas debido a que dicha secuencia aplicaría a cada muestra del entrenamiento. 
-
-
 
 \nocite{*}
