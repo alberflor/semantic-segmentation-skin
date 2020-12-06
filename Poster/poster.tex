@@ -140,7 +140,7 @@ El lenguaje utilizado para la implementación de la arquitectura de la red neuro
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
 \lstdefinestyle{pystyle}{
-    basicstyle= \scriptsize\ttfamily\linespread{.8},
+    basicstyle= \normalsize\ttfamily\linespread{.8},
     backgroundcolor=\color{backcolour},   
     commentstyle=\color{codegreen},
     keywordstyle=\color{codeblue},
@@ -194,6 +194,7 @@ El \textbf{criterio de Jaccard} es una ecuación muy similar al \textbf{coeficie
 
 \section*{Resultados}
 \begin{center}\vspace{1cm}
+    \adjustbox{width=0.5\columnwidth}{%
     \begin{tabular}{ccc}
     \toprule
     \textbf{Época} & \textbf{CD} & \textbf{CJ} \\
@@ -209,7 +210,7 @@ El \textbf{criterio de Jaccard} es una ecuación muy similar al \textbf{coeficie
      9 & 0.0556 & 0.9017 \\
      10 & 0.0542 & 0.9039 \\
     \bottomrule
-    \end{tabular}
+    \end{tabular}}
     \captionof{table}{Resumen de resultados por época.}
 \end{center}\vspace{1cm}    
 
@@ -223,11 +224,11 @@ Mediante los resultados obtenidos de los criterios de evaluación se puede obser
 
 \section*{Repositorio de GitHub}
 Mediante el siguiente \textbf{código QR} puedes acceder a la implementación del proyecto y los datos generados de los experimentos.
-\vspace{2cm}
+%\vspace{2cm}
 \begin{center}
     \includegraphics[scale=0.4]{repoqr.eps}
 \end{center}
-\normalsize{
+\small{
 \url{https://github.com/Btrox148/semantic-segmentation-skin}
 }
 
