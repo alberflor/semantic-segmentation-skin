@@ -110,8 +110,10 @@ Para entrenar un modelo de red neuronal convolucional de segmentación semántic
 \begin{center}
     \begin{tabular}{c c}
     \includegraphics{input_1.png} &
-    \includegraphics{mask_1.png} \\         
+    \includegraphics{mask_1.png} \\
+    (a) Imagen Entrante & (b) Máscara Computada\\         
     \end{tabular}
+    \captionof{figure}{Comparación de la imagen dermatológica entrante y su respectiva máscara segmentada.}
 \end{center}
 
 \vspace{2cm}
@@ -193,6 +195,7 @@ El \textbf{criterio de Jaccard} es una ecuación muy similar al \textbf{coeficie
 \end{equation}
 
 \section*{Resultados}
+\captionof{table}{Resumen de resultados por época.}
 \begin{center}\vspace{1cm}
     \adjustbox{width=0.5\columnwidth}{%
     \begin{tabular}{ccc}
@@ -211,7 +214,6 @@ El \textbf{criterio de Jaccard} es una ecuación muy similar al \textbf{coeficie
      10 & 0.0542 & 0.9039 \\
     \bottomrule
     \end{tabular}}
-    \captionof{table}{Resumen de resultados por época.}
 \end{center}\vspace{1cm}    
 
 \section*{Conclusión}
