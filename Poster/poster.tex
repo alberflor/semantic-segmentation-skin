@@ -84,10 +84,10 @@ Las imágenes a escala de grises y a color no comparten las mismas característi
 \definecolor{red_matrix}{rgb}{0.6, 0, 0}
 \definecolor{green_matrix}{rgb}{0, 0.8, 0}
 \definecolor{blue_matrix}{rgb}{0, 0.25, 1}
-
 \vspace{1cm}
+
 \begin{center}
-    \begin{tikzpicture}
+    \begin{tikzpicture}[scale=0.8]
         \draw[step=1cm, black, line width=0.80mm] (-5,-5) grid (5,5);
         \node at (0,-6) {$\text{dim} = m \times n$};
     \end{tikzpicture}
@@ -95,7 +95,7 @@ Las imágenes a escala de grises y a color no comparten las mismas característi
 \end{center}
 %
 \begin{center}
-    \begin{tikzpicture}
+    \begin{tikzpicture}[scale=0.8]
         \draw[step=1cm, red_matrix, line width=0.80mm] (-5,-5) grid (5,5);
         \draw[step=1cm, green_matrix, line width=0.80mm] (-4,-4) grid (6,6);
         \draw[step=1cm, blue_matrix, line width=0.80mm] (-3,-3) grid (7,7);
@@ -108,15 +108,14 @@ Las imágenes a escala de grises y a color no comparten las mismas característi
 Para entrenar un modelo de red neuronal convolucional de segmentación semántica es necesaria una base de datos que contenga dos subconjuntos: (a) imagen entrante, (b) salida deseada. La base de datos utilizada en esta implementación fue obtenida de la recopilación de imágenes dermatológicas internacional para la detección del melanoma \citep{isic_skin}.
 
 \begin{center}
+    \adjustbox{width=0.8\columnwidth}{%
     \begin{tabular}{c c}
     \includegraphics{input_1.png} &
     \includegraphics{mask_1.png} \\
-    \small{(a) Imagen Entrante} & \small{(b) Máscara Computada}\\         
-    \end{tabular}
+    (a) Imagen Entrante & (b) Máscara Computada\\         
+    \end{tabular}}
     \captionof{figure}{Comparación de la imagen dermatológica entrante y su respectiva máscara segmentada.}
 \end{center}
-
-\vspace{2cm}
 
 %\begin{center}
 %    \includegraphics[scale=0.5]{mask_1.png}
@@ -142,7 +141,7 @@ El lenguaje utilizado para la implementación de la arquitectura de la red neuro
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
 \lstdefinestyle{pystyle}{
-    basicstyle= \normalsize\ttfamily\linespread{.8},
+    basicstyle= \small\ttfamily\linespread{.8},
     backgroundcolor=\color{backcolour},   
     commentstyle=\color{codegreen},
     keywordstyle=\color{codeblue},
@@ -197,7 +196,7 @@ El \textbf{criterio de Jaccard} es una ecuación muy similar al \textbf{coeficie
 \section*{Resultados}
 \captionof{table}{Resumen de resultados por época.}
 \begin{center}\vspace{1cm}
-    \adjustbox{width=0.5\columnwidth}{%
+    \adjustbox{width=0.4\columnwidth}{%
     \begin{tabular}{ccc}
     \toprule
     \textbf{Época} & \textbf{CD} & \textbf{CJ} \\
@@ -228,7 +227,7 @@ Mediante los resultados obtenidos de los criterios de evaluación se puede obser
 Mediante el siguiente \textbf{código QR} puedes acceder a la implementación del proyecto y los datos generados de los experimentos.
 %\vspace{2cm}
 \begin{center}
-    \includegraphics[scale=0.4]{repoqr.eps}
+    \includegraphics[scale=0.3]{repoqr.eps}
 \end{center}
 \small{
 \url{https://github.com/Btrox148/semantic-segmentation-skin}
@@ -237,9 +236,8 @@ Mediante el siguiente \textbf{código QR} puedes acceder a la implementación de
 \section*{Referencias}
 
 \small
-
 \nocite{adam_opt}
-
+\nocite{Yakubovskiy:2019}
 \renewcommand\refname{\vskip -1cm}
 \bibliographystyle{mighelnat}
 \bibliography{MiBiblio}
