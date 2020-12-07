@@ -37,7 +37,7 @@
 \usetheme{Frankfurt}
 
 %Information to be included in the title page:
-\title{Detección de melanoma mediante segmentación semántica}
+\title{Detección de melanoma mediante\\ segmentación semántica}
 \author{Mario Alberto Flores Hernández}
 \institute{ \\Universidad Autónoma de Nuevo León \\Facultad de Ingeniería Mecánica y Eléctrica}
 \date{2020}
@@ -58,7 +58,7 @@
 \section{Introducción}
 \begin{frame}
     \frametitle{Introducción}
-    La inteligencia artificial permite crear modelos que replican secuencias de transformaciones definidas por los datos entrantes.
+    La inteligencia artificial permite crear \textbf{modelos} que replican secuencias de transformaciones definidas por los datos entrantes.
     \begin{figure}
         \subfloat[Imagen Entrante\label{fig:a}]{\includegraphics[height=4cm, width=4cm]{Figuras/input_1.png}} \qquad
         \subfloat[Salida Deseada\label{fig:b}]{\includegraphics[height=4cm, width=4cm]{Figuras/mask_1.png}}
@@ -75,7 +75,7 @@
 \subsection{Hipótesis}
 \begin{frame}
     \frametitle{Hipótesis}
-    Mediante la implementación de redes neuronales convolucionales e imágenes dermatológicas es posible entrenar modelos que repliquen la técnica de segmentación semántica, clasificando así las regiones dentro de la imagen. 
+    Mediante la implementación de \textbf{redes neuronales convolucionales} e imágenes dermatológicas es posible entrenar modelos que repliquen la técnica de \textbf{segmentación semántica}, clasificando así las regiones dentro de la imagen. 
 \end{frame}
 
 \subsection{Objetivos}
@@ -86,7 +86,7 @@
         
     \end{block}
     \begin{block}{Objetivos Específicos}
-        Determinar la secuencia de pre-procesamiento necesario para adaptar imágenes de diferentes rangos de resolución a la resolución admitida por la arquitectura de la red neuronal convolucional y verificar la confiabilidad de la predicción mediante criterios de evaluación de mapas binarios y probabilísticos.
+        Determinar la secuencia de pre-procesamiento necesaria para adaptar imágenes de diferentes rangos de resolución a la resolución admitida por la arquitectura de la red neuronal convolucional y verificar la confiabilidad de la predicción mediante criterios de evaluación de mapas binarios y probabilísticos.
         
     \end{block}
 \end{frame}
@@ -291,9 +291,9 @@ for i in range(0,40):
     \frametitle{Experimentos}
     \setbeamertemplate{description item}[align left]
     \begin{description}
-        \item[Filtro de umbral] Obtener el perfil de la intensidad de los pixeles antes y después del filtro.
-        \item[Coeficiente de dados] Determinar el perfil del error durante la fase de entrenamiento.
-        \item[Criterio de Jaccard] Determinar la similitud con mayor penalización del error en la fase de validación.   
+        \item[Filtro de umbral] Obtener el perfil de la \textbf{intensidad} de los pixeles antes y después del filtro.
+        \item[Coeficiente de dados] Determinar el perfil del \textbf{error} durante la fase de entrenamiento.
+        \item[Criterio de Jaccard] Determinar la \textbf{similitud} con mayor penalización del error en la fase de validación.   
     \end{description}
 \end{frame}
 
@@ -305,8 +305,8 @@ for i in range(0,40):
         \centering
         \subfloat[Imagen Entrante\label{fig:a}]{\includegraphics[scale=0.5]{../Plots/THR/sample_0.png}} \qquad
         \subfloat[Imagen Filtrada\label{fig:b}]{\hspace{0.35cm}\includegraphics[scale=0.5]{../Plots/THR/filtered_0.png}} \\
-        \subfloat[Histograma Original\label{fig:c}]{\hspace{-0.40cm}\includegraphics[scale=0.5]{../Plots/THR/threshold_input_0.png}} \qquad
-        \subfloat[Histograma Resultante\label{fig:c}]{\hspace{.25cm}\includegraphics[scale=0.5]{../Plots/THR/threshold_output_0.png}}
+        \subfloat[Histograma Original\label{fig:c}]{\hspace{0.7cm}\includegraphics[scale=0.5]{../Plots/THR/threshold_input_0.png}\hspace{0.3cm}} \qquad
+        \subfloat[Histograma Resultante\label{fig:c}]{\includegraphics[scale=0.5]{../Plots/THR/threshold_output_0.png}\hspace{1cm}}
         \caption{Filtrado de umbral antes y después.}
     \end{figure}
 \end{frame}
@@ -360,7 +360,6 @@ for i in range(0,40):
     Agradecimientos a la Dra. Satu Elisa Schaeffer por su asesoría, al comité de revisores formado por la Dra. Sara Elena Garza Villarreal y el Dr. Romeo Sánchez Nigenda por el tiempo y la dedicación que me otorgaron mediante sus observaciones.
 \end{frame}
 
-\section{Referencias}
 \begin{frame}[allowframebreaks]
     \footnotesize
     \nocite{adam_opt}
