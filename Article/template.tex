@@ -66,6 +66,7 @@ grestore
 \usepackage{xcolor}
 \usepackage{url}
 \usepackage{hyperref}
+\usepackage{listings}
 
 \let\proof\relax
 \let\endproof\relax
@@ -111,7 +112,7 @@ grestore
 \maketitle
 
 \begin{abstract}
-  The approach described in this paper for the detection of the skin cancer melanoma is known as semantic segmentation. The semantic segmentation is a computer vision task where the different regions of an image are classified according to a specific category. The method used for the implementation of a semantic segmentation software was using the convolutional neural network, specifically a feature pyramid network architecture (\texttt{FPN}), to train a model which performs the task. With the convolutional neural networks is possible to train models that replicate the necessary transformations to obtain a targeted output, the only requirement is a rich enough database of samples of the input data and the target or the expected output in relation with that input, which in this case was a segmentation mask of the dermoscopic image.
+  The approach described in this paper for the detection of the skin cancer melanoma is known as semantic segmentation. The semantic segmentation is a computer vision task where the different regions of an image are classified according to a specific category. The method used for the implementation of a semantic segmentation software was using the convolutional neural network, specifically a feature pyramid network architecture (\texttt{FPN}), to train a model which performs the task. With the convolutional neural networks is possible to train models that replicate the necessary transformations to obtain a targeted output, the only requirement is a rich enough database of samples of the input data and the target or the expected output in relation with that input, which in this case was a segmentation mask of the dermoscopic image. With the experiments described in this paper, the dice loss and Jaccard equations, we obtained a performance profile of the neural network in the training and validation processes.
 
 \keywords{Neural Network \and Convolution \and Semantic Segmentation \and Classification}
 % \PACS{PACS code1 \and PACS code2 \and more}
@@ -122,11 +123,11 @@ grestore
 Skin is considered one of the largest organs in the human body, its function is to protect the internal organs and structures from the harsh environmental conditions such as temperature, radiation and bacteria. The skin also functions as a large sensorial interface that let us feel the environment conditions such as the temperature in the ambience and the texture of the objects.
 The skin cancer known as melanoma is one of the deadliest types of cancer if not detected in its early stages, because of the quick spread to other organs caused by the metastasis effect. One way to reduce its mortality rate is by using automatic detection with computer vision technologies, such as the deep learning technology. With deep learning is possible to train models that recognize the presence of the melanoma tissue using a configuration of fine-tuned parameters during a process known as \emph{training} which compares the input of the model and the known output to that input, and then update the parameters to get the computed output closer to the known output for a later use in unknown truth data.
 
-\subsection{General Objective}
 The \emph{general objective} is to implement a convolutional neural network technology with the purpose of creating a dermoscopic computer vision tool to help medical staff to detect skin melanoma tissue in a automated or assisted way, and to contribute the cause of reducing skin cancer mortality rates.
 
-\subsection{Specific Objective}
 The \emph{specific objective} is determine the process involved to implement said technology, the requirements and considerations implicit in the deployment of a convolutional neural network architecture and the required transformations of the data to make that possible.
+
+In \emph{section 2}, we introduce the basic concepts required to understand the following proposals. In \emph{section 3}, we review the literature to determine the opportunity area in comparison with similar works. In \emph{section 4}, we discuss the proposed solution design and implementation. In \emph{section 5}, we report the results obtained from the evaluation metrics and in \emph{section 6} we discuss the results obtained.
 
 \begin{figure}[h]
   \centering
@@ -137,10 +138,10 @@ The \emph{specific objective} is determine the process involved to implement sai
 
 
 \section{Background}
-In this section are introduced the basic concepts an theories required to understand the following proposals. Starting with some basic background aspects about the melanoma cancer, then continuing with the loss functions and the optimizer functions.
+In this section the basic concepts an theories employed in our proposed solution are discussed. Starting with some basic background aspects about the melanoma cancer, then continuing with the loss functions and the optimizer functions.
 
 \subsection{Melanoma}
-The skin cancer is a type of cell mutation that usually is related to the spontaneous appearance of asymmetric moles or patches of dark/red skin, bulges or scales on the skin surface. This mutation of the melanocytes (the cells responsible for the skin pigmentation) can affect any skin tone, mostly exposed parts of the body to ultra-violet light like the arms and the neck, but not exclusively.
+The skin cancer is a type of cell mutation that usually is related to the spontaneous appearance of asymmetric moles or patches of dark/red skin, bulges or scales on the skin surface. This mutation of the melanocytes (the cells responsible for the skin pigmentation) can affect any skin tone, mostly exposed parts of the body to ultra-violet light like the arms and the neck, but not exclusively \citep{boni2002epidemiology}.
 
 \begin{figure}[h]
   \centering
@@ -154,12 +155,12 @@ The skin cancer is a type of cell mutation that usually is related to the sponta
 There are two main factors involved in the mutation of the melanocytes cells: intrinsic aging and extrinsic factors. The \emph{intrinsic} aging occurs inevitably as a consequence of the time, while the \emph{extrinsic} factors are rather external like the sunlight, nicotine abuse unhealthy lifestyles \citep{farage2008intrinsic}.
 
 \subsection{Image Dimensions}
-An important aspect to consider is the dimension of the images before introducing them to the neural network architecture. Images in a gray-scale configuration do not share the same dimensions of an image of the same resolution in a \emph{rgb} configuration. A gray-scale or mono-channel image resolution can be described as $m \times n$, where $m$ and $n$ are the width and height respectively. This however is not the case for the rgb configuration which dimensions are described as $m \times n \times k$, where $k$ is the number of color channels. That means that in color images there are a specific number of layers where each has an independent set of pixel intensity values, as described in figure \ref{fig:img_dims}.
+An important aspect to consider is the dimension of the images before introducing them to the neural network architecture. Images in a gray-scale configuration do not share the same dimensions of an image of the same resolution in a \emph{rgb} configuration. A gray-scale or mono-channel image resolution can be described as $m \times n$, where $m$ and $n$ are the width and height respectively. This however is not the case for the rgb configuration which dimensions are described as $m \times n \times k$, where $k$ is the number of color channels. That means that in color images there are a specific number of layers where each has an independent set of pixel intensity values, as described in Figure \ref{fig:img_dims}.
 
 
 \begin{figure}[h]
   \centering
-  \resizebox{0.4\columnwidth}{!}{%
+  \resizebox{0.3\columnwidth}{!}{%
   \subfloat[Grayscale.]{
       \label{mtr_1}
       \begin{tikzpicture}
@@ -171,7 +172,7 @@ An important aspect to consider is the dimension of the images before introducin
   \qquad
   \subfloat[Color.]{
       \label{mtr_2}
-      \resizebox{0.45\columnwidth}{!}{% 
+      \resizebox{0.35\columnwidth}{!}{% 
       \begin{tikzpicture}
           \draw[step=5mm, red_matrix, line width=0.30mm] (-2.5,-2.5) grid (1.5,1.5);
           \draw[step=5mm, green_matrix, line width=0.30mm] (-2,-2) grid (2,2);
@@ -185,18 +186,17 @@ An important aspect to consider is the dimension of the images before introducin
 \end{figure}
 
 \subsection{Convolutional Neural Networks}
-A convolutional neural network is a configuration of layers of \emph{convolution}.
-
+A convolutional neural network consists of two main phases: \emph{coder} and \emph{decoder}. In the \emph{coder} phase the input image gets down-sampled to a smaller resolution object with more dimensions to perform the prediction. Then in the \emph{decoder} phase, the image gets up-sampled or reconstructed from the prediction in the coding, creating a probabilistic map of the different regions in the image.
 
 \begin{figure}[h]
   \centering
   \resizebox{\columnwidth}{!}{%
   \begin{tikzpicture}
-		\node at (0.5,-1){\begin{tabular}{c}input image\\layer $l = 0$\end{tabular}};
+		\node at (0.5,-1){\begin{tabular}{c}input image\end{tabular}};
 		
 		\draw (0,0) -- (1,0) -- (1,1) -- (0,1) -- (0,0);
 		
-		\node at (3,3.5){\begin{tabular}{c}convolutional layer\\with non-linearities\\layer $l = 1$\end{tabular}};
+		\node at (3,3.5){\begin{tabular}{c}coder\end{tabular}};
 		
 		\draw[fill=black,opacity=0.2,draw=black] (2.75,1.25) -- (3.75,1.25) -- (3.75,2.25) -- (2.75,2.25) -- (2.75,1.25);
 		\draw[fill=black,opacity=0.2,draw=black] (2.5,1) -- (3.5,1) -- (3.5,2) -- (2.5,2) -- (2.5,1);
@@ -205,51 +205,38 @@ A convolutional neural network is a configuration of layers of \emph{convolution
 		\draw[fill=black,opacity=0.2,draw=black] (1.75,0.25) -- (2.75,0.25) -- (2.75,1.25) -- (1.75,1.25) -- (1.75,0.25);
 		\draw[fill=black,opacity=0.2,draw=black] (1.5,0) -- (2.5,0) -- (2.5,1) -- (1.5,1) -- (1.5,0);
 		
-		\node at (4.5,-1){\begin{tabular}{c}subsampling layer\\layer $l = 3$\end{tabular}};
-		
-		\draw[fill=black,opacity=0.2,draw=black] (5,1.25) -- (5.75,1.25) -- (5.75,2) -- (5,2) -- (5,1.25);
-		\draw[fill=black,opacity=0.2,draw=black] (4.75,1) -- (5.5,1) -- (5.5,1.75) -- (4.75,1.75) -- (4.75,1);
+	
 		\draw[fill=black,opacity=0.2,draw=black] (4.5,0.75) -- (5.25,0.75) -- (5.25,1.5) -- (4.5,1.5) -- (4.5,0.75);
-		\draw[fill=black,opacity=0.2,draw=black] (4.25,0.5) -- (5,0.5) -- (5,1.25) -- (4.25,1.25) -- (4.25,0.5);
-		\draw[fill=black,opacity=0.2,draw=black] (4,0.25) -- (4.75,0.25) -- (4.75,1) -- (4,1) -- (4,0.25);
-		\draw[fill=black,opacity=0.2,draw=black] (3.75,0) -- (4.5,0) -- (4.5,0.75) -- (3.75,0.75) -- (3.75,0);
-		
-		\node at (7,3.5){\begin{tabular}{c}convolutional layer\\with non-linearities\\layer $l = 4$\end{tabular}};
-		
-		\draw[fill=black,opacity=0.2,draw=black] (7.5,1.75) -- (8.25,1.75) -- (8.25,2.5) -- (7.5,2.5) -- (7.5,1.75);
-		\draw[fill=black,opacity=0.2,draw=black] (7.25,1.5) -- (8,1.5) -- (8,2.25) -- (7.25,2.25) -- (7.25,1.5);
-		\draw[fill=black,opacity=0.2,draw=black] (7,1.25) -- (7.75,1.25) -- (7.75,2) -- (7,2) -- (7,1.25);
+    \draw[fill=black,opacity=0.2,draw=black] (4.25,0.5) -- (5,0.5) -- (5,1.25) -- (4.25,1.25) -- (4.25,0.5);
+    \draw[fill=black,opacity=0.2,draw=black] (4,0.25) -- (4.75,0.25) -- (4.75,1) -- (4,1) -- (4,0.25);
+
+    \node at (3.75,-0.5){\begin{tabular}{c}convolution layers\end{tabular}};
+    \node at (7.75,-0.5){\begin{tabular}{c}de-convolution layers\end{tabular}};
+
+    \draw[black] (5.75, -1) -- (5.75,3);
+	
 		\draw[fill=black,opacity=0.2,draw=black] (6.75,1) -- (7.5,1) -- (7.5,1.75) -- (6.75,1.75) -- (6.75,1);
-		\draw[fill=black,opacity=0.2,draw=black] (6.5,0.75) -- (7.25,0.75) -- (7.25,1.5) -- (6.5,1.5) -- (6.5,0.75);
-		\draw[fill=black,opacity=0.2,draw=black] (6.25,0.5) -- (7,0.5) -- (7,1.25) -- (6.25,1.25) -- (6.25,0.5);
-		\draw[fill=black,opacity=0.2,draw=black] (6,0.25) -- (6.75,0.25) -- (6.75,1) -- (6,1) -- (6,0.25);
-		\draw[fill=black,opacity=0.2,draw=black] (5.75,0) -- (6.5,0) -- (6.5,0.75) -- (5.75,0.75) -- (5.75,0);
-		
-		\node at (9.5,-1){\begin{tabular}{c}subsampling layer\\layer $l = 6$\end{tabular}};
-		
-		\draw[fill=black,opacity=0.2,draw=black] (10,1.75) -- (10.5,1.75) -- (10.5,2.25) -- (10,2.25) -- (10,1.75);
-		\draw[fill=black,opacity=0.2,draw=black] (9.75,1.5) -- (10.25,1.5) -- (10.25,2) -- (9.75,2) -- (9.75,1.5);
+    \draw[fill=black,opacity=0.2,draw=black] (6.5,0.75) -- (7.25,0.75) -- (7.25,1.5) -- (6.5,1.5) -- (6.5,0.75);
+    \draw[fill=black,opacity=0.2,draw=black] (6.25,0.5) -- (7,0.5) -- (7,1.25) -- (6.25,1.25) -- (6.25,0.5);
+	
+		\node at (8.5,3.5){\begin{tabular}{c} decoder\end{tabular}};
+    \draw[fill=black,opacity=0.2,draw=black] (9.75,1.5) -- (10.25,1.50) -- (10.25,2) -- (9.75,2) -- (9.75,1.5);
 		\draw[fill=black,opacity=0.2,draw=black] (9.5,1.25) -- (10,1.25) -- (10,1.75) -- (9.5,1.75) -- (9.5,1.25);
 		\draw[fill=black,opacity=0.2,draw=black] (9.25,1) -- (9.75,1) -- (9.75,1.5) -- (9.25,1.5) -- (9.25,1);
 		\draw[fill=black,opacity=0.2,draw=black] (9,0.75) -- (9.5,0.75) -- (9.5,1.25) -- (9,1.25) -- (9,0.75);
 		\draw[fill=black,opacity=0.2,draw=black] (8.75,0.5) -- (9.25,0.5) -- (9.25,1) -- (8.75,1) -- (8.75,0.5);
-		\draw[fill=black,opacity=0.2,draw=black] (8.5,0.25) -- (9,0.25) -- (9,0.75) -- (8.5,0.75) -- (8.5,0.25);
-		\draw[fill=black,opacity=0.2,draw=black] (8.25,0) -- (8.75,0) -- (8.75,0.5) -- (8.25,0.5) -- (8.25,0);
+    \draw[fill=black,opacity=0.2,draw=black] (8.5,0.25) -- (9,0.25) -- (9,0.75) -- (8.5,0.75) -- (8.5,0.25);
+		\node at (12,-1){\begin{tabular}{c}segmentation mask\end{tabular}};
 		
-		\node at (12,3.5){\begin{tabular}{c}fully connected layer\\layer $l = 7$\end{tabular}};
-		
-		\draw[fill=black,draw=black,opacity=0.5] (10.5,0) -- (11,0) -- (12.5,1.75) -- (12,1.75) -- (10.5,0);
-		
-		\node at (13,-1){\begin{tabular}{c}fully connected layer\\output layer $l = 8$\end{tabular}};
-		
-		\draw[fill=black,draw=black,opacity=0.5] (12.5,0.5) -- (13,0.5) -- (13.65,1.25) -- (13.15,1.25) -- (12.5,0.5);
+		\draw[fill=black,draw=black,opacity=0.5] (10.5,0) -- (11.5,0) -- (11.5,1) -- (10.5,1) -- (10.5,0);
+
   \end{tikzpicture}%
   }
-  \caption{Convolutional neural network for classification, figure from David Stutz \citep{Stutz:2017}.}
+  \caption{Basic coder-decoder neural network architecture for segmentation tasks.}
 \end{figure}
 
 \section{Related Work}
-In this section the reviewed literature was summarized to make a comparison between different methods to approach the melanoma detection problem and same approaches for the solution of different problems to get a scope of the opportunity areas, the advantages and disadvantages of the proposed solution.
+In this section the reviewed literature is summarized to make a comparison between different methods to approach the melanoma detection problem and same approaches for the solution of different problems to get a scope of the opportunity areas, the advantages and disadvantages of the proposed solution.
 
 \subsection{Comparative Analysis}
 
@@ -293,7 +280,137 @@ These are the characteristics used to compare the implementation in this paper w
 For the semantic segmentation task is indispensable to count with a coder and decoder which dimensions and output coincide with the requirements of the input data and the desired output. The neural networks in contrast with other technologies offer that versatility, they can adjust the parameters during the transformation process to obtain the desired output in the dimensional aspect.  
 
 \section{Proposed Solution}
-The approach proposed in this paper for the automated detection of the skin melanoma is the training of a model using a \texttt{FPN} convolutional neural network architecture, which output would be the probabilistic map of the regions inside of the dermoscopic input image. The language selected for the implementation of said neural network architecture was \texttt{Python}, because is a powerful, dynamic and quick to deploy language which also contains the \texttt{Torch} library which is the core tool of the implementation.
+The approach proposed in this paper for the automated detection of the skin melanoma is the training of a model using a \texttt{FPN} convolutional neural network architecture \citep{fpn_2}, which output would be the probabilistic map of the regions inside of the dermoscopic input image. The language selected for the implementation of said neural network architecture was \texttt{Python}, because is a powerful, dynamic and quick to deploy language which also contains the \texttt{Torch} library which is the core tool of the implementation.
+
+\tikzstyle{decision} = [diamond, draw, fill=gray!20, 
+    text width=5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=gray!20, 
+    text width=5.5em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+
+\begin{figure}[h]
+\centering    
+\begin{tikzpicture}[node distance = 3cm, auto]
+    % Nodos.
+    \node [block] (init) {Data \\Loading};
+    \node [block, right of = init] (train) {Model \\Training};
+    \node [block, right of = train] (pred) {Masks \\Prediction};
+    % Ejes.
+    \path [line] (init) -- (train); 
+    \path [line] (train) -- (pred); 
+\end{tikzpicture}
+\caption{Implementation process flowchart.}
+\end{figure}
+
+\subsection{Implementation of solution.}
+The proposed implementation has four principal modules as shown in Figure \ref{fig: modules}. The \texttt{load$\_$dataset.py} module has the function of loading, filtering and correcting the images.
+
+\tikzstyle{block} = [rectangle, draw, fill=gray!20, 
+    text width=7em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm, rounded corners,
+    minimum height=2em]
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[node distance = 0.75cm , auto]
+        \node [block] (main) {main.py};
+        \node [block, left= of main] (load) {load$\_$dataset.py};
+        \node [block, right= of main] (train) {train$\_$model.py};
+        \node [block, below= of main] (test) {test$\_$model.py};
+        % Líneas
+        \path [line] (load) -- (main);
+        \path [line] (train) -- (main);
+        \path [line] (test) -- (main);
+    \end{tikzpicture}
+    \caption{Principal modules of the implementation.}
+    \label{fig: modules}
+\end{figure}
+The \texttt{train$\_$model.py} module performs the model training using the \texttt{Torch} sampling functions. Then after obtaining a model from the training process, the \texttt{test$\_$model.py} module reads a random image from the test images folder and computes a segmentation mask.  
+
+
+\subsection{Pre-Processing}
+The \emph{pre-processing} pipeline required to adapt the input image dimensions to the required dimensions by the architecture is described in the Figure \ref{fig: pipeline}. First a re-size is necessary to prevent \texttt{VRAM} memory saturation, the higher the resolution the higher the \texttt{VRAM} requirement. Another important aspect about the pre-processing is transforming the input resolution to a permitted resolution
+\begin{equation}
+  \text{MP} = 2^N  
+\end{equation}
+where $\text{MP}$ is the multiplier and $N$ is the number of layers of the coder phase. If the input resolution can be divided by the multiplier and the remainder is zero, then the resolution is compatible with the architecture. Then the data is transformed to a \emph{tensor} which is an algebraic object that describes the relationship between objects.
+
+\tikzstyle{block} = [rectangle, draw, fill=gray!20, 
+    text width=8.5em, text centered, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+
+\begin{figure}[h]
+    \centering
+    \begin{adjustbox}{width=\columnwidth}
+    \begin{tikzpicture}[node distance = 0.3cm and -0.75cm]
+        \node [block] (input) {input image \\($m \times n$)};
+        \node [block, below right=of input] (tr1) {resize\\($512 \times 512$)};
+        \node [block, below right= of tr1] (tr2) {interpolation\\(\texttt{\small INTER$\_$AREA)}};
+        \node [block, below right= of tr2] (tr3) {transpose \\(2, 0, 1)};
+        \node [block, below right= of tr3] (out) {\begin{tabular}{c}output data \\($N\times (512\times512)$)\end{tabular}};
+        % Líneas
+        \path [line] (input) -| (tr1);
+        \path [line] (tr1) -| (tr2);
+        \path [line] (tr2) -| (tr3);
+        \path [line] (tr3) -| (out);
+    \end{tikzpicture}
+    \end{adjustbox}
+    \caption{Pre-processing pipeline.}
+    \label{fig: pipeline}
+\end{figure}
+
+\subsection{Solution Design}
+In this section the code utilized for the implementation is discussed. The Listing \ref{code:train} has the task of training the model with the data provided from the data loader module. The number of epochs can be specified and the model which gets the best score per epoch gets saved.
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codeblue}{rgb}{0.121, 0.203, 0.858}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{pystyle}{
+    basicstyle= \scriptsize\ttfamily\linespread{.8},
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codeblue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=pystyle}
+
+\begin{lstlisting}[language = Python, label = {code:train} ,caption= Búcle de entrenamiento. ]
+  # train_model.py
+  max_score = 0 
+  for i in range(0,40):
+      print('\n Epoch: {}'.format(i))
+      train_logs = train_epoch.run(train_loader)
+      valid_logs = valid_epoch.run(valid_loader)
+      if max_score < valid_logs['iou_score']:
+          max_score = valid_logs['iou_score']
+          torch.save(model,('Model/'+encoder+'.pth'))
+          print('Highest Score Model Saved: {}'.format(max_score))
+      if i == 25:
+          optimizer.param_groups[0]['lr'] = 1e-5
+          print('decreased decoder learning rate to 1e-5')
+   lr= 0.0001),])
+\end{lstlisting}
+
 
 \section{Experiments}
 The methods used to evaluate the performance of the training process and also gauge the probabilistic map predictions are described in this section. Also the analysis of the threshold is included here.
@@ -304,13 +421,10 @@ The threshold analysis consists of the visualization of the intensity bands wher
 
 \subsection{Dice Loss}
 To determine the probability that two pixel intensity maps are similar is required to use an evaluation function which determines that similitude. The dice loss function compares the margin of equal values along two matrices and then divides it by the number of total pixels between both maps. The result obtained is a coefficient between zero and one, which represents the error.
-
   \begin{equation}\label{eq:dice_loss}
       \text{DL} = \frac{2|A \cap B |}{|A| + |B|}
   \end{equation}        
-
-
-\subsection{Results}
+where $A$ and $B$ are the ground truth and the computed mask respectively.
 
 \begin{figure}[h]
   \centering
@@ -324,15 +438,15 @@ To determine the probability that two pixel intensity maps are similar is requir
   \label{fig:DL_plots}
 \end{figure}
 
+The \emph{results} are visible in the Figure \ref{fig:DL_plots}. The graphs show how the \emph{error} fluctuates between iterations but decreases over the epochs. Meaning that there's improvement in the model parameters configuration.
+
 
 \subsection{Intersection Over Union}
-Similar to the \emph{dice loss} function, the \emph{intersection over union} or \emph{Jaccard equation} compares the similar pixel intensities between two binary maps with the difference that the error has more penalization, which means that the result obtained is more robust. This is useful in the \emph{validation} process where the error has more significance.
-
+Similar to the \emph{dice loss} function, the \emph{intersection over union} or \emph{Jaccard equation} compares the similar pixel intensities between two binary maps with the difference that the error has more penalization, which means that the result obtained is more robust. This is useful in the \emph{validation} process where the error has more significance, the equation of Jaccard is
 \begin{equation}\label{eq:jacc}
   \text{IoU} = \frac{|A \cap B|}{| A \cup B |} = \frac{|A \cap B|}{|A| + |B| - |A \cap B|} \text{,}
 \end{equation}
-
-\subsection{Results}
+where $A$ and $B$ are the known mask and the computed mask respectively.
 
 \begin{figure}[h]
   \centering
@@ -346,11 +460,14 @@ Similar to the \emph{dice loss} function, the \emph{intersection over union} or 
   \label{fig:IoU_plots}
 \end{figure}
 
-\subsection{Discussion}
+The \emph{results} for this experiment are the following. In the Figure \ref{fig:IoU_plots} is visible that the similitude of the computed masks increases between iterations and epochs. In comparison with the \emph{dice loss} equation this improvement has more weight since the \emph{Jaccard} equation penalizes more the error. 
 
-The process of error reduction is not linear, the figures \ref{fig:DL_plots} and \ref{fig:IoU_plots} show that exists some fluctuation between iterations, this however does not represent a problem because the code automatically saves the highest score model on each epoch. In the table \ref{table:summary}, the highest score by epoch was registered.
 
-\begin{table}[b]
+\subsection{Experiment Discussion}
+
+The process of error reduction is not linear, the Figure \ref{fig:DL_plots} and \ref{fig:IoU_plots} show that exists some fluctuation between iterations, this however does not represent a problem because the code automatically saves the highest score model on each epoch. In the table \ref{table:summary}, the highest score by epoch was registered.
+
+\begin{table}[h]
   \centering
   \caption{Summarized results by epoch.}
   \begin{tabular}{c c c}
@@ -374,24 +491,13 @@ The process of error reduction is not linear, the figures \ref{fig:DL_plots} and
 \end{table}
 
 \section{Conclusion}
-In this document was described the process of the implementation of a convolutional neural network for the semantic segmentation task, by which is possible to classify between the health and melanoma tissue regions inside the dermoscopic images. A feature pyramid network was implemented and as a result of the convolutional layers and the associated weights(parameters) were adjust in relationship with the evaluation criteria from the dice loss and Jaccard functions. The result was a probabilistic map of the different categories inside the image.
+In this document was described the process of the implementation of a convolutional neural network for the semantic segmentation task, by which is possible to classify between healthy tissue and melanoma tissue regions inside the dermoscopic images. A \texttt{feature pyramid network} was implemented and as a result of the convolutional layers and the associated weights(parameters) were adjust in relationship with the evaluation criteria from the dice loss and Jaccard functions. The result was a probabilistic map of the different categories inside the image.
 
 \subsection{Discussion}
 The main objective of this implementation was to obtain a tool able to perform perform the segmentation task in the dermoscopic images that hopefully contributes to the cause of the early detection of the melanoma disease. Thanks to the pre-build architectures of convolutional neural networks from the library provided by \citet{Yakubovskiy:2019}, it was possible to quickly deploy the FPN architecture and configure the network for the pre-processing and the training.
 
 \subsection{Future Work}
 This implementation of the semantic segmentation task has one major limitation, which is that it can distinguish between different categories inside the regions of the dermoscopic images, but it cannot distinguish between two objects of the same category which means that for example this same two objects are considered one single object inside the same category. This limitation in particular doesn't affect the purpose of this implementation because in this case the melanoma will always represent one single instance in the person. There are a lot of papers which talk about instanced segmentation where this is not the case, and the different instances of the different objects under the same category are recognized as different instances. I would like to experiment with instanciation and multi-class segmentation in the future. 
-
-\section{GitHub Repository}
-
-The full source code and the data obtained from the experiments can be consulted by scanning the following \texttt{QR code}.
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.65\columnwidth]{repoqr.eps}
-\end{figure}
-\hspace{-1cm}
-\url{https://github.com/Btrox148/semantic-segmentation-skin}
 
 %\begin{acknowledgements}
 %If you'd like to thank anyone, place your comments here
