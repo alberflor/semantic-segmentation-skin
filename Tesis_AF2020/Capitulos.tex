@@ -4,9 +4,9 @@
 
 \chapter{Introducción}
 
-La piel es considerada como el órgano más grande del cuerpo humano; está compuesta por tres capas: epidermis, dermis e hipodermis, tal como se ilustra en la figura \ref{fig:skin1_jpg}. La función principal de la piel es la de proteger al cuerpo de las hostilidades del medio ambiente tales como la radiación solar y los factores externos como las bacterias, proteger a los órganos y otros tejidos internos, y también funciona como una interfaz que nos permite interactuar con el medio ambiente otorgándonos la capacidad de percibir sensaciones tales como el tacto y la temperatura.
+La piel es considerada como el órgano más grande del cuerpo humano; está compuesta por tres capas: epidermis, dermis e hipodermis, tal como se ilustra en la figura \ref{fig:skin1_jpg}. La función principal de la piel es la de proteger al cuerpo de las hostilidades del medio ambiente, sin embargo, también nos protege de la radiación solar y los agentes externos externos como las bacterias. Otras funciones son las de contener a los órganos internos y también funciona como una interfaz que nos permite interactuar con el medio ambiente otorgándonos la capacidad de percibir sensaciones tales como el tacto y la temperatura.
 
-Sin embargo, debido a la exposición continua a la radiación solar o artificial, un porcentaje de la población llega a desarrollar anomalías relacionadas a la piel. Una de estas anomalías es la denominada \emph{melanoma}, la cuál es una mutación originada en los melanocitos (células encargadas de otorgar la pigmentación marrón a la piel), en donde estas células crecen sin control y se esparcen a otras partes del cuerpo, ocasionando graves daños a la salud de quien la padece y que sin una detección temprana puede aumentar rápidamente el riesgo de fallecimiento \citep{cancer_org}.
+Debido a la exposición continua a la radiación solar o artificial, un porcentaje de la población llega a desarrollar anomalías en las células de la piel. Una de estas anomalías es el \emph{melanoma}, la cuál es una mutación originada en los melanocitos (células encargadas de otorgar la pigmentación marrón a la piel) en donde las células crecen sin control y se esparcen a otras partes del cuerpo ocasionando graves daños a la salud de quien la padece y que sin una detección temprana puede aumentar rápidamente el riesgo de fallecimiento \citep{cancer_org}.
 
 \begin{figure}[b!]
     \includegraphics[width=70mm]{Figuras/skin_structure_esp.eps}
@@ -17,7 +17,7 @@ Sin embargo, debido a la exposición continua a la radiación solar o artificial
 
  Su detección temprana es imprescindible para reducir el porcentaje de mortalidad que esta enfermedad representa, de ahí el porqué es importante no solamente trabajar en encontrar un tratamiento, sino también (y de forma simultánea), trabajar e investigar en el uso de tecnologías emergentes que permitan su detección temprana, confiable y al alcance de la mayoría.
 
-En los últimos años se han logrado muchos avances en cuanto al desarrollo de \emph{software} inteligente, una de las tecnologías que han adquirido mayor importancia es la \emph{\gls{rn}}, la cual se trata de un modelo matemático que tiene la capacidad de \emph{aprender} mediante el uso de bases de datos y mediante funciones de optimización que permite la configuración de dicho modelo y le otorga la capacidad de predecir, clasificar o construir datos ya sean futuros o desconocidos. Algunos de los sectores que se han beneficiado más de esta tecnología son: el sector automotriz (pilotos automáticos), el sector de manufactura (optimización de procesos), el sector de entretenimiento (recomendaciones personalizadas), el sector médico (diagnóstico de imágenes). 
+En los últimos años se han logrado muchos avances en cuanto al desarrollo de \emph{software} inteligente. Una de las tecnologías que han adquirido mayor importancia es la \emph{\gls{rn}}, la cual se trata de un modelo matemático que tiene la capacidad de \emph{aprender} mediante el uso de bases de datos y mediante funciones de optimización que permite la configuración de dicho modelo y le otorga la capacidad de predecir, clasificar o construir datos ya sean futuros o desconocidos. Algunos de los sectores que se han beneficiado más de esta tecnología son: el sector automotriz (pilotos automáticos), el sector de manufactura (optimización de procesos), el sector de entretenimiento (recomendaciones personalizadas), el sector médico (diagnóstico de imágenes). 
 
 \begin{figure}[b]
     \centering
@@ -31,13 +31,13 @@ En los últimos años se han logrado muchos avances en cuanto al desarrollo de \
 
 
 \section{Hipótesis}
-El presente trabajo de tesis tiene como hipótesis el uso de la inteligencia artificial para la detección y clasificación del melanoma de piel; mediante la implementación de un modelo basado en el aprendizaje profundo es posible crear una aplicación de \emph{software} que entrene y optimice un modelo para realizar la tarea de la \emph{segmentación semántica}, la cual se trata de la transformación y predicción de pixeles para obtener la clasificación de las diferentes regiones que representa una imagen dermatológica. Y de esta manera obtener una aplicación de reconocimiento visual cuya robustez pueda ser verificada a partir de una serie de experimentos.
+El presente trabajo de tesis tiene como hipótesis el uso de la inteligencia artificial para la detección y clasificación del melanoma de piel. Mediante la implementación de un modelo basado en el \emph{aprendizaje profundo} es posible crear una aplicación de \emph{software} que entrene y ajuste los parámetros de un modelo para realizar la tarea de \emph{segmentación semántica}, la cual se trata de la transformación y predicción de pixeles para obtener la clasificación de las diferentes regiones que representa una imagen dermatológica. Y de esta manera obtener una aplicación con la capacidad de segmentar regiones dentro de las imágenes entrantes y cuya robustez pueda ser verificada a partir de una serie de experimentos.
 
 
 %Es posible clasificar los píxeles en distintas categorías dentro de una %imagen gracias a las avances actuales de inteligencia artificial y la técnica %de segmentación. Mediante la técnica de \emph{\gls{seg}} es posible crear un %reconocedor visual que no solo detecte la presencia y ubicación del elemento %a reconocer, sino que, también obtenga otros datos descriptivos del elemento %como el tamaño, forma y región que abarca dentro de la imagen.
 
 \section{Objetivos}
-Primero en \emph{objetivo general}, se habla de manera conceptual la problemática a resolver tales como las situaciones en las que podemos optimizar la solución de un problema mediante el uso de la red neuronal, posteriormente en los \emph{objetivos específicos} se describe de forma puntual los pasos a realizar en el presente trabajo de tesis para llegar al resultado deseado.
+Primero en \emph{objetivo general}, se habla de manera conceptual la problemática a resolver tales como las situaciones en las que podemos optimizar la solución de un problema mediante el uso de la red neuronal. Posteriormente en los \emph{objetivos específicos} se describe de forma puntual las metas que se pretenden obtener mediante la implementación de la arquitectura de red neuronal.
 
 El \emph{objetivo general} de este trabajo de tesis es la creación de una aplicación con la capacidad de reconocer y segmentar melanoma en la piel de forma automatizada, esto con el motivo de asistir a los médicos dedicados a esta labor a optimizar y extender la detección temprana, consiguiendo así reducir la tasa de mortalidad de este padecimiento.
 
@@ -59,7 +59,7 @@ El \emph{objetivo específico}, es el de implementar un modelo de red neuronal c
     \label{data_1}
 \end{figure}
 
-En la figura \ref{a_1} se observa como la imagen entrante presenta un caso de melanoma, mientras que la figura \ref{b_1} se puede observar la misma imagen después de pasar por una secuencia de transformaciones, esto se denomina \emph{segmentación semántica} y se refiere a la acción de separar y clasificar en una o más categorías los objetos detectables en una imagen.
+En la figura \ref{a_1} se observa como la imagen entrante presenta un caso de melanoma, mientras que la figura \ref{b_1} se puede observar la misma imagen después de pasar por una secuencia de transformaciones. Esto se denomina \emph{segmentación semántica} y se refiere a la acción de reconocer y señalar la presencia de una o más categorías de objetos dentro de la imagen entrante.
 
 \section{Estructura de la Tesis}
 A continuación se da una breve explicación sobre el orden en el que se presentan los capítulos de este trabajo de tesis, así como una breve descripción de su contenido.
