@@ -47,7 +47,7 @@ def test_model(m):
     x_tensor = torch.from_numpy(test_image).to(m.device).unsqueeze(0)
     pred_mask = model.predict(x_tensor)
     pred_mask = (pred_mask.squeeze().cpu().numpy().round())
-    cv2.imwrite(save_path, pred_mask)
+    #cv2.imwrite(save_path, pred_mask)
 
     #Visualize prediction
     data.visualize(image=vis, predicted=pred_mask)

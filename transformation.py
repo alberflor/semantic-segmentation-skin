@@ -7,7 +7,7 @@ def get_training_augmentation():
         albu.PadIfNeeded(min_height=320, min_width=320, always_apply=True, border_mode=0),
         albu.RandomCrop(height=320, width=320, always_apply=False, p=0.3),
         albu.HorizontalFlip(p=0.5),
-        albu.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2, brightness_by_max=True, always_apply=False, p=0.4),
+        albu.RandomBrightnessContrast(brightness_limit=0.3, contrast_limit=0.3, brightness_by_max=True, always_apply=False, p=0.4),
         albu.ShiftScaleRotate(scale_limit=0.5, rotate_limit=0, shift_limit=0.1, p=1, border_mode=0),
     ]
     return albu.Compose(train_transform)

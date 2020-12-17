@@ -17,10 +17,11 @@ import model_parameters as mp
 from torch.utils.tensorboard import SummaryWriter
 
 model_class = mp.model_params()
+model_class.test_dir = 'Data/Test_images/'
 
 # Run parameters
-train_model = True
-test_sample = False
+train_model = False
+test_sample = True
 
 print('semantic segmentation V1.0')
 

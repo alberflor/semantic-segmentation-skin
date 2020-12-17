@@ -66,10 +66,10 @@ def train_new_model(m, batch, val_size, shuffle, seed_num):
         m.loss_logs = loss_values
 
         #Plot dice loss
-        data.plot_log(loss_values, 0.8, "Coeficiente de dados", "Iteración", False, False)
+        data.plot_log(loss_values, 0.8, "Coeficiente de dados", "Iteración", True, False)
 
         # Save iteration logs
-        data.save_df(loss_values, "train_it_ep_"+str(i), True)
+        data.save_df(loss_values, "train_it_ep_"+str(i), False)
 
         #Append epoch logs.
         train_epoch_logs.append(train_logs)
@@ -81,10 +81,10 @@ def train_new_model(m, batch, val_size, shuffle, seed_num):
         m.score_logs = metric_values
 
         #Plot IoU score
-        data.plot_log(metric_values, 1, "Criterio de Jaccard", "Iteración", False, False)
+        data.plot_log(metric_values, 1, "Criterio de Jaccard", "Iteración", True, False)
 
         # Save iteration logs.
-        data.save_df(metric_values, "valid_it_ep_"+str(i), True)
+        data.save_df(metric_values, "valid_it_ep_"+str(i), False)
 
         #Append epoch logs.
         valid_epoch_logs.append(metric_v)
@@ -100,7 +100,7 @@ def train_new_model(m, batch, val_size, shuffle, seed_num):
 
     # Save data logs / epochs.
     
-    data.save_df(train_epoch_logs, "train_resumed", True)
-    data.save_df(valid_epoch_logs, "validation_resumed", True)
+    data.save_df(train_epoch_logs, "train_resumed", False)
+    data.save_df(valid_epoch_logs, "validation_resumed", False)
     
  
