@@ -84,7 +84,7 @@ El \emph{cáncer de piel} es una enfermedad que suele relacionarse con la aparic
 Los factores \emph{intrínsecos} son aquellos que suceden de forma interna en la piel, un ejemplo de esto es el envejecimiento cronológico, el cual es un proceso natural que consiste en degradación del colágeno, la elastina y el adelgazamiento de la epidermis debido al envejecimiento celular al paso de los años y de el efecto de algunas hormonas.
 \bigskip
 
-Los factores \emph{extrínsecos} son aquellos que suceden de forma ajena al organismo, como es el caso del \emph{foto-envejecimiento} el cual sucede cuando nos encontramos expuestos a los rayos ultravioletas (UV). Este factor de envejecimiento genera lesiones en las cadenas de ácido desoxirribonucleico (ADN) debido a la oxidación y afecta la regeneración de células, al sistema inmune y a la forma en la que se regula la pigmentación \citep{skin_aging}.
+Los factores \emph{extrínsecos} son aquellos que suceden de forma ajena al organismo como es el caso del \emph{foto-envejecimiento} el cual sucede cuando nos encontramos expuestos a los rayos ultravioletas (UV). Este factor de envejecimiento genera lesiones en las cadenas de ácido desoxirribonucleico (ADN) debido a la oxidación y afecta la regeneración de células, al sistema inmune y a la forma en la que se regula la pigmentación \citep{skin_aging}.
 
 \subsection{Tipos de Cáncer de Piel}
 El cáncer de piel es un padecimiento que se puede manifestar en una gran variedad de formas distintas, algunas de estas formas pueden representar un enorme riesgo para la salud de quien la padece mientras que otras pueden permanecer mucho tiempo sin afectar la calidad de vida del paciente; se clasifican principalmente en dos tipos: \emph{benigno} y \emph{maligno}.
@@ -93,7 +93,7 @@ Los tumores del tipo \emph{benignos} no suelen ser considerados cáncer como tal
 
 \section{Redes Neuronales}
 
-Hasta hace algunos años el desarrollo de aplicaciones de software solía realizarse de forma robusta, por ejemplo, si deseáramos desarrollar una aplicación de reconocimiento de imágenes faciales de la forma tradicional, sería necesario un grupo de expertos en dicho rubro para que definan una secuencia de transformaciones específicas para lograr esa función, donde la variabilidad de las imágenes que dicho sistema permitiría depende únicamente de la complejidad del mismo, sin embargo mediante las redes neuronales es posible resolver el mismo problema con la ventaja de que la variabilidad de imágenes que pueden ser reconocidas por el sistema, depende de los datos utilizados para el entrenamiento, el modelo de una red neuronal \emph{aprende} de los datos proporcionados y crea un modelo capaz de clasificar, predecir o reconstruir datos conocidos y desconocidos. Algunos de los puntos clave que conforman un sistema basado en redes neuronales son:
+Hasta hace algunos años el desarrollo de aplicaciones de software solía realizarse de forma robusta, por ejemplo, si deseáramos desarrollar una aplicación de reconocimiento de imágenes faciales de la forma tradicional sería necesario un grupo de expertos en dicho rubro para que definan una secuencia de transformaciones específicas para lograr esa función en donde la variabilidad de las imágenes que dicho sistema permitiría depende únicamente de la complejidad del mismo, sin embargo, mediante las redes neuronales es posible resolver el mismo problema con la ventaja de que la variabilidad de imágenes que pueden ser reconocidas por el sistema depende de los datos utilizados para el entrenamiento. El modelo de una red neuronal \emph{aprende} de los datos proporcionados y crea un modelo capaz de clasificar, predecir o reconstruir datos conocidos y desconocidos. Algunos de los puntos clave que conforman un sistema basado en redes neuronales son:
 
 \begin{description}
     \item[Datos]{Se debe determinar la naturaleza y la dimensión de los datos que entrarán al modelo.}
@@ -605,7 +605,7 @@ Para poder determinar la eficiencia durante el entrenamiento y optimizar los pes
 
 La librería de Yakubovskiy \citep{Yakubovskiy:2019} cuenta con distintas métricas ya implementadas dentro de su \texttt{API}\footnote{Interfaz de programación por sus siglas en inglés, \emph{Application Programming Interface}.}, dichas métricas se pueden configurar previamente al entrenamiento. En el código \ref{code:metrics} se puede apreciar la selección de la función de métrica, la función de pérdida y el optimizador de pesos del modelo.
 
-La función de pérdida, es la función mediante la cuál se evalúa el error durante el entrenamiento, mediante el dato obtenido del error y el optimizador seleccionado se puede minimizar dicho error.
+La función de pérdida es la función mediante la cuál se evalúa el error durante el entrenamiento, mediante el dato obtenido del error y la función de optimización seleccionada se puede minimizar dicho error.
 
 La métrica, es la función mediante la cuál se evalúa el modelo post-entrenamiento con una función que penaliza más el error que la ecuación utilizada para evaluar el error durante el entrenamiento.
 
