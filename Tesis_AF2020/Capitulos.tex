@@ -180,6 +180,7 @@ donde $m$ y $b$ son valores enteros que representan el peso de dos parámetros d
 %    \end{algorithmic}
 %\end{algorithm}
 
+\section{Retro-propagación}
 
 \chapter{Estado del Arte}
 En este capítulo se estudia las literaturas relacionadas con el presente trabajo de tesis con el objetivo de hacer una comparativa entre distintos métodos para resolver el mismo problema, o implementaciones similares para resolver problemas distintos.
@@ -335,12 +336,12 @@ La arquitectura de red neuronal tipo red piramidal de características, por sus 
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.55]{Figuras/fpn_ar_esp_2.png}
-    \caption{Representación de la arquitectura FPN \citep{fpn_2}.}
+    \includegraphics[scale=0.45]{Figuras/FPN_es.pdf}
+    \caption{Representación de la arquitectura convolucional.}
     \label{fig:fpn_map}
 \end{figure}
 
-En la figura \ref{fig:fpn_map} se puede apreciar la arquitectura y la transformación de las dimensiones de los datos, el número a lado izquierdo de las capas de convolución representa la resolución en proporción a la entrada y el número de lado derecho representa el número de canales. El número de canales aumenta mientras que la resolución disminuye.
+En la figura \ref{fig:fpn_map} se puede apreciar una arquitectura completamente convolucional en la que la imagen entrante pasa por una secuencia de transformaciones que reducen la resolución de la matriz e incrementa el numero de capas. Cuando el dato entrante se reduce, también se reduce la complejidad de las operaciones de clasificación y a partir de ese punto comienza la fase de decodificación, la cual consiste en predecir la máscara de salida en base al dato reducido.
 
 \section{Implementación de la Solución}
 Para la implementación de la herramienta propuesta, se utilizó \texttt{Python} como lenguaje principal. \texttt{Python} es un lenguaje de alto nivel con un extenso repositorio de paquetes desarrollados por la comunidad, también es un lenguaje ligero ideal para el procesamiento de datos y de operaciones con datos de altas dimensiones (\emph{high-dimensional data}), debído a esto último, se consideró \texttt{Python} la mejor opción para la implementación de la red neuronal profunda.
@@ -900,7 +901,7 @@ El proceso de reducción del error no es completamente lineal, sino que, fluctú
 \clearpage
 
 \section{Criterio de Jaccard}
-En la sección anterior, el coeficiente de dados es utilizado para evaluar la diferencia entre un mapa binario y un mapa probabilistico correspondientes a la máscara conocida y la máscara estimada, durante el entrenamiento del modelo. Sin embargo para validar el resultado final es necesario utilizar una métrica muy similar que evalúe ahora la similitud, y que al mismo tiempo penalice más el error.
+En la sección anterior el coeficiente de dados es utilizado para evaluar la diferencia entre un mapa binario y un mapa probabilistico correspondientes a la máscara conocida y la máscara estimada durante el entrenamiento del modelo. Sin embargo para validar el resultado final es necesario utilizar una métrica muy similar que evalúe ahora la similitud y que penalice de forma estrícta el error.
 
 \subsection{Diseño Experimental}
 Para determinar un porcentaje de similitud entre la máscara estimada con la máscara conocida (\emph{ground truth}) podemos utilizar una métrica como la de la ecuación \ref{eq:jacc}, el índice de Jaccard. Este criterio es relativamente similar al coeficiente de dados de la ecuación \ref{eq:diceloss}, mediante el solapado de ambas máscaras se promedía la coincidencia entre pixeles, sin embargo en el criterio de Jaccard \emph{IoU} el error tiene mayor penalización, por lo que se podría decir que es una versión mas estricta de evaluación, lo cual es ideal para evaluar el modelo resultante tras cada época.
@@ -971,7 +972,8 @@ En el experimento de \emph{estadísticas de los datos de entrada}, se realizó u
 
 En el experimento de \emph{evaluación del aprendizaje}, se realizó mediante el coeficiente de dados un registro del error en el modelo al paso de las épocas y se comprobó que en efecto, el error tiende a reducirse conforme las épocas avanzan. También se determinó que después de 6 épocas de entrenamiento el error se suele reducir casi totalmente, siendo el resto de épocas no tan relevantes para el aprendizaje.
 
-En el experimento de \emph{criterio de Jaccard}, se aplicó una metodología similar a la del coeficiente de dados, sin embargo, ésta fue aplicada post-entrenamiento en la parte de validación y el criterio de Jaccard penaliza aún más el error, las gráficas mostradas en la figura \ref{fig:iou_epochs} muestran que tan acertada es la máscara obtenida por el modelo en comparación con la máscara real. También se determinó que el sobreajuste puede ser un problema en el conjunto de datos utilizado debido a la similitud entre las imágenes, por lo tanto se agregaron transformaciones aleatorias para compensar el sobreajuste.
+En el experimento de \emph{criterio de Jaccard}, se aplicó una metodología similar a la del coeficiente de dados, sin embargo, ésta fue aplicada post-entrenamiento en la parte de validación y el criterio de Jaccard penaliza aún más el error. Las gráficas mostradas en la figura \ref{fig:iou_epochs} muestran que tan acertada es la máscara obtenida por el modelo en comparación con la máscara real. También se determinó que el sobreajuste puede ser un problema en el conjunto de datos utilizado debido a la similitud entre las imágenes, por lo tanto se agregaron transformaciones aleatorias para compensar el sobreajuste.
+
 
 
 \chapter{Conclusiones}
