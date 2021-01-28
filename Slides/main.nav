@@ -71,30 +71,34 @@
 \headcommand {\beamer@subsectionentry {0}{5}{3}{17}{Criterio de Jaccard}}
 \headcommand {\slideentry {5}{3}{1}{17/17}{Criterio de Jaccard}{0}}
 \headcommand {\beamer@framepages {17}{17}}
-\headcommand {\beamer@sectionpages {14}{17}}
-\headcommand {\beamer@subsectionpages {17}{17}}
-\headcommand {\sectionentry {6}{Conclusión}{18}{Conclusión}{0}}
-\headcommand {\beamer@subsectionpages {18}{17}}
-\headcommand {\beamer@subsectionentry {0}{6}{1}{18}{Discusión}}
-\headcommand {\slideentry {6}{1}{1}{18/18}{Discusión}{0}}
+\headcommand {\slideentry {5}{3}{2}{18/18}{Criterio de Jaccard}{0}}
 \headcommand {\beamer@framepages {18}{18}}
-\headcommand {\beamer@subsectionpages {18}{18}}
-\headcommand {\beamer@subsectionentry {0}{6}{2}{19}{Trabajo a Futuro}}
-\headcommand {\slideentry {6}{2}{1}{19/19}{Trabajo a Futuro}{0}}
+\headcommand {\slideentry {5}{3}{3}{19/19}{Criterio de Jaccard}{0}}
 \headcommand {\beamer@framepages {19}{19}}
-\headcommand {\beamer@subsectionpages {19}{19}}
-\headcommand {\beamer@subsectionentry {0}{6}{3}{20}{Agradecimientos}}
-\headcommand {\slideentry {6}{3}{1}{20/20}{Agradecimientos}{0}}
+\headcommand {\beamer@sectionpages {14}{19}}
+\headcommand {\beamer@subsectionpages {17}{19}}
+\headcommand {\sectionentry {6}{Conclusión}{20}{Conclusión}{0}}
+\headcommand {\beamer@subsectionpages {20}{19}}
+\headcommand {\beamer@subsectionentry {0}{6}{1}{20}{Discusión}}
+\headcommand {\slideentry {6}{1}{1}{20/20}{Discusión}{0}}
 \headcommand {\beamer@framepages {20}{20}}
-\headcommand {\beamer@sectionpages {18}{20}}
 \headcommand {\beamer@subsectionpages {20}{20}}
-\headcommand {\sectionentry {7}{Referencias}{21}{Referencias}{0}}
-\headcommand {\slideentry {7}{0}{0}{21/21}{Agradecimientos}{0}}
+\headcommand {\beamer@subsectionentry {0}{6}{2}{21}{Trabajo a Futuro}}
+\headcommand {\slideentry {6}{2}{1}{21/21}{Trabajo a Futuro}{0}}
 \headcommand {\beamer@framepages {21}{21}}
-\headcommand {\slideentry {7}{0}{0}{21/22}{Agradecimientos}{0}}
-\headcommand {\beamer@framepages {21}{22}}
-\headcommand {\beamer@partpages {1}{22}}
-\headcommand {\beamer@subsectionpages {20}{22}}
-\headcommand {\beamer@sectionpages {18}{22}}
-\headcommand {\beamer@documentpages {22}}
-\headcommand {\gdef \inserttotalframenumber {22}}
+\headcommand {\beamer@subsectionpages {21}{21}}
+\headcommand {\beamer@subsectionentry {0}{6}{3}{22}{Agradecimientos}}
+\headcommand {\slideentry {6}{3}{1}{22/22}{Agradecimientos}{0}}
+\headcommand {\beamer@framepages {22}{22}}
+\headcommand {\beamer@sectionpages {20}{22}}
+\headcommand {\beamer@subsectionpages {22}{22}}
+\headcommand {\sectionentry {7}{Referencias}{23}{Referencias}{0}}
+\headcommand {\slideentry {7}{0}{0}{23/23}{Agradecimientos}{0}}
+\headcommand {\beamer@framepages {23}{23}}
+\headcommand {\slideentry {7}{0}{0}{23/24}{Agradecimientos}{0}}
+\headcommand {\beamer@framepages {23}{24}}
+\headcommand {\beamer@partpages {1}{24}}
+\headcommand {\beamer@subsectionpages {22}{24}}
+\headcommand {\beamer@sectionpages {20}{24}}
+\headcommand {\beamer@documentpages {24}}
+\headcommand {\gdef \inserttotalframenumber {24}}

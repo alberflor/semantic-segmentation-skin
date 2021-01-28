@@ -14,6 +14,7 @@
 \usepackage{multirow}
 \usepackage{array}
 \usepackage{fancybox}
+\usepackage{booktabs}
 
 \definecolor{red_matrix}{rgb}{0.6, 0, 0}
 \definecolor{green_matrix}{rgb}{0, 0.8, 0}
@@ -38,8 +39,8 @@
 
 %Information to be included in the title page:
 \title{Detección de melanoma mediante\\ segmentación semántica}
-\author{Mario Alberto Flores Hernández}
-\institute{ \\Universidad Autónoma de Nuevo León \\Facultad de Ingeniería Mecánica y Eléctrica}
+\author{Mario Alberto Flores Hernández\\ 1719126 \\}
+\institute{Asesora: Dra. Elisa Schaeffer \\Universidad Autónoma de Nuevo León \\Facultad de Ingeniería Mecánica y Eléctrica}
 \date{2020}
 
 
@@ -341,12 +342,49 @@ for i in range(0,40):
     \end{figure}
 \end{frame}
 
+\begin{frame}
+    \frametitle{Resultados}
+
+    \begin{table}
+        \centering
+        \caption{Resultados de criterios por época.}
+        \begin{tabular}{c c c}
+          \toprule
+          \textbf{Epoch} & \textbf{DL} & \textbf{IoU} \\
+          \midrule
+          1 & 0.2968 & 0.5616 \\
+          2 & 0.2972 & 0.5546 \\
+          3 & 0.2690 & 0.5879 \\
+          4 & 0.2960 & 0.6389 \\
+          5 & 0.2371 & 0.8415 \\
+          6 & 0.0929 & 0.8626 \\
+          7 & 0.0792 & 0.8626 \\
+          8 & 0.0692 & 0.8798 \\
+          9 & 0.0556 & 0.9017 \\
+          10 & 0.0542 & 0.9039 \\
+          \bottomrule
+          
+        \end{tabular}
+        \label{table:summary}
+      \end{table}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Resultados}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.4]{Figure_1.png}
+        \caption{Imagen entrante y máscara generada por el modelo.}
+    \end{figure}
+\end{frame}
+
 \section{Conclusión}
 \subsection{Discusión}
 \begin{frame}
     \frametitle{Conclusión}
     La implementación de la red neuronal convolucional y el entrenamiento del modelo cumplieron satisfactoriamente con la hipótesis establecida al estimar con un 96\% de precisión las máscaras en el conjunto de datos de pruebas.
 \end{frame}
+
 
 \subsection{Trabajo a Futuro}
 \begin{frame}
