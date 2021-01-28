@@ -181,6 +181,13 @@ donde $m$ y $b$ son valores enteros que representan el peso de dos parámetros d
 %\end{algorithm}
 
 \section{Retro-propagación}
+El propósito de una arquitectura neuronal es el de obtener una función que transforma la señal entrante en la salida correspondiente tomando en cuenta un modelo con múltiples capas de nodos sin causar sobre-ajuste. En un modelo lineal del tipo $X_1X_2 + X_3X_4+...+X_nX_m = Y$, en donde los grados de libertad del modelo están definidos por el número de variables predictivas, tener muchos predictores puede crear un modelo eficiente incluso con pocos datos de entrenamiento, sin embargo, dicho modelo no sería capaz de generalizar correctamente con entradas distintas a las del entrenamiento. La red neuronal neuronal de capas múltiples permite un modelo más eficiente y capaz de generalizar mejor los datos desconocidos.  
+
+La \emph{retro-propagación} consiste en computar el valor del error una capa a la vez, ya sea mediante el método de gradiente descendiente regular o el método estocástico. El orden en el que las capaz se evalúan es de retroceso, esto significa que primero se evalúa el gradiente del error en la capa final y al último la capa inicial, de ahí el concepto de \emph{retro}. La combinación de los pesos que produce el error mínimo es considerada la solución al problema. La función de activación \emph{sigmoidea} suele ser la opción más común y es representada con la ecuación
+\begin{equation}
+    S_{c}(x) =  \frac{\mathrm{1} }{\mathrm{1} + e^{-cx}}
+\end{equation}
+en donde $c$ es un valor constante seleccionado de forma arbitraria, su recíproco $1/c$ es denominado como \emph{temperatura} en el contexto estocástico  \citep{rojas1996backpropagation}. 
 
 \chapter{Estado del Arte}
 En este capítulo se estudia las literaturas relacionadas con el presente trabajo de tesis con el objetivo de hacer una comparativa entre distintos métodos para resolver el mismo problema, o implementaciones similares para resolver problemas distintos.
@@ -321,6 +328,7 @@ donde $b = \sum_{i,j=1}^{2N+1} b_{i,j}$, si $b=0$ se toma $b=1$.
         \node at (7.5,3.5) {0};
         \node at (7.5,2.5) {0};
         \node at (7.5,1.5) {0};
+        \node at (6.5, 0.5) {b};
         \node (eq) at (8.5, 2.5) {\huge =};
         \draw[step=1cm, black, thin](9,0) grid (13,4);
         \filldraw[fill=white, draw=black, line width=0.40mm](9,4) rectangle (10,3);
@@ -834,7 +842,7 @@ Una vez seleccionado el codificador ideal, es necesario evaluar la configuració
 \subsection{Diseño Experimental}
 Para determinar un valor probabilistico entre dos mapas de valores binarios es necesario utilizar un coeficiente que evalúe la similitud entre ambos conjuntos de datos, siendo el conjunto $A$ la máscara real o \emph{ground truth}, y el conjunto $B$ el mapa obtenido por la computación del modelo se utilizó el criterio de dados para determinar la probabilidad, la ecuación del criterio de dados dice que la probabilidad de que dos mapas binarios sean iguales es dos veces la cantidad de pixeles sobrepuestos o idénticos entre la suma de los pixeles de ambos mapas, 
 \begin{equation}\label{eq:diceloss}
-    \text{DC} = \frac{2|A \cap B |}{|A| + |B|}
+    \text{CD} = \frac{2|A \cap B |}{|A| + |B|}
 \end{equation}
 donde $A$ es un mapa binario de pixeles que representa la máscara real y $B$ la máscara de segmentación obtenida por el modelo.
 
@@ -904,15 +912,15 @@ El proceso de reducción del error no es completamente lineal, sino que, fluctú
 En la sección anterior el coeficiente de dados es utilizado para evaluar la diferencia entre un mapa binario y un mapa probabilistico correspondientes a la máscara conocida y la máscara estimada durante el entrenamiento del modelo. Sin embargo para validar el resultado final es necesario utilizar una métrica muy similar que evalúe ahora la similitud y que penalice de forma estrícta el error.
 
 \subsection{Diseño Experimental}
-Para determinar un porcentaje de similitud entre la máscara estimada con la máscara conocida (\emph{ground truth}) podemos utilizar una métrica como la de la ecuación \ref{eq:jacc}, el índice de Jaccard. Este criterio es relativamente similar al coeficiente de dados de la ecuación \ref{eq:diceloss}, mediante el solapado de ambas máscaras se promedía la coincidencia entre pixeles, sin embargo en el criterio de Jaccard \emph{IoU} el error tiene mayor penalización, por lo que se podría decir que es una versión mas estricta de evaluación, lo cual es ideal para evaluar el modelo resultante tras cada época.
+Para determinar un porcentaje de similitud entre la máscara estimada con la máscara conocida (\emph{ground truth}) podemos utilizar una métrica como la de la ecuación \ref{eq:jacc}, el índice de Jaccard. Este criterio es relativamente similar al coeficiente de dados de la ecuación \ref{eq:diceloss}, mediante el solapado de ambas máscaras se promedía la coincidencia entre pixeles, sin embargo en el criterio de Jaccard \emph{IoU} el error tiene mayor penalización, por lo que se podría decir que es una versión mas estricta de evaluación y por lo tanto es ideal para evaluar el modelo resultante tras cada época.
 
 La métrica utilizada para evaluar el modelo es la del \emph{índice de Jaccard} (\emph{Intersection Over Union}) por sus siglas en inglés (\emph{IoU}) \citep{fpn_1} de la siguiente ecuación
 \begin{equation}\label{eq:jacc}
-    J(A,B) = \frac{|A \cap B|}{| A \cup B |} = \frac{|A \cap B|}{|A| + |B| - |A \cap B|} \text{,}
+    CJ(A,B) = \frac{|A \cap B|}{| A \cup B |} = \frac{|A \cap B|}{|A| + |B| - |A \cap B|} \text{,}
 \end{equation} 
-donde $A$ y $B$ se pueden interpretar como la máscara real y la máscara estimada, y debido a que las imágenes consisten de pixeles, la ecuación anterior se puede representar también como
+donde $A$ y $B$ se pueden interpretar como la máscara real y la máscara estimada; debido a que las imágenes consisten de pixeles, la ecuación anterior se puede representar también como
 \begin{equation}
-    J = \frac{1}{n} \sum_{c=1}^{k} W_c \sum_{i=1}^{n}\frac{y_i^c \hat y_i^c}{y_i^c + \hat y_i^c - y_i^c \hat y_i^c} \text{,}
+    CJ = \frac{1}{n} \sum_{c=1}^{k} W_c \sum_{i=1}^{n}\frac{y_i^c \hat y_i^c}{y_i^c + \hat y_i^c - y_i^c \hat y_i^c} \text{,}
 \end{equation} 
 donde $y_i^c$ y $\hat y_i^c$ son valores binarios y corresponden a la probabilidad de que el pixel $i$ corresponda a la clase $c$ de un número $k$ de clases.
 
@@ -974,7 +982,28 @@ En el experimento de \emph{evaluación del aprendizaje}, se realizó mediante el
 
 En el experimento de \emph{criterio de Jaccard}, se aplicó una metodología similar a la del coeficiente de dados, sin embargo, ésta fue aplicada post-entrenamiento en la parte de validación y el criterio de Jaccard penaliza aún más el error. Las gráficas mostradas en la figura \ref{fig:iou_epochs} muestran que tan acertada es la máscara obtenida por el modelo en comparación con la máscara real. También se determinó que el sobreajuste puede ser un problema en el conjunto de datos utilizado debido a la similitud entre las imágenes, por lo tanto se agregaron transformaciones aleatorias para compensar el sobreajuste.
 
-
+\begin{table}[h]
+    \centering
+    \caption{Resumen de resultados experimentales por época.}
+    \begin{tabular}{c c c}
+      \toprule
+      \textbf{Época} & \textbf{CD} & \textbf{CJ} \\
+      \midrule
+      1 & 0.2968 & 0.5616 \\
+      2 & 0.2972 & 0.5546 \\
+      3 & 0.2690 & 0.5879 \\
+      4 & 0.2960 & 0.6389 \\
+      5 & 0.2371 & 0.8415 \\
+      6 & 0.0929 & 0.8626 \\
+      7 & 0.0792 & 0.8626 \\
+      8 & 0.0692 & 0.8798 \\
+      9 & 0.0556 & 0.9017 \\
+      10 & 0.0542 & 0.9039 \\
+      \bottomrule
+      
+    \end{tabular}
+    \label{table:summary}
+  \end{table}
 
 \chapter{Conclusiones}
 
