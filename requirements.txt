@@ -24,6 +24,6 @@ segmentation-models-pytorch==0.1.0
 Shapely==1.7.1
 six==1.15.0
 tifffile==2020.9.3
-torch==1.6.0
+torch==1.13.1
 torchvision==0.7.0
 tqdm==4.48.2
